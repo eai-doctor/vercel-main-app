@@ -1,8 +1,9 @@
 {
-  "home": {
+  "home": { 
     "welcome": {
       "title": "Welcome to Medical AI Platform",
-      "subtitle": "Advanced artificial intelligence system for comprehensive healthcare management"
+      "subtitle": "Advanced artificial intelligence system for comprehensive healthcare management",
+      "signin" : "Sign in to access patient records and AI medical tools"
     },
     "modules": {
       "consultation": {

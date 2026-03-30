@@ -59,7 +59,9 @@
     "analyzing": "分析中...",
     "saving": "保存中...",
     "saved": "已保存",
-    "sending": "发送中..."
+    "sending": "发送中...",
+    "successfullyUpdated" : "更新成功！",
+    "welcomeBack" : "欢迎回来！"
   },
   "errors": {
     "generic": "出了点问题，请重试。",
@@ -71,7 +73,8 @@
     "fileSizeLimit": "文件大小必须小于50MB。",
     "chatError": "抱歉，出了点问题。请重试。",
     "error": "错误",
-    "unknown": "发生了未知错误。"
+    "unknown": "发生了未知错误。",
+    "invalidCredentials": "请检查您的电子邮件或密码。"
   },
   "labels": {
     "email": "邮箱",

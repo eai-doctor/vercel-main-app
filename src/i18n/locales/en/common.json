@@ -60,7 +60,8 @@
     "saving": "Saving...",
     "saved": "Saved",
     "sending": "Sending...",
-    "successfullyUpdated" : "Succeessfully Updated!"
+    "successfullyUpdated" : "Successfully Updated!",
+    "welcomeBack" : "Welcome Back!"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -72,7 +73,8 @@
     "fileSizeLimit": "File size must be less than 50MB.",
     "chatError": "Sorry, something went wrong. Please try again.",
     "error": "Error",
-    "unknown": "An unknown error occurred."
+    "unknown": "An unknown error occurred.",
+    "invalidCredentials" : "Please check your email or password."
   },
   "labels": {
     "email": "Email",

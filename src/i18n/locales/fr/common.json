@@ -59,7 +59,9 @@
     "analyzing": "Analyse en cours...",
     "saving": "Enregistrement en cours...",
     "saved": "Enregistré",
-    "sending": "Envoi en cours..."
+    "sending": "Envoi en cours...",
+    "successfullyUpdated" : "Mise à jour réussie !",
+    "welcomeBack" : "Bon retour !"
   },
   "errors": {
     "generic": "Une erreur est survenue. Veuillez réessayer.",
@@ -71,7 +73,8 @@
     "fileSizeLimit": "La taille du fichier doit être inférieure à 50 Mo.",
     "chatError": "Désolé, une erreur est survenue. Veuillez réessayer.",
     "error": "Erreur",
-    "unknown": "Une erreur inconnue est survenue."
+    "unknown": "Une erreur inconnue est survenue.",
+    "invalidCredentials": "Veuillez vérifier votre adresse e-mail ou votre mot de passe."
   },
   "labels": {
     "email": "Courriel",

@@ -2,7 +2,8 @@
   "home": {
     "welcome": {
       "title": "Bienvenue sur la plateforme médicale IA",
-      "subtitle": "Système d'intelligence artificielle avancé pour la gestion complète des soins de santé"
+      "subtitle": "Système d'intelligence artificielle avancé pour la gestion complète des soins de santé",
+      "signin" : "Connectez-vous pour accéder aux dossiers patients et aux outils médicaux d’IA"
     },
     "modules": {
       "consultation": {
