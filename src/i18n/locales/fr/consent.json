@@ -1,0 +1,126 @@
+{
+  "title": "Confidentialité et consentement",
+  "subtitle": "Gérez vos préférences de confidentialité des données",
+  "types": {
+    "privacy_policy": {
+      "label": "Politique de confidentialité",
+      "description": "Acceptez la politique de confidentialité pour utiliser l'application. Ceci est obligatoire."
+    },
+    "ai_analysis": {
+      "label": "Analyse par IA",
+      "description": "Permettre à l'IA d'analyser vos données de santé pour l'aide au diagnostic et les recommandations."
+    },
+    "audio": {
+      "label": "Enregistrement audio",
+      "description": "Permettre l'enregistrement audio pendant les consultations pour la transcription et la documentation."
+    },
+    "marketing": {
+      "label": "Communications marketing",
+      "description": "Recevoir des communications marketing, des infolettres et des mises à jour promotionnelles."
+    }
+  },
+  "required": "Obligatoire",
+  "optional": "Facultatif",
+  "accepted": "Accepté",
+  "declined": "Refusé",
+  "lastUpdated": "Dernière mise à jour",
+  "never": "Jamais",
+  "readMore": "Lire tous les détails",
+  "detailModalSubtitle": "Veuillez consulter les détails ci-dessous",
+  "saveButton": "Enregistrer les préférences",
+  "saving": "Enregistrement...",
+  "saved": "Vos préférences de consentement ont été enregistrées avec succès.",
+  "error": "Échec de l'enregistrement des préférences. Veuillez réessayer.",
+  "privacyWarning": "Révoquer la politique de confidentialité bloquera l'accès à l'application.",
+  "policyContent": {
+    "privacy": {
+      "intro": "Ebovir Biotech (« Ebovir », « nous » ou « notre ») s'engage à protéger les renseignements personnels conformément à la Loi 25 du Québec et aux autres lois canadiennes applicables en matière de protection de la vie privée.",
+      "scopeTitle": "Renseignements que nous recueillons",
+      "scopeItems": [
+        "Nom, date de naissance et coordonnées",
+        "Données médicales et génétiques (avec consentement explicite)",
+        "Détails des consultations et documents téléversés",
+        "Enregistrements audio (lorsque consenti)",
+        "Résultats générés par l'IA",
+        "Journaux d'utilisation et registres d'audit"
+      ],
+      "purposeTitle": "Finalité et fondement juridique",
+      "purposeItems": [
+        "Fournir des services médicaux et génétiques assistés par l'IA",
+        "Générer des rapports analytiques structurés",
+        "Maintenir la sécurité des comptes et prévenir les accès non autorisés",
+        "Respecter les obligations légales et réglementaires",
+        "Mener des recherches et améliorer la qualité avec consentement"
+      ],
+      "retentionTitle": "Conservation des données et mesures de protection",
+      "retentionItems": [
+        "Chiffrement en transit (TLS) et au repos",
+        "Contrôles d'accès basés sur les rôles",
+        "Journalisation d'audit complète",
+        "Transferts transfrontaliers évalués selon la Loi 25 du Québec"
+      ],
+      "crossBorderTitle": "Transfert transfrontalier",
+      "crossBorderText": "Vos renseignements peuvent être traités par des fournisseurs autorisés de services infonuagiques et d'intelligence artificielle situés à l'extérieur du Québec (y compris au Canada et aux États-Unis), sous réserve de garanties contractuelles et techniques.",
+      "rightsTitle": "Vos droits",
+      "rightsItems": [
+        "Accéder à vos renseignements personnels",
+        "Demander la correction de données inexactes",
+        "Demander la suppression de vos données",
+        "Retirer votre consentement à tout moment",
+        "Demander la portabilité de vos données"
+      ],
+      "contactTitle": "Responsable de la protection des renseignements personnels",
+      "contactText": "Pour toute question relative à la vie privée, veuillez contacter notre responsable Zhenlong Liu à ebovirit@gmail.com, ou par courrier au 117-500, boulevard Cartier Ouest, Laval, Québec, Canada, H7V 5B7."
+    },
+    "ai": {
+      "intro": "Notre plateforme utilise l'intelligence artificielle pour analyser les informations médicales et génétiques. En activant ce consentement, vous nous autorisez à traiter vos données de santé par des systèmes d'IA.",
+      "whatTitle": "Ce que comprend l'analyse par IA",
+      "whatItems": [
+        "Analyse automatisée de l'historique médical et des symptômes",
+        "Interprétation des données génétiques et évaluation des risques",
+        "Génération de rapports diagnostiques structurés",
+        "Reconnaissance de tendances dans vos dossiers de santé"
+      ],
+      "limitsTitle": "Limitations importantes",
+      "limitsItems": [
+        "Les résultats de l'IA ne constituent pas des diagnostics médicaux",
+        "Les résultats ne remplacent pas les professionnels de santé agréés",
+        "Tous les résultats de l'IA doivent être examinés par un clinicien qualifié",
+        "Vous pouvez demander l'accès aux informations générées par l'IA à tout moment"
+      ],
+      "dataTitle": "Traitement des données",
+      "dataText": "Vos données de santé sont traitées de manière sécurisée via des canaux chiffrés. Les données ne sont pas partagées avec des tiers à des fins d'entraînement de l'IA. Vous pouvez retirer ce consentement à tout moment sans affecter votre accès principal à la plateforme.",
+      "noStorageTitle": "Confidentialité des messages",
+      "noStorageText": "Les messages que vous échangez avec notre assistant IA (EboAI) ne sont jamais stockés sur nos serveurs. Chaque session est sans état — une fois la conversation terminée, vos messages sont effacés. Seuls les résumés générés par l'IA, explicitement enregistrés à votre demande ou à celle de votre clinicien, sont conservés dans votre dossier et peuvent être supprimés à tout moment depuis les paramètres du compte."
+    },
+    "audio": {
+      "intro": "Avec votre consentement, l'audio peut être enregistré pendant les consultations pour faciliter la transcription et la documentation clinique.",
+      "whatTitle": "Ce qui est enregistré",
+      "whatItems": [
+        "Audio vocal pendant les séances de consultation",
+        "Saisie par dictée pour la génération de notes cliniques",
+        "Résultats de transcription liés à votre dossier patient"
+      ],
+      "storageTitle": "Stockage et sécurité",
+      "storageText": "Les enregistrements audio sont chiffrés au repos et en transit. L'accès est limité aux cliniciens autorisés et aux processus système. Les enregistrements sont conservés conformément à notre politique de conservation des données et aux réglementations applicables.",
+      "controlTitle": "Votre contrôle",
+      "controlItems": [
+        "Vous pouvez désactiver l'enregistrement audio à tout moment via ce paramètre",
+        "Vous pouvez demander la suppression des enregistrements existants",
+        "La désactivation n'affecte pas les autres fonctionnalités de la plateforme"
+      ]
+    },
+    "marketing": {
+      "intro": "Nous pouvons vous envoyer des communications concernant nos services, les nouvelles fonctionnalités, des conseils de santé et des offres connexes.",
+      "whatTitle": "Ce que vous pourriez recevoir",
+      "whatItems": [
+        "Mises à jour de produits et annonces de nouvelles fonctionnalités",
+        "Infolettres sur la santé et le bien-être",
+        "Offres promotionnelles et invitations à des événements",
+        "Enquêtes de satisfaction"
+      ],
+      "optOutTitle": "Désabonnement",
+      "optOutText": "Vous pouvez retirer votre consentement marketing à tout moment en désactivant ce paramètre ou en cliquant sur le lien de désabonnement dans tout courriel marketing. Le désabonnement marketing n'affecte pas les communications liées au service (telles que les alertes de sécurité ou les notifications de compte)."
+    }
+  }
+}

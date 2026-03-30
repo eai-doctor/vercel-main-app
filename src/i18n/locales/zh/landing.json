@@ -1,0 +1,18 @@
+{
+  "welcome": {
+    "title": "欢迎使用医疗AI平台",
+    "subtitle": "请选择您的入口以继续"
+  },
+  "portals": {
+    "clinic": {
+      "title": "诊所门户",
+      "description": "访问患者记录和AI医疗工具"
+    },
+    "personal": {
+      "title": "个人门户",
+      "description": "查看健康记录和AI咨询工具"
+    }
+  },
+  "userCountBefore": "目前已有 ",
+  "userCountAfter": " 位活跃用户"
+}

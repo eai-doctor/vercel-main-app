@@ -1,0 +1,123 @@
+{
+  "home": {
+    "subtitle": "Patient Portal - Your Personal Health Assistant",
+    "welcome": {
+      "title": "Welcome to Personal Medical Portal",
+      "subtitle": "Access AI-powered health assistance and genetic consultation services"
+    },
+    "modules": {
+      "healthConsultation": {
+        "title": "Health Consultation",
+        "description": "Access your medical reports and consult AI doctor"
+      },
+      "geneticConsultation": {
+        "title": "Genetic Consultation Aide",
+        "description": "AI-powered chatbot for genetic report consultation"
+      },
+      "medicalProfile": {
+        "title": "My Medical Profile",
+        "description": "Edit your profile, add symptoms, medications, vitals and more"
+      },
+      "selfTriage": {
+        "title": "Self-Triage",
+        "description": "AI-powered symptom assessment to determine urgency of care"
+      }
+    }
+  },
+  "summaries": {
+    "title": "My Consultation Summaries",
+    "loading": "Loading summaries...",
+    "noSummaries": "No saved summaries yet.",
+    "noSummariesHint": "Chat with EboAI in Health Consultation, then click \"Summarize\" to generate and save a summary.",
+    "confirmDelete": "Delete this consultation summary?",
+    "failedDelete": "Failed to delete summary",
+    "deleting": "Deleting...",
+    "messages": "{{count}} messages"
+  },
+  "portal": {
+    "title": "Personal Portal"
+  },
+  "medicalProfile": {
+    "title": "My Medical Profile",
+    "subtitle": "Manage Your Health Information",
+    "tabs": {
+      "conditions": "Conditions",
+      "medications": "Medications",
+      "allergies": "Allergies",
+      "vitalSigns": "Vital Signs",
+      "immunizations": "Immunizations"
+    },
+    "vitals": {
+      "bloodPressure": "Blood Pressure",
+      "heartRate": "Heart Rate",
+      "bodyWeight": "Body Weight",
+      "bodyTemperature": "Body Temperature",
+      "oxygenSaturation": "Oxygen Saturation",
+      "respiratoryRate": "Respiratory Rate"
+    }
+  },
+  "header": {
+    "title": "Personal Health Assistant",
+    "subtitle": "AI-Powered Health Consultation & Recording"
+  },
+  "suggestions": {
+    "discussConsultation": "Discuss my recent consultation",
+    "prepareAppointment": "Help me prepare for my appointment",
+    "monitorSymptoms": "Help me monitor my symptoms",
+    "askDoctor": "What should I ask my doctor?"
+  },
+  "chat": {
+    "welcomeGreeting": "Hello! I'm your personal health assistant. How can I help you today?",
+    "welcomeTitle": "Welcome to Your Health Assistant",
+    "welcomeDescription": "Ask me anything about your health, medications, symptoms, or prepare for your next doctor visit.",
+    "assistantName": "EboAI Health Assistant",
+    "assistantSubtitle": "Your Personal AI Health Companion",
+    "generateSummaryTitle": "Generate a summary of this conversation",
+    "summarize": "Summarize",
+    "clearHistory": "Clear History",
+    "you": "You",
+    "suggestedQuestions": "Suggested Questions",
+    "inputPlaceholder": "Type your health question here...",
+    "inputHint": "Press Enter to send · Shift+Enter for new line",
+    "freeMessagesRemaining": "{{count}} free messages remaining",
+    "forUnlimited": "for unlimited access",
+    "chatSummary": "Chat Summary",
+    "aiGeneratedSummary": "AI-Generated Summary",
+    "saveToMyRecords": "Save to My Records",
+    "summaryFailed": "Failed to generate summary. Please try again.",
+    "summaryGenerateFailed": "Failed to generate summary: {{error}}",
+    "summarySaved": "Summary saved successfully!",
+    "summarySaveFailed": "Failed to save summary. Please try again.",
+    "summaryError": "Error generating summary"
+  },
+  "consultation": {
+    "audioRecording": "Audio Recording",
+    "recordConsultation": "Record your consultation",
+    "stopRecording": "Stop Recording",
+    "startRecording": "Start Recording",
+    "recordingInProgress": "Recording in progress...",
+    "liveTranscription": "Live Transcription",
+    "transcription": "Transcription",
+    "listening": "Listening... speak to see transcription here",
+    "showConversation": "Show Conversation",
+    "generateSummary": "Generate Summary",
+    "pressStartRecording": "Press Start Recording to begin",
+    "consultationSummary": "Consultation Summary",
+    "noSummaryAvailable": "No summary available yet",
+    "summaryAvailable": "Summary available from your recent consultation",
+    "sendSummary": "Send Consultation Summary",
+    "emailSummaryToPatient": "Email the consultation summary to yourself",
+    "patientEmailAddress": "Email Address",
+    "summaryPlaceholder": "Consultation summary will appear here...",
+    "emailSentSuccess": "Email sent successfully!",
+    "emailSentFailed": "Failed to send email. Please try again.",
+    "sendEmail": "Send Email",
+    "enterEmail": "Please enter an email address",
+    "enterSummary": "Please generate or enter a summary first"
+  },
+  "auth": {
+    "signInForSummaries": "Sign in to save consultation summaries",
+    "signInForChatSummaries": "Sign in to save chat summaries",
+    "signInToContinueChat": "Sign in to continue chatting"
+  }
+}

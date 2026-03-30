@@ -1,0 +1,58 @@
+{
+  "title": "Account Settings",
+  "subtitle": "Manage your profile, email, and account",
+
+  "profile": {
+    "heading": "Profile",
+    "nameLabel": "Display Name",
+    "namePlaceholder": "Enter your name",
+    "saveButton": "Save Changes",
+    "saving": "Saving...",
+    "saved": "Profile updated successfully.",
+    "error": "Failed to update profile. Please try again."
+  },
+
+  "email": {
+    "heading": "Email Address",
+    "currentLabel": "Current Email",
+    "newLabel": "New Email",
+    "newPlaceholder": "Enter new email address",
+    "changeButton": "Change Email",
+    "changing": "Sending...",
+    "verificationSent": "Verification code sent to your new email address.",
+    "verificationPrompt": "Enter the 6-digit code sent to your new email:",
+    "codePlaceholder": "123456",
+    "verifyButton": "Verify",
+    "verifying": "Verifying...",
+    "changed": "Email address updated successfully.",
+    "error": "Failed to change email. Please try again."
+  },
+
+  "export": {
+    "heading": "Data Export",
+    "description": "Under Quebec's Law 25, you have the right to receive a copy of all your personal data in a structured, machine-readable format.",
+    "button": "Download My Data",
+    "downloading": "Preparing your data...",
+    "success": "Download complete.",
+    "error": "Failed to export data. Please try again."
+  },
+
+  "delete": {
+    "title": "Danger Zone",
+    "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+    "warning": "This will permanently delete your account and all data across our systems. This action is irreversible.",
+    "confirmPhrase": "DELETE MY ACCOUNT",
+    "confirmLabel": "Type the phrase below to confirm:",
+    "confirmPlaceholder": "DELETE MY ACCOUNT",
+    "button": "Delete Account",
+    "deleting": "Deleting...",
+    "dataList": [
+      "Consultation summaries and chat history",
+      "Medical records and health profile",
+      "Consent history and preferences",
+      "Account credentials and profile data",
+      "All audit logs associated with your account"
+    ],
+    "cannotUndo": "This action cannot be undone. All your data will be permanently erased."
+  }
+}

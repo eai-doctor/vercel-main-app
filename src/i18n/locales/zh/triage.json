@@ -1,0 +1,63 @@
+{
+  "title": "自助分诊",
+  "subtitle": "AI驱动的症状评估",
+  "steps": {
+    "info": "基本信息",
+    "symptoms": "症状",
+    "details": "详情",
+    "results": "结果"
+  },
+  "onset": {
+    "justNow": "刚刚（几分钟内）",
+    "hoursAgo": "数小时前",
+    "daysAgo": "数天前",
+    "weeksAgo": "数周前",
+    "monthsAgo": "一个月或更久"
+  },
+  "progression": {
+    "gettingBetter": "好转中",
+    "stayingSame": "无变化",
+    "gettingWorse": "恶化中"
+  },
+  "character": {
+    "sharp": "锐痛",
+    "dull": "钝痛",
+    "burning": "灼痛",
+    "throbbing": "搏动性疼痛",
+    "pressure": "压迫感",
+    "cramping": "痉挛性疼痛",
+    "other": "其他"
+  },
+  "severity": {
+    "label": "疼痛程度",
+    "mild": "轻度",
+    "moderate": "中度",
+    "severe": "重度"
+  },
+  "fields": {
+    "age": "年龄",
+    "sex": "生理性别",
+    "male": "男",
+    "female": "女",
+    "chiefComplaint": "主诉",
+    "chiefComplaintPlaceholder": "描述您的主要症状或关注...",
+    "onset": "发病时间",
+    "duration": "持续时间",
+    "progression": "病情变化",
+    "painCharacter": "疼痛性质",
+    "associatedSymptoms": "伴随症状",
+    "associatedSymptomsPlaceholder": "列出其他症状...",
+    "medicalHistory": "病史",
+    "medicalHistoryPlaceholder": "列出已知病症、用药等...",
+    "additionalNotes": "补充说明",
+    "additionalNotesPlaceholder": "其他相关信息..."
+  },
+  "results": {
+    "triageLevel": "分诊级别",
+    "assessment": "评估",
+    "recommendations": "建议",
+    "redFlags": "危险信号",
+    "differentialDiagnosis": "鉴别诊断",
+    "disclaimer": "本评估仅供参考，不构成医疗建议。"
+  }
+}

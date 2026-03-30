@@ -1,0 +1,25 @@
+{
+  "title": "Paramètres administrateur",
+  "subtitle": "Gérer les comptes et rôles utilisateurs",
+  "searchPlaceholder": "Rechercher par nom, courriel ou rôle...",
+  "loadingUsers": "Chargement des utilisateurs...",
+  "accessDenied": "Accès refusé. Privilèges administrateur requis.",
+  "failedToLoad": "Échec du chargement des utilisateurs",
+  "failedToUpdate": "Échec de la mise à jour du rôle",
+  "userCount": "{{count}} utilisateur",
+  "userCount_plural": "{{count}} utilisateurs",
+  "confirmRoleChange": "Confirmer le changement de rôle",
+  "changeRoleFrom": "Changer le rôle de <1>{{name}}</1> de",
+  "to": "à",
+  "updating": "Mise à jour...",
+  "noUsersMatch": "Aucun utilisateur ne correspond à votre recherche",
+  "noUsers": "Aucun utilisateur trouvé",
+  "tableHeaders": {
+    "name": "Nom",
+    "email": "Courriel",
+    "role": "Rôle",
+    "status": "Statut",
+    "created": "Créé",
+    "lastLogin": "Dernière connexion"
+  }
+}

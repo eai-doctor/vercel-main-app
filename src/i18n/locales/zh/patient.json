@@ -1,0 +1,123 @@
+{
+  "home": {
+    "subtitle": "患者门户 - 您的个人健康助手",
+    "welcome": {
+      "title": "欢迎使用个人医疗门户",
+      "subtitle": "获取AI健康辅助和基因咨询服务"
+    },
+    "modules": {
+      "healthConsultation": {
+        "title": "健康咨询",
+        "description": "访问您的医疗报告并咨询AI医生"
+      },
+      "geneticConsultation": {
+        "title": "基因咨询助手",
+        "description": "AI驱动的基因报告咨询聊天机器人"
+      },
+      "medicalProfile": {
+        "title": "我的医疗档案",
+        "description": "编辑个人资料，添加症状、用药、生命体征等"
+      },
+      "selfTriage": {
+        "title": "自助分诊",
+        "description": "AI驱动的症状评估，判断就医紧急程度"
+      }
+    }
+  },
+  "summaries": {
+    "title": "我的问诊摘要",
+    "loading": "加载摘要中...",
+    "noSummaries": "暂无保存的摘要。",
+    "noSummariesHint": "在健康咨询中与EboAI对话，然后点击「生成摘要」来保存。",
+    "confirmDelete": "确定删除此问诊摘要吗？",
+    "failedDelete": "删除摘要失败",
+    "deleting": "删除中...",
+    "messages": "{{count}} 条消息"
+  },
+  "portal": {
+    "title": "个人门户"
+  },
+  "medicalProfile": {
+    "title": "我的医疗档案",
+    "subtitle": "管理您的健康信息",
+    "tabs": {
+      "conditions": "病症",
+      "medications": "用药",
+      "allergies": "过敏",
+      "vitalSigns": "生命体征",
+      "immunizations": "免疫接种"
+    },
+    "vitals": {
+      "bloodPressure": "血压",
+      "heartRate": "心率",
+      "bodyWeight": "体重",
+      "bodyTemperature": "体温",
+      "oxygenSaturation": "血氧饱和度",
+      "respiratoryRate": "呼吸频率"
+    }
+  },
+  "header": {
+    "title": "个人健康助手",
+    "subtitle": "AI驱动的健康咨询与录音"
+  },
+  "suggestions": {
+    "discussConsultation": "讨论我最近的问诊",
+    "prepareAppointment": "帮我准备下次就诊",
+    "monitorSymptoms": "帮我监测症状",
+    "askDoctor": "我应该问医生什么？"
+  },
+  "chat": {
+    "welcomeGreeting": "您好！我是您的个人健康助手。今天有什么可以帮您的？",
+    "welcomeTitle": "欢迎使用您的健康助手",
+    "welcomeDescription": "向我咨询关于您的健康、用药、症状的任何问题，或为下次看诊做准备。",
+    "assistantName": "EboAI 健康助手",
+    "assistantSubtitle": "您的AI个人健康伙伴",
+    "generateSummaryTitle": "生成此对话的摘要",
+    "summarize": "生成摘要",
+    "clearHistory": "清除历史",
+    "you": "您",
+    "suggestedQuestions": "推荐问题",
+    "inputPlaceholder": "在这里输入您的健康问题...",
+    "inputHint": "按Enter发送 · Shift+Enter换行",
+    "freeMessagesRemaining": "剩余 {{count}} 条免费消息",
+    "forUnlimited": "以获取无限访问",
+    "chatSummary": "对话摘要",
+    "aiGeneratedSummary": "AI生成摘要",
+    "saveToMyRecords": "保存到我的记录",
+    "summaryFailed": "生成摘要失败，请重试。",
+    "summaryGenerateFailed": "生成摘要失败：{{error}}",
+    "summarySaved": "摘要保存成功！",
+    "summarySaveFailed": "保存摘要失败，请重试。",
+    "summaryError": "生成摘要时出错"
+  },
+  "consultation": {
+    "audioRecording": "音频录制",
+    "recordConsultation": "录制您的问诊",
+    "stopRecording": "停止录音",
+    "startRecording": "开始录音",
+    "recordingInProgress": "正在录音...",
+    "liveTranscription": "实时转录",
+    "transcription": "转录内容",
+    "listening": "正在聆听...请说话以查看转录内容",
+    "showConversation": "显示对话",
+    "generateSummary": "生成摘要",
+    "pressStartRecording": "按下开始录音以开始",
+    "consultationSummary": "问诊摘要",
+    "noSummaryAvailable": "暂无可用摘要",
+    "summaryAvailable": "您最近的问诊已有可用摘要",
+    "sendSummary": "发送问诊摘要",
+    "emailSummaryToPatient": "通过电子邮件将问诊摘要发送给自己",
+    "patientEmailAddress": "电子邮箱地址",
+    "summaryPlaceholder": "问诊摘要将在此显示...",
+    "emailSentSuccess": "邮件发送成功！",
+    "emailSentFailed": "发送邮件失败，请重试。",
+    "sendEmail": "发送邮件",
+    "enterEmail": "请输入电子邮箱地址",
+    "enterSummary": "请先生成或输入摘要"
+  },
+  "auth": {
+    "signInForSummaries": "登录以保存问诊摘要",
+    "signInForChatSummaries": "登录以保存对话摘要",
+    "signInToContinueChat": "登录以继续对话"
+  }
+}

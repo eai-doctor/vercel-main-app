@@ -1,0 +1,63 @@
+{
+  "title": "Auto-triage",
+  "subtitle": "Évaluation des symptômes par l'IA",
+  "steps": {
+    "info": "Infos",
+    "symptoms": "Symptômes",
+    "details": "Détails",
+    "results": "Résultats"
+  },
+  "onset": {
+    "justNow": "À l'instant (minutes)",
+    "hoursAgo": "Il y a quelques heures",
+    "daysAgo": "Il y a quelques jours",
+    "weeksAgo": "Il y a quelques semaines",
+    "monthsAgo": "Un mois ou plus"
+  },
+  "progression": {
+    "gettingBetter": "En amélioration",
+    "stayingSame": "Stable",
+    "gettingWorse": "En aggravation"
+  },
+  "character": {
+    "sharp": "Aiguë",
+    "dull": "Sourde",
+    "burning": "Brûlure",
+    "throbbing": "Pulsatile",
+    "pressure": "Pression",
+    "cramping": "Crampe",
+    "other": "Autre"
+  },
+  "severity": {
+    "label": "Intensité de la douleur",
+    "mild": "Légère",
+    "moderate": "Modérée",
+    "severe": "Sévère"
+  },
+  "fields": {
+    "age": "Âge",
+    "sex": "Sexe biologique",
+    "male": "Homme",
+    "female": "Femme",
+    "chiefComplaint": "Motif principal",
+    "chiefComplaintPlaceholder": "Décrivez votre symptôme ou préoccupation principale...",
+    "onset": "Début",
+    "duration": "Durée",
+    "progression": "Évolution",
+    "painCharacter": "Caractère de la douleur",
+    "associatedSymptoms": "Symptômes associés",
+    "associatedSymptomsPlaceholder": "Listez les autres symptômes...",
+    "medicalHistory": "Antécédents médicaux",
+    "medicalHistoryPlaceholder": "Listez les pathologies connues, médicaments...",
+    "additionalNotes": "Notes supplémentaires",
+    "additionalNotesPlaceholder": "Toute autre information..."
+  },
+  "results": {
+    "triageLevel": "Niveau de triage",
+    "assessment": "Évaluation",
+    "recommendations": "Recommandations",
+    "redFlags": "Signaux d'alarme",
+    "differentialDiagnosis": "Diagnostic différentiel",
+    "disclaimer": "Cette évaluation est à titre informatif uniquement et ne constitue pas un avis médical."
+  }
+}

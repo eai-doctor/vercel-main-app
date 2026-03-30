@@ -1,0 +1,123 @@
+{
+  "home": {
+    "subtitle": "Portail Patient - Votre assistant santé personnel",
+    "welcome": {
+      "title": "Bienvenue sur le portail médical personnel",
+      "subtitle": "Accédez à l'assistance santé et aux services de consultation génétique par l'IA"
+    },
+    "modules": {
+      "healthConsultation": {
+        "title": "Consultation santé",
+        "description": "Accédez à vos rapports médicaux et consultez le médecin IA"
+      },
+      "geneticConsultation": {
+        "title": "Aide à la consultation génétique",
+        "description": "Chatbot IA pour la consultation de rapports génétiques"
+      },
+      "medicalProfile": {
+        "title": "Mon profil médical",
+        "description": "Modifier votre profil, ajouter symptômes, médicaments, signes vitaux et plus"
+      },
+      "selfTriage": {
+        "title": "Auto-triage",
+        "description": "Évaluation des symptômes par l'IA pour déterminer l'urgence des soins"
+      }
+    }
+  },
+  "summaries": {
+    "title": "Mes résumés de consultation",
+    "loading": "Chargement des résumés...",
+    "noSummaries": "Aucun résumé enregistré.",
+    "noSummariesHint": "Discutez avec EboAI dans Consultation santé, puis cliquez sur « Résumer » pour générer et enregistrer un résumé.",
+    "confirmDelete": "Supprimer ce résumé de consultation ?",
+    "failedDelete": "Échec de la suppression du résumé",
+    "deleting": "Suppression...",
+    "messages": "{{count}} messages"
+  },
+  "portal": {
+    "title": "Portail Personnel"
+  },
+  "medicalProfile": {
+    "title": "Mon profil médical",
+    "subtitle": "Gérer vos informations de santé",
+    "tabs": {
+      "conditions": "Pathologies",
+      "medications": "Médicaments",
+      "allergies": "Allergies",
+      "vitalSigns": "Signes vitaux",
+      "immunizations": "Vaccinations"
+    },
+    "vitals": {
+      "bloodPressure": "Pression artérielle",
+      "heartRate": "Fréquence cardiaque",
+      "bodyWeight": "Poids corporel",
+      "bodyTemperature": "Température corporelle",
+      "oxygenSaturation": "Saturation en oxygène",
+      "respiratoryRate": "Fréquence respiratoire"
+    }
+  },
+  "header": {
+    "title": "Assistant santé personnel",
+    "subtitle": "Consultation santé et enregistrement par l'IA"
+  },
+  "suggestions": {
+    "discussConsultation": "Discuter de ma consultation récente",
+    "prepareAppointment": "M'aider à préparer mon rendez-vous",
+    "monitorSymptoms": "M'aider à surveiller mes symptômes",
+    "askDoctor": "Que devrais-je demander à mon médecin ?"
+  },
+  "chat": {
+    "welcomeGreeting": "Bonjour ! Je suis votre assistant santé personnel. Comment puis-je vous aider aujourd'hui ?",
+    "welcomeTitle": "Bienvenue sur votre assistant santé",
+    "welcomeDescription": "Posez-moi des questions sur votre santé, vos médicaments, vos symptômes, ou préparez votre prochaine visite chez le médecin.",
+    "assistantName": "Assistant santé EboAI",
+    "assistantSubtitle": "Votre compagnon santé IA personnel",
+    "generateSummaryTitle": "Générer un résumé de cette conversation",
+    "summarize": "Résumer",
+    "clearHistory": "Effacer l'historique",
+    "you": "Vous",
+    "suggestedQuestions": "Questions suggérées",
+    "inputPlaceholder": "Tapez votre question santé ici...",
+    "inputHint": "Appuyez sur Entrée pour envoyer · Maj+Entrée pour nouvelle ligne",
+    "freeMessagesRemaining": "{{count}} messages gratuits restants",
+    "forUnlimited": "pour un accès illimité",
+    "chatSummary": "Résumé de la conversation",
+    "aiGeneratedSummary": "Résumé généré par l'IA",
+    "saveToMyRecords": "Enregistrer dans mes dossiers",
+    "summaryFailed": "Échec de la génération du résumé. Veuillez réessayer.",
+    "summaryGenerateFailed": "Échec de la génération du résumé : {{error}}",
+    "summarySaved": "Résumé enregistré avec succès !",
+    "summarySaveFailed": "Échec de l'enregistrement du résumé. Veuillez réessayer.",
+    "summaryError": "Erreur lors de la génération du résumé"
+  },
+  "consultation": {
+    "audioRecording": "Enregistrement audio",
+    "recordConsultation": "Enregistrer votre consultation",
+    "stopRecording": "Arrêter l'enregistrement",
+    "startRecording": "Démarrer l'enregistrement",
+    "recordingInProgress": "Enregistrement en cours...",
+    "liveTranscription": "Transcription en direct",
+    "transcription": "Transcription",
+    "listening": "Écoute en cours... parlez pour voir la transcription ici",
+    "showConversation": "Afficher la conversation",
+    "generateSummary": "Générer le résumé",
+    "pressStartRecording": "Appuyez sur Démarrer l'enregistrement pour commencer",
+    "consultationSummary": "Résumé de consultation",
+    "noSummaryAvailable": "Aucun résumé disponible pour le moment",
+    "summaryAvailable": "Résumé disponible de votre consultation récente",
+    "sendSummary": "Envoyer le résumé de consultation",
+    "emailSummaryToPatient": "Envoyer le résumé de consultation par courriel",
+    "patientEmailAddress": "Adresse courriel",
+    "summaryPlaceholder": "Le résumé de consultation apparaîtra ici...",
+    "emailSentSuccess": "Courriel envoyé avec succès !",
+    "emailSentFailed": "Échec de l'envoi du courriel. Veuillez réessayer.",
+    "sendEmail": "Envoyer le courriel",
+    "enterEmail": "Veuillez entrer une adresse courriel",
+    "enterSummary": "Veuillez d'abord générer ou entrer un résumé"
+  },
+  "auth": {
+    "signInForSummaries": "Connectez-vous pour enregistrer les résumés de consultation",
+    "signInForChatSummaries": "Connectez-vous pour enregistrer les résumés de conversation",
+    "signInToContinueChat": "Connectez-vous pour continuer la conversation"
+  }
+}

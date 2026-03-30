@@ -1,0 +1,58 @@
+{
+  "title": "Paramètres du compte",
+  "subtitle": "Gérez votre profil, votre courriel et votre compte",
+
+  "profile": {
+    "heading": "Profil",
+    "nameLabel": "Nom d'affichage",
+    "namePlaceholder": "Entrez votre nom",
+    "saveButton": "Enregistrer",
+    "saving": "Enregistrement...",
+    "saved": "Profil mis à jour avec succès.",
+    "error": "Échec de la mise à jour du profil. Veuillez réessayer."
+  },
+
+  "email": {
+    "heading": "Adresse courriel",
+    "currentLabel": "Courriel actuel",
+    "newLabel": "Nouveau courriel",
+    "newPlaceholder": "Entrez la nouvelle adresse courriel",
+    "changeButton": "Changer le courriel",
+    "changing": "Envoi...",
+    "verificationSent": "Code de vérification envoyé à votre nouvelle adresse courriel.",
+    "verificationPrompt": "Entrez le code à 6 chiffres envoyé à votre nouveau courriel :",
+    "codePlaceholder": "123456",
+    "verifyButton": "Vérifier",
+    "verifying": "Vérification...",
+    "changed": "Adresse courriel mise à jour avec succès.",
+    "error": "Échec du changement de courriel. Veuillez réessayer."
+  },
+
+  "export": {
+    "heading": "Exportation des données",
+    "description": "En vertu de la Loi 25 du Québec, vous avez le droit de recevoir une copie de toutes vos données personnelles dans un format structuré et lisible par machine.",
+    "button": "Télécharger mes données",
+    "downloading": "Préparation de vos données...",
+    "success": "Téléchargement terminé.",
+    "error": "Échec de l'exportation des données. Veuillez réessayer."
+  },
+
+  "delete": {
+    "title": "Zone de danger",
+    "description": "Supprimez définitivement votre compte et toutes les données associées. Cette action est irréversible.",
+    "warning": "Cela supprimera définitivement votre compte et toutes vos données de nos systèmes. Cette action est irréversible.",
+    "confirmPhrase": "SUPPRIMER MON COMPTE",
+    "confirmLabel": "Tapez la phrase ci-dessous pour confirmer :",
+    "confirmPlaceholder": "SUPPRIMER MON COMPTE",
+    "button": "Supprimer le compte",
+    "deleting": "Suppression...",
+    "dataList": [
+      "Résumés de consultations et historique de chat",
+      "Dossiers médicaux et profil de santé",
+      "Historique des consentements et préférences",
+      "Identifiants du compte et données de profil",
+      "Tous les journaux d'audit associés à votre compte"
+    ],
+    "cannotUndo": "Cette action est irréversible. Toutes vos données seront définitivement effacées."
+  }
+}

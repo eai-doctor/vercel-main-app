@@ -1,0 +1,63 @@
+{
+  "title": "Self-Triage",
+  "subtitle": "AI-Powered Symptom Assessment",
+  "steps": {
+    "info": "Info",
+    "symptoms": "Symptoms",
+    "details": "Details",
+    "results": "Results"
+  },
+  "onset": {
+    "justNow": "Just now (minutes)",
+    "hoursAgo": "Hours ago",
+    "daysAgo": "Days ago",
+    "weeksAgo": "Weeks ago",
+    "monthsAgo": "Months or longer"
+  },
+  "progression": {
+    "gettingBetter": "Getting better",
+    "stayingSame": "Staying the same",
+    "gettingWorse": "Getting worse"
+  },
+  "character": {
+    "sharp": "Sharp",
+    "dull": "Dull",
+    "burning": "Burning",
+    "throbbing": "Throbbing",
+    "pressure": "Pressure",
+    "cramping": "Cramping",
+    "other": "Other"
+  },
+  "severity": {
+    "label": "Pain Severity",
+    "mild": "Mild",
+    "moderate": "Moderate",
+    "severe": "Severe"
+  },
+  "fields": {
+    "age": "Age",
+    "sex": "Biological Sex",
+    "male": "Male",
+    "female": "Female",
+    "chiefComplaint": "Chief Complaint",
+    "chiefComplaintPlaceholder": "Describe your main symptom or concern...",
+    "onset": "Onset",
+    "duration": "Duration",
+    "progression": "Progression",
+    "painCharacter": "Pain Character",
+    "associatedSymptoms": "Associated Symptoms",
+    "associatedSymptomsPlaceholder": "List any other symptoms...",
+    "medicalHistory": "Medical History",
+    "medicalHistoryPlaceholder": "List any known conditions, medications...",
+    "additionalNotes": "Additional Notes",
+    "additionalNotesPlaceholder": "Any other information..."
+  },
+  "results": {
+    "triageLevel": "Triage Level",
+    "assessment": "Assessment",
+    "recommendations": "Recommendations",
+    "redFlags": "Red Flags",
+    "differentialDiagnosis": "Differential Diagnosis",
+    "disclaimer": "This assessment is for informational purposes only and does not constitute medical advice."
+  }
+}
