@@ -244,6 +244,8 @@ function AppContent() {
 }
 
 function App() {
+  console.log("DEV VERSION");
+  
   return (
     <Router>
       <AuthProvider>
