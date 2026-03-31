@@ -40,7 +40,9 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const res = await axios.get(AUTH_API.ME);
+        const res = await axios.get(AUTH_API.ME, {
+          withCredentials: true
+        });
         if (res.data && res.data.user) {
           setUser(res.data.user);
         }
