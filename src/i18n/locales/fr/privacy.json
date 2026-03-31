@@ -1,0 +1,69 @@
+{
+  "title": "Politique de confidentialité",
+  "subtitle": "Ebovir Biotech | Dernière mise à jour : 2026.02.23",
+  "download": "Télécharger le PDF",
+  "back": "Retour",
+
+  "summary": {
+    "title": "Résumé",
+    "body": "Ebovir Biotech (« Ebovir », « nous », « notre ») s'engage à protéger les renseignements personnels conformément à la Loi 25 du Québec et aux autres lois canadiennes applicables."
+  },
+
+  "scope": {
+    "title": "Portée",
+    "items": [
+      "Visiteurs du site web",
+      "Utilisateurs de la plateforme (patients et clients)",
+      "Nom, date de naissance, coordonnées",
+      "Données médicales et génétiques (avec consentement explicite)",
+      "Détails des consultations et documents téléchargés",
+      "Enregistrements audio (avec consentement)",
+      "Résultats générés par l'IA",
+      "Journaux d'utilisation et d'audit"
+    ]
+  },
+
+  "purpose": {
+    "title": "Objectif et base légale",
+    "items": [
+      "Fournir des services médicaux/génétiques assistés par IA",
+      "Générer des rapports analytiques structurés",
+      "Maintenir la sécurité des comptes",
+      "Respecter les obligations légales",
+      "Mener des recherches avec consentement"
+    ]
+  },
+
+  "ai": {
+    "title": "Utilisation de l'IA",
+    "body": "Nos services utilisent des systèmes d'intelligence artificielle pour analyser les données médicales et génétiques. Les résultats générés par l'IA ne constituent pas un diagnostic médical et ne remplacent pas les professionnels de santé."
+  },
+
+  "thirdParty": {
+    "title": "Fournisseurs tiers",
+    "items": [
+      "Google Cloud Platform",
+      "MongoDB Atlas",
+      "SendGrid"
+    ]
+  },
+
+  "rights": {
+    "title": "Droits des individus",
+    "items": [
+      "Accéder à vos informations",
+      "Demander une correction",
+      "Demander la suppression",
+      "Retirer votre consentement",
+      "Demander la portabilité des données"
+    ]
+  },
+
+  "officer": {
+    "title": "Responsable de la protection des données",
+    "nameLabel": "Nom",
+    "emailLabel": "Email",
+    "name": "Zhenlong Liu",
+    "email": "ebovirit@gmail.com"
+  }
+}

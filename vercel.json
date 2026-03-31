@@ -1,8 +1,16 @@
 {
   "rewrites": [
     {
-      "source": "/login-url/:path*",
-      "destination": "https://auth-service-338917524320.northamerica-northeast1.run.app/:path*"
+      "source": "/api/auth/:path*",
+      "destination": "https://auth-service-xxx.run.app/:path*"
+    },
+    {
+      "source": "/api/backend/:path*",
+      "destination": "https://backend-xxx.run.app/:path*"
+    },
+    {
+      "source": "/api/email/:path*",
+      "destination": "https://email-xxx.run.app/:path*"
     },
     {
       "source": "/(.*)",

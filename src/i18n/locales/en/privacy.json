@@ -1,0 +1,69 @@
+{
+  "title": "Privacy Policy",
+  "subtitle": "Ebovir Biotech | Last Updated: 2026.02.23",
+  "download": "Download PDF",
+  "back": "Back",
+
+  "summary": {
+    "title": "Summary",
+    "body": "Ebovir Biotech (\"Ebovir\", \"we\", \"us\", or \"our\") is committed to protecting personal information in accordance with Quebec Law 25 and other applicable Canadian privacy laws."
+  },
+
+  "scope": {
+    "title": "Scope",
+    "items": [
+      "Website visitors",
+      "Platform users (patients and clients)",
+      "Name, date of birth, contact information",
+      "Medical and genetic data (with explicit consent)",
+      "Consultation details and uploaded documents",
+      "Audio recordings (where consented)",
+      "AI-generated outputs",
+      "Usage logs and audit records"
+    ]
+  },
+
+  "purpose": {
+    "title": "Purpose and Legal Basis",
+    "items": [
+      "Deliver AI-assisted medical/genetic services",
+      "Generate structured analytical reports",
+      "Maintain account security",
+      "Comply with legal obligations",
+      "Conduct consented research"
+    ]
+  },
+
+  "ai": {
+    "title": "Use of AI",
+    "body": "Our services use artificial intelligence systems to analyze medical and genetic information and generate structured outputs. AI outputs are not medical diagnoses and do not replace licensed healthcare professionals."
+  },
+
+  "thirdParty": {
+    "title": "Third-Party Service Providers",
+    "items": [
+      "Google Cloud Platform",
+      "MongoDB Atlas",
+      "SendGrid"
+    ]
+  },
+
+  "rights": {
+    "title": "Individual Rights",
+    "items": [
+      "Access your information",
+      "Request correction",
+      "Request deletion",
+      "Withdraw consent",
+      "Request portability"
+    ]
+  },
+
+  "officer": {
+    "title": "Privacy Officer",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "name": "Zhenlong Liu",
+    "email": "ebovirit@gmail.com"
+  }
+}

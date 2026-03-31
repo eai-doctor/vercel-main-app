@@ -3,13 +3,10 @@ import axios from "axios";
 import config from "@/config";
 
 const AUTH_API = {
-  // LOGIN: `${config.authServiceUrl}/api/auth/login`,
-  LOGIN: `/login-url/api/auth/login`,
+  LOGIN: `${config.authServiceUrl}/api/auth/login`,
   REGISTER: `${config.authServiceUrl}/api/auth/register`,
-  // LOGOUT: `${config.authServiceUrl}/api/auth/logout`,
-  LOGOUT: `/login-url/api/auth/logout`,
-  // ME: `${config.authServiceUrl}/api/auth/me`,
-  ME: `/login-url/api/auth/me`,
+  LOGOUT: `${config.authServiceUrl}/api/auth/logout`,
+  ME: `${config.authServiceUrl}/api/auth/me`,
   VERIFY_EMAIL: `${config.authServiceUrl}/api/auth/verify-email`,
   RESEND_VERIFICATION: `${config.authServiceUrl}/api/auth/resend-verification`,
   CONSENT: `${config.authServiceUrl}/api/auth/consent`,
@@ -43,6 +40,8 @@ export function AuthProvider({ children }) {
         const res = await axios.get(AUTH_API.ME, {
           withCredentials: true
         });
+
+        console.log("auth me res",res);
         if (res.data && res.data.user) {
           setUser(res.data.user);
         }
@@ -66,6 +65,8 @@ export function AuthProvider({ children }) {
       }, {
         withCredentials: true
       });
+      console.log(res);
+      
       const { user: userData } = res.data;
 
       setUser(userData);
@@ -84,15 +85,20 @@ export function AuthProvider({ children }) {
 
   // saebyeok - cookie reflected
   const logout = useCallback(async () => {
+    const role = user?.role;
+
     try {
       await axios.post(AUTH_API.LOGOUT);
     } catch (err) {
       console.error("Logout notification failed", err);
-    } finally {
-      setUser(null);
-      window.location.replace("/clinic-login");
     }
-  }, []); 
+
+    setUser(null);
+
+    window.location.replace(
+      role === "clinician" ? "/clinic-login" : "/"
+    );
+  }, [user]);
 
   // Set up axios response interceptor for 401s
   useEffect(() => {

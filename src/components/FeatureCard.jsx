@@ -1,7 +1,19 @@
-export default function FeatureCard({ icon, title, description, onClick, disabled }) {
+export default function FeatureCard({ icon, title, description, onClick, disabled, requiresAuth, isAuthenticated, onRequireAuth, }) {
+
+  const handleClick = () => {
+    if (disabled) return;
+
+    if (requiresAuth && !isAuthenticated) {
+      onRequireAuth?.(); 
+      return;
+    }
+
+    onClick?.();
+  };
+
   return (
     <div
-      onClick={!disabled ? onClick : undefined}
+      onClick={!disabled ? handleClick : undefined}
       className={`group rounded-2xl p-8 shadow-md transition-all duration-300
         ${
           disabled
@@ -33,6 +45,13 @@ export default function FeatureCard({ icon, title, description, onClick, disable
       {disabled && (
         <p className="text-xs text-center text-gray-400 mt-4">
           Coming soon
+        </p>
+      )}
+
+      {/* Auth Required Label */}
+      {requiresAuth && !disabled && (
+        <p className="text-xs text-center text-blue-500 mt-4">
+          Login required
         </p>
       )}
     </div>

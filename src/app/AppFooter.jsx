@@ -1,7 +1,11 @@
 import { useAuth } from '@/context/AuthContext';
+import { useLocation } from "react-router-dom";
 
 export default function AppFooter () {
   const { user } = useAuth();
+  const location = useLocation();
+
+  const isClinicRoute = location.pathname.includes("clinic");
 
   return (
     <footer className="border-t border-blue-200 bg-gray-50">
@@ -14,14 +18,20 @@ export default function AppFooter () {
             AI-Powered Medical Intelligence Platform providing secure and
             compliant healthcare data solutions.
           </p>
-          { user?.role != "clinician" && <div className="mt-6 pt-6 ">
-            <p className="text-start text-sm text-gray-600">
-              Are you a clinician?{" "}
-              <a href="/clinic-login" className="text-[#277cc4] hover:text-[#2C3B8D] font-medium transition-colors">
-                Visit Clinic Portal
-              </a>
-            </p>
-          </div> }
+          {!user && (
+            <div className="mt-6 pt-6">
+              <p className="text-start text-sm text-gray-600">
+                {isClinicRoute ? "Are you a patient?" : "Are you a clinician?"}{" "}
+                
+                <a
+                  href={isClinicRoute ? "/" : "/clinic-login"}
+                  className="text-[#277cc4] hover:text-[#2C3B8D] font-medium transition-colors"
+                >
+                  {isClinicRoute ? "Visit Patient Portal" : "Visit Clinic Portal"}
+                </a>
+              </p>
+            </div>
+          )}
         </div> 
 
         {/* Privacy Officer */}
@@ -30,7 +40,7 @@ export default function AppFooter () {
             Privacy Officer
           </h3>
           <p>Dr. Zhenlong Liu</p>
-          <p>Email: ebovirit@gmail.com</p>
+          <p>Email: support@e-ai.ca</p>
           <p>Phone: +1 (450) 688-8377</p>
         </div>
 
@@ -46,14 +56,14 @@ export default function AppFooter () {
                 Privacy Policy
               </a>
             </li>
-            <li>
+            {/* <li>
               <a
                 href="/information-request"
                 className="hover:text-blue-600 transition"
               >
                 Request Personal Information
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

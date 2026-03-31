@@ -2,18 +2,30 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ProfileDropdown from "@/components/ProfileDropdown";
 import { useAuth } from "@/context/AuthContext";
 import logoImage from "/images/logo.png";
+import { Button } from "./ui";
+import { useAuthModal } from "@/context/AuthModalContext";
 
 
 /* ---------------- Header ---------------- */
-function Header({ handleOnSignInBtnClick }) {
-  const { user } = useAuth();
+function Header() {
+  const { user, loading } = useAuth();
+  const { openLogin } = useAuthModal();
+
+  if (loading) {
+    return null; 
+  }
+
+  console.log("Header.use", user);
+
+  const handleOnSignInBtnClick = () => openLogin();
+  const onClickHeaderLogo = () => window.location.href="/"
 
   return (
     <header className="bg-white border-b border-gray-200">
       <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         
         {/* -------- Left (Logo) -------- */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={onClickHeaderLogo}>
           <img
             src={logoImage}
             alt="logo"

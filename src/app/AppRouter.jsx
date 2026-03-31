@@ -4,7 +4,7 @@ import { RouteGuard } from "./RouteGuard"
 
 import { clinicianRoutes } from "./routes.clinician";
 import { publicRoutes } from "./routes.public";
-// import { patientRoutes } from "@/app/routes.patient";
+import { patientRoutes } from "@/app/routes.patient";
 
 
 export default function AppRouter() {
@@ -27,13 +27,13 @@ export default function AppRouter() {
           />
         ))}
 
-        {/* {patientRoutes.map(r => (
+        {patientRoutes.map(r => (
           <Route
             key={r.path}
             path={r.path}
             element={r.element}
           />
-        ))} */}
+        ))}
       </Route>
     </Routes>
   );

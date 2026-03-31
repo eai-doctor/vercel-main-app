@@ -12,6 +12,7 @@ import enTriage from './locales/en/triage.json';
 import enAdmin from './locales/en/admin.json';
 import enConsent from './locales/en/consent.json';
 import enAccount from './locales/en/account.json';
+import enPrivacy from './locales/en/privacy.json';
 
 import zhCommon from './locales/zh/common.json';
 import zhAuth from './locales/zh/auth.json';
@@ -23,6 +24,7 @@ import zhTriage from './locales/zh/triage.json';
 import zhAdmin from './locales/zh/admin.json';
 import zhConsent from './locales/zh/consent.json';
 import zhAccount from './locales/zh/account.json';
+import zhPrivacy from './locales/zh/privacy.json';
 
 import frCommon from './locales/fr/common.json';
 import frAuth from './locales/fr/auth.json';
@@ -34,6 +36,7 @@ import frTriage from './locales/fr/triage.json';
 import frAdmin from './locales/fr/admin.json';
 import frConsent from './locales/fr/consent.json';
 import frAccount from './locales/fr/account.json';
+import frPrivacy from './locales/fr/privacy.json';
 
 i18n
   .use(LanguageDetector)
@@ -51,6 +54,7 @@ i18n
         admin: enAdmin,
         consent: enConsent,
         account: enAccount,
+        privacy: enPrivacy
       },
       zh: {
         common: zhCommon,
@@ -63,6 +67,7 @@ i18n
         admin: zhAdmin,
         consent: zhConsent,
         account: zhAccount,
+        privacy: zhPrivacy
       },
       fr: {
         common: frCommon,
@@ -75,11 +80,12 @@ i18n
         admin: frAdmin,
         consent: frConsent,
         account: frAccount,
+        privacy: frPrivacy
       },
     },
     fallbackLng: 'en',
     defaultNS: 'common',
-    ns: ['common', 'auth', 'landing', 'clinic', 'patient', 'functions', 'triage', 'admin', 'consent', 'account'],
+    ns: ['common', 'auth', 'landing', 'clinic', 'patient', 'functions', 'triage', 'admin', 'consent', 'account', 'privacy'],
     interpolation: {
       escapeValue: false,
     },
