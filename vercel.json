@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/auth/:path*",
-      "destination": "https://auth-service-xxx.run.app/:path*"
+      "destination": "https://auth-service-338917524320.northamerica-northeast1.run.app/:path*"
     },
     {
       "source": "/api/backend/:path*",
