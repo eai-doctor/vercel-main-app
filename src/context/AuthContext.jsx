@@ -3,10 +3,13 @@ import axios from "axios";
 import config from "@/config";
 
 const AUTH_API = {
-  LOGIN: `${config.authServiceUrl}/api/auth/login`,
+  // LOGIN: `${config.authServiceUrl}/api/auth/login`,
+  LOGIN: `/login-url/api/auth/login`,
   REGISTER: `${config.authServiceUrl}/api/auth/register`,
-  LOGOUT: `${config.authServiceUrl}/api/auth/logout`,
-  ME: `${config.authServiceUrl}/api/auth/me`,
+  // LOGOUT: `${config.authServiceUrl}/api/auth/logout`,
+  LOGOUT: `/login-url/api/auth/logout`,
+  // ME: `${config.authServiceUrl}/api/auth/me`,
+  ME: `/login-url/api/auth/me`,
   VERIFY_EMAIL: `${config.authServiceUrl}/api/auth/verify-email`,
   RESEND_VERIFICATION: `${config.authServiceUrl}/api/auth/resend-verification`,
   CONSENT: `${config.authServiceUrl}/api/auth/consent`,
