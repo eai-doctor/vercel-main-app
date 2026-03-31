@@ -60,9 +60,11 @@ export function AuthProvider({ children }) {
   // saebyeok - cookie reflected
   const login = useCallback(async (email, password) => {
     try {
-      const res = await axios.post(`${config.authServiceUrl}/api/auth/login`, {
+      const res = await axios.post(AUTH_API.LOGIN, {
         email,
         password,
+      }, {
+        withCredentials: true
       });
       const { user: userData } = res.data;
 
