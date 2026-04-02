@@ -10,7 +10,11 @@ import './assets/index.css'
 axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <App />
- </StrictMode>,
 )
+
+// createRoot(document.getElementById('root')).render(
+//   <StrictMode>
+//     <App />
+//  </StrictMode>,
+// )
