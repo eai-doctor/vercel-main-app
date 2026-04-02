@@ -73,7 +73,7 @@ export default function LoginModal({
     const msg = err?.response?.data?.error;
 
     if (msg === "Invalid email or password") {
-      return t("invalidCredentials");
+      return t("common:invalidCredentials");
     }
 
     return t("common:errors.generic");

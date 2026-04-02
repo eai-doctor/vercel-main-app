@@ -6,7 +6,7 @@
     },
     {
       "source": "/api/backend/:path*",
-      "destination": "https://backend-xxx.run.app/:path*"
+      "destination": "https://main-service-git-223812018767.northamerica-northeast1.run.app/:path*"
     },
     {
       "source": "/api/email/:path*",

@@ -5,17 +5,16 @@ import axios from "axios";
 
 import config from "@/config";
 import { useAuth } from "@/context/AuthContext";
-import { FeatureCard, Header } from "@/components";
+import { FeatureCard, Header, SystemStatus } from "@/components";
 import { LoginModal } from "@/components/modal";
 import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, UserIcon } from "@/components/ui/icons";
+import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
 
 function PatientHomePage() {
   const navigate = useNavigate();
   const { t } = useTranslation(["patient", "common", "auth"]);
   const { isAuthenticated, user, loading } = useAuth();
-  const [showLoginModal, setShowLoginModal] = useState(false);
-
-  const [pendingRoute, setPendingRoute] = useState(null);
+  const { openLogin } = useAuthModal();
 
   const handleFeatureClick = useCallback(
     (module) => {
@@ -30,17 +29,14 @@ function PatientHomePage() {
       }
 
       if (!loading) {
-        setPendingRoute(module.route);
+        // setPendingRoute(module.route);
         window.location.replace("/clinic-login"); 
       }
     },
     [isAuthenticated, loading, navigate]
   );
 
-  const handleOnSignInBtnClick = () => setShowLoginModal(true);
-
-  const handleCloseModal = () => setShowLoginModal(false);
-  const handleLoginSuccess = () => setShowLoginModal(false);
+  const handleOnSignInBtnClick = () => openLogin();
 
   
   const modules = [
@@ -72,17 +68,17 @@ function PatientHomePage() {
       route: "/medical-profile",
       requiresAuth: !user && true,
       disabled:false,
-      onRequireAuth:()=>setShowLoginModal(true)
+      onRequireAuth:handleOnSignInBtnClick
     },
     {
       id: "self-triage",
       title: t("patient:home.modules.selfTriage.title"),
       description: t("patient:home.modules.selfTriage.description"),
       icon: <AlertIcon className="w-8 h-8 text-blue-500" />,
-      route: "/functions/triage-engine",
+      route: "/triage-engine",
       requiresAuth: !user && true,
       disabled:false,
-      onRequireAuth:()=>setShowLoginModal(true)
+      onRequireAuth:handleOnSignInBtnClick
     },
   ];
 
@@ -90,7 +86,7 @@ function PatientHomePage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       
       {/* Header */}
-      <Header handleOnSignInBtnClick={handleOnSignInBtnClick} />
+      <Header  />
 
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-4 py-14 text-center">
@@ -121,14 +117,7 @@ function PatientHomePage() {
       </section>
 
       {/* Status */}
-      <div className="flex justify-center pb-16">
-        <div className="flex items-center gap-2 bg-white px-6 py-2 rounded-full shadow">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-gray-600 text-sm">
-            System Status: Online
-          </span>
-        </div>
-      </div>
+      <SystemStatus />
 
     </div>
   );

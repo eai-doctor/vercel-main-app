@@ -73,6 +73,7 @@
     "fileSizeLimit": "File size must be less than 50MB.",
     "chatError": "Sorry, something went wrong. Please try again.",
     "error": "Error",
+    "failToLoad" : "Failed to load",
     "unknown": "An unknown error occurred.",
     "invalidCredentials" : "Please check your email or password."
   },
@@ -122,7 +123,7 @@
   },
   "addRecord": "Add Record",
   "confirmDelete": "Delete this record?",
-  "noRecords": "No {{type}} yet",
+  "noRecords": "No records found",
   "clickAdd": "Click \"+ Add\" to add your first record",
   "call911": "Call 911",
   "edit": "Edit",

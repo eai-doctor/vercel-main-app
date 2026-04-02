@@ -42,7 +42,30 @@ function PublicOnlyGuard({ children }) {
   if (loading) return null;
 
   if (isAuthenticated) {
-    return <Navigate to={user.role === "clinician" ? "/clinics" : "/personal"} replace />
+    return <Navigate to={user.role === "clinician" ? "/clinics" : "/"} replace />
+  }
+
+  return children;
+}
+
+ function PatientOnlyGuard({ children }) {
+  const { isAuthenticated, loading, user } = useAuth();
+
+  if (loading) return null;
+
+  // 로그인 안 된 경우
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  // role이 patient가 아닌 경우
+  if (user?.role !== "patient") {
+    return (
+      <Navigate
+        to={user?.role === "clinician" ? "/clinics" : "/"}
+        replace
+      />
+    );
   }
 
   return children;
@@ -50,5 +73,6 @@ function PublicOnlyGuard({ children }) {
 
 export {
   RouteGuard,
-  PublicOnlyGuard
+  PublicOnlyGuard,
+  PatientOnlyGuard
 }

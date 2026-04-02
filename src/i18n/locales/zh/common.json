@@ -73,6 +73,7 @@
     "fileSizeLimit": "文件大小必须小于50MB。",
     "chatError": "抱歉，出了点问题。请重试。",
     "error": "错误",
+    "failToLoad": "加载失败",
     "unknown": "发生了未知错误。",
     "invalidCredentials": "请检查您的电子邮件或密码。"
   },
@@ -122,7 +123,7 @@
   },
   "addRecord": "添加记录",
   "confirmDelete": "删除此记录？",
-  "noRecords": "暂无{{type}}",
+  "noRecords": "未找到记录",
   "clickAdd": "点击\"+ 添加\"来添加您的第一条记录",
   "call911": "拨打急救电话",
   "edit": "编辑",

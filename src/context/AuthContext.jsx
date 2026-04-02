@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import config from "@/config";
+import { authLogin, authMe, authLogout } from "@/api/authApi";
 
 const AUTH_API = {
   LOGIN: `${config.authServiceUrl}/api/auth/login`,
@@ -35,31 +36,32 @@ export function AuthProvider({ children }) {
 
   // On mount, verify existing using cookie
   useEffect(() => {
+    let isMounted = true; // 메모리 누수 및 중복 실행 방지
+
     const checkSession = async () => {
       try {
-        const res = await axios.get(AUTH_API.ME, {
-          withCredentials: true
-        });
-
-        console.log("auth me res",res);
-        if (res.data && res.data.user) {
+        const res = await authMe(); // withCredentials는 axiosBase에서 처리하는 것이 좋음
+        if (isMounted && res.data?.user) { 
           setUser(res.data.user);
         }
       } catch (err) {
-        console.warn("Session expired");
-        setUser(null);
+        if (isMounted) {
+          console.warn("Session expired");
+          setUser(null);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     checkSession();
-  }, []);
+    return () => { isMounted = false; };
+  }, []); // 의존성이 []이므로 딱 한 번만 실행되어야 함
 
   // saebyeok - cookie reflected
   const login = useCallback(async (email, password) => {
     try {
-      const res = await axios.post(AUTH_API.LOGIN, {
+      const res = await authLogin({
         email,
         password,
       }, {
@@ -88,7 +90,7 @@ export function AuthProvider({ children }) {
     const role = user?.role;
 
     try {
-      await axios.post(AUTH_API.LOGOUT);
+      await authLogout();
     } catch (err) {
       console.error("Logout notification failed", err);
     }

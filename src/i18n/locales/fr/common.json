@@ -73,6 +73,7 @@
     "fileSizeLimit": "La taille du fichier doit être inférieure à 50 Mo.",
     "chatError": "Désolé, une erreur est survenue. Veuillez réessayer.",
     "error": "Erreur",
+    "failToLoad": "Échec du chargement",
     "unknown": "Une erreur inconnue est survenue.",
     "invalidCredentials": "Veuillez vérifier votre adresse e-mail ou votre mot de passe."
   },
@@ -122,7 +123,7 @@
   },
   "addRecord": "Ajouter un dossier",
   "confirmDelete": "Supprimer ce dossier ?",
-  "noRecords": "Aucun(e) {{type}} pour le moment",
+  "noRecords": "Aucun enregistrement trouvé",
   "clickAdd": "Cliquez sur \"+ Ajouter\" pour ajouter votre premier dossier",
   "call911": "Appelez le 911",
   "edit": "Modifier",

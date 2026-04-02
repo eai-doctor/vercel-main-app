@@ -15,8 +15,6 @@ function Header() {
     return null; 
   }
 
-  console.log("Header.use", user);
-
   const handleOnSignInBtnClick = () => openLogin();
   const onClickHeaderLogo = () => window.location.href="/"
 

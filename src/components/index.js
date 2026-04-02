@@ -6,6 +6,8 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import LoadingScreen from "./LoadingScreen";
 import FeatureCard from "./FeatureCard";
 import Header from "./Header";
+import NavBar from "./NavBar";
+import SystemStatus from "./SystemStatus";
 
 export {
     // Header,
@@ -15,5 +17,7 @@ export {
     LanguageSwitcher,
     LoadingScreen,
     FeatureCard,
-    Header
+    Header,
+    NavBar,
+    SystemStatus
 };
