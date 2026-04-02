@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Fields from "./components/Fields";
-import triageEngineApi from "@/api/TriageApi";
+import triageEngineApi from "@/api/triageApi";
 import { NavBar } from "@/components";
 import { useTranslation } from 'react-i18next';
 
