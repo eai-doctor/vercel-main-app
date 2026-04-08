@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertCircle, Clock, MapPin, Activity, CheckCircle, ChevronRight } from 'lucide-react';
 
-function Results({ result }) {
+function Results({ result, restart }) {
   const { t } = useTranslation(['triage', 'common']);
   
   if (!result || !result.success) return null;
@@ -19,6 +19,7 @@ function Results({ result }) {
       default: return { bg: 'bg-[#22c55e]', text: 'text-white', label: 'bg-green-700' };
     }
   };
+
 
   const theme = getLevelStyles(triage.level);
 
@@ -122,6 +123,14 @@ function Results({ result }) {
           </p>
         </div>
       </div>
+
+      {/* 7. Restart Button */}
+      <button
+        onClick={restart}
+        className="w-full py-3 px-4 rounded-lg border border-[rgba(15,23,42,0.1)] bg-[#f8fafc] text-[#475569] font-medium hover:border-[rgba(59,130,246,0.4)] transition-all"
+      >
+        ← {t('triage:results.start_over')}
+      </button>
       
     </div>
   );

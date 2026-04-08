@@ -43,7 +43,8 @@
     "returnToHome": "返回首页",
     "add": "添加",
     "back": "返回",
-    "privacyConsent": "隐私与同意"
+    "privacyConsent": "隐私与同意",
+    "next": "下一步"
   },
   "states": {
     "loading": "加载中...",
@@ -75,7 +76,8 @@
     "error": "错误",
     "failToLoad": "加载失败",
     "unknown": "发生了未知错误。",
-    "invalidCredentials": "请检查您的电子邮件或密码。"
+    "invalidCredentials": "请检查您的电子邮件或密码。",
+    "unknownEmail": "未找到该电子邮件，请先检查邮箱地址。"
   },
   "labels": {
     "email": "邮箱",

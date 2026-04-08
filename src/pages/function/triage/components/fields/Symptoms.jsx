@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import triageEngineApi from "@/api/triageApi";
+import { useLanguage } from "@/hooks";
 
 function Symptoms({ data, setData }) {
   const { symptoms } = data;
   const { t } = useTranslation(["triage", "common"]);
+  const { currentLanguage } = useLanguage();
+
 
   const [chiefInput, setChiefInput] = useState("");
   const [additionalInput, setAdditionalInput] = useState("");
@@ -20,7 +23,8 @@ function Symptoms({ data, setData }) {
 
     const timer = setTimeout(async () => {
       try {
-        const res = await triageEngineApi.triageGetSymptoms(query);
+        console.log("triageGetSymptoms" , query, currentLanguage.code);
+        const res = await triageEngineApi.triageGetSymptoms(query, currentLanguage.code);
         if (res.data?.success) {
           setSuggestions(res.data.symptoms || []);
         }

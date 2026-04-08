@@ -43,7 +43,8 @@
     "returnToHome": "Retour à l'accueil",
     "add": "Ajouter",
     "back": "Retour",
-    "privacyConsent": "Confidentialité et consentement"
+    "privacyConsent": "Confidentialité et consentement",
+    "next": "Suivant"
   },
   "states": {
     "loading": "Chargement...",
@@ -75,7 +76,8 @@
     "error": "Erreur",
     "failToLoad": "Échec du chargement",
     "unknown": "Une erreur inconnue est survenue.",
-    "invalidCredentials": "Veuillez vérifier votre adresse e-mail ou votre mot de passe."
+    "invalidCredentials": "Veuillez vérifier votre adresse e-mail ou votre mot de passe.",
+    "unknownEmail": "Adresse e-mail introuvable, veuillez vérifier l’adresse e-mail."
   },
   "labels": {
     "email": "Courriel",

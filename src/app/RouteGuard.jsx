@@ -10,8 +10,6 @@ function RouteGuard({
 }) {
   const { isAuthenticated, user, loading } = useAuth();
 
-  console.log(user, isAuthenticated)
-
   // 1. Loading
   if (loading) return <LoadingScreen />;
 

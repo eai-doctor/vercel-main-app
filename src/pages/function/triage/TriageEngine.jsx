@@ -3,6 +3,7 @@ import Fields from "./components/Fields";
 import triageEngineApi from "@/api/triageApi";
 import { NavBar } from "@/components";
 import { useTranslation } from 'react-i18next';
+import useLanguage from '@/hooks/useLanguage';
 
 export const STEPS = {
   DEMOGRAPHICS: 0,
@@ -15,6 +16,8 @@ export const STEPS = {
 function TriageEngine() {
   const [currentStep, setCurrentStep] = useState(STEPS.DEMOGRAPHICS);
   const { t } = useTranslation(['triage', 'common']);
+  const { currentLanguage } = useLanguage();
+
   const [data, setData] = useState({
     demographics: {},
     symptoms: { severity : 5 },
@@ -42,7 +45,7 @@ function TriageEngine() {
     if (currentStep === STEPS.QUESTIONS) {
       setLoading(true);
       try {
-        const res = await triageEngineApi.triageAssess(data); 
+        const res = await triageEngineApi.triageAssess(data, currentLanguage.code); 
         setResult(res.data);
         setCurrentStep(STEPS.RESULTS);
       } catch (err) {
@@ -59,6 +62,16 @@ function TriageEngine() {
     if (currentStep > 0) {
       setCurrentStep(prev => prev - 1);
     }
+  };
+
+  const restart = () => {
+    setCurrentStep(STEPS.DEMOGRAPHICS);
+    setResult(null);
+    setData({
+      demographics: {},
+      symptoms: { severity: 5 },
+      medicalHistory: {}
+    });
   };
 
   return (
@@ -81,6 +94,7 @@ function TriageEngine() {
             setData={setData}
             result={result}
             loading={loading}
+            restart={restart}
           />
         </div>
 
@@ -94,7 +108,7 @@ function TriageEngine() {
                 onClick={prevStep}
                 className="flex-1 py-3 px-4 rounded-lg border border-[rgba(15,23,42,0.1)] bg-[#f8fafc] text-[#475569] font-medium hover:border-[rgba(59,130,246,0.4)] transition-all"
               >
-                ← Back
+                ← {t('common:buttons.back')}
               </button>
             )}
 
@@ -110,7 +124,7 @@ function TriageEngine() {
                 }
               `}
             >
-              {loading ? "Processing..." : "Next →"}
+              {loading ? t('common:states.processing') : `${t('common:buttons.next')} →`}
             </button>
           </div>
         )}

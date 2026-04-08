@@ -18,7 +18,6 @@ export default function AppFooter () {
             AI-Powered Medical Intelligence Platform providing secure and
             compliant healthcare data solutions.
           </p>
-          {!user && (
             <div className="mt-6 pt-6">
               <p className="text-start text-sm text-gray-600">
                 {isClinicRoute ? "Are you a patient?" : "Are you a clinician?"}{" "}
@@ -31,7 +30,6 @@ export default function AppFooter () {
                 </a>
               </p>
             </div>
-          )}
         </div> 
 
         {/* Privacy Officer */}

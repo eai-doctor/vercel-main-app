@@ -1,6 +1,6 @@
 import HomePage from "./HomePage";
-// import PatientSelector from "./PatientSelector";
-// import { default as ConsultationPage } from "./consultation/ConsultationPage";
+import PatientSelector from "./PatientSelector";
+import Consultation from "./Consultation";
 // import InitialConsultationUI from "./InitialConsultationUI";
 // import FunctionLibraries from "./FunctionLibraries";
 // import PrescriptionList from "./PrescriptionList";
@@ -8,8 +8,8 @@ import HomePage from "./HomePage";
 
 export {
     HomePage,
-    // PatientSelector,
-    // ConsultationPage,
+    PatientSelector,
+    Consultation,
     // InitialConsultationUI,
     // FunctionLibraries,
     // PrescriptionList,

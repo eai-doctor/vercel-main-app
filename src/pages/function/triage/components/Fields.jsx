@@ -4,7 +4,7 @@ import Questions from "./fields/Questions";
 import Loading from "./fields/Loading";
 import Results from "./fields/Results";
 
-function Fields({ step, data, setData, result, loading }) {
+function Fields({ step, data, setData, result, loading, restart }) {
 
   switch (step) {
     case 0:
@@ -20,7 +20,7 @@ function Fields({ step, data, setData, result, loading }) {
       return <Loading />;
 
     case 4:
-      return <Results result={result} />;
+      return <Results result={result} restart={restart} />;
 
     default:
       return null;

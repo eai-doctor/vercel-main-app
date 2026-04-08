@@ -53,11 +53,17 @@
     "additionalNotesPlaceholder": "Any other information..."
   },
   "results": {
+    "triage_status": "Triage Status",
+    "assessment_summary": "Assessment Summary",
+    "safety_alerts" : "Safety Alerts",
+    "potential_considerations" : "Potential Considerations",
+    "next_steps" : "Next Steps",
     "triageLevel": "Triage Level",
     "assessment": "Assessment",
     "recommendations": "Recommendations",
     "redFlags": "Red Flags",
     "differentialDiagnosis": "Differential Diagnosis",
-    "disclaimer": "This assessment is for informational purposes only and does not constitute medical advice."
+    "disclaimer": "This assessment is for informational purposes only and does not constitute medical advice.",
+    "start_over": "Start Over"
   }
 }

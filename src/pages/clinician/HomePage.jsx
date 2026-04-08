@@ -1,20 +1,23 @@
-import { useState } from "react";
+import { useCallback } from "react";
 import { useTranslation } from 'react-i18next';
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 import { MessageSquare, Dna, ClipboardList, LogIn } from "lucide-react";
-import { FeatureCard, Header } from "@/components";
+import { FeatureCard, Header, SystemStatus } from "@/components";
 import { UserIcon, StethoscopeIcon, BooksIcon, SettingsIcon } from "@/components/ui/icons";
 
 /* -------------------- Main Page -------------------- */
 export default function HomePage() {
+  const navigate = useNavigate();
   const { t } = useTranslation(['clinic', 'common']);
+  const { isAuthenticated, loading } = useAuth();
 
   const baseModules = [
     {
       id: "patient-browse",
       title: t('clinic:home.modules.consultation.title'),
       description: t('clinic:home.modules.consultation.description'),
-      icon: UserIcon,
+      icon: <UserIcon className="w-12 h-12 text-blue-500" />,
       route: "/patients",
       color: "from-blue-400 via-blue-500 to-blue-600",
       disabled: false
@@ -23,7 +26,7 @@ export default function HomePage() {
       id: "consultation",
       title: t('clinic:home.modules.genetic.title'),
       description: t('clinic:home.modules.genetic.description'),
-      icon: StethoscopeIcon,
+      icon: <StethoscopeIcon className="w-12 h-12 text-blue-500" />,
       route: "/genetic",
       color: "from-blue-500 via-blue-600 to-blue-700",
       disabled: true
@@ -32,7 +35,7 @@ export default function HomePage() {
       id: "function-libraries",
       title: t('clinic:home.modules.functionLibrary.title'),
       description: t('clinic:home.modules.functionLibrary.description'),
-      icon: BooksIcon,
+      icon: <BooksIcon className="w-12 h-12 text-blue-500" />,
       route: "/function-libraries",
       color: "from-blue-400 to-blue-600",
       disabled: true
@@ -40,9 +43,24 @@ export default function HomePage() {
   ];
 
 
-  const handleFeatureClick = (requiresAuth) => {
+  const handleFeatureClick = useCallback(
+    (module) => {
+      if (module.externalUrl) {
+        window.open(module.externalUrl, "_blank", "noopener,noreferrer");
+        return;
+      }
 
-  };
+      if (!module.requiresAuth || isAuthenticated) {
+        navigate(module.route);
+        return;
+      }
+
+      if (!loading) {
+        window.location.replace("/clinic-login"); 
+      }
+    },
+    [isAuthenticated, loading, navigate]
+  );
 
   const handleOnSignInBtnClick = () => window.location.replace("/clinic-login");
 
@@ -67,24 +85,20 @@ export default function HomePage() {
       <section className="max-w-4xl mx-auto px-4 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           
-          { baseModules.map(e => <FeatureCard
+          { baseModules.map((e, index) => <FeatureCard
+            key={`clinic-card-`+index}
             disabled={e.disabled}
-            icon={<MessageSquare className="w-8 h-8 text-blue-500" />}
+            icon={e.icon}
             title={e.title}
             description={e.description}
-            onClick={() => handleFeatureClick(true)}
+            onClick={()=>handleFeatureClick(e)}
           />) }
 
         </div>
       </section>
 
       {/* ---------------- Status ---------------- */}
-      <div className="flex justify-center pb-16">
-        <div className="flex items-center gap-2 bg-white px-6 py-2 rounded-full shadow">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-gray-600 text-sm">System Status: Online</span>
-        </div>
-      </div>
+      <SystemStatus />
     </div>
   );
 }

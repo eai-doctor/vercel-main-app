@@ -1,5 +1,7 @@
 import {
-    HomePage
+    HomePage,
+    PatientSelector,
+    Consultation
 } from '@/pages/clinician'
 
 export const clinicianRoutes = [
@@ -7,14 +9,14 @@ export const clinicianRoutes = [
     path: "/clinics",
     element: <HomePage />,
   },
-  // {
-  //   path: "/patients",
-  //   element: <PatientSelector />,
-  // },
-  // {
-  //   path: "/consultation",
-  //   element: <ConsultationPage />,
-  // },
+  {
+    path: "/patients",
+    element: <PatientSelector />,
+  },
+  {
+    path: "/consultation",
+    element: <Consultation />,
+  },
   // {
   //   path: "/consultation-direct",
   //   element: <InitialConsultationUI />,

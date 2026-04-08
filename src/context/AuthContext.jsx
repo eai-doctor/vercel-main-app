@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import config from "@/config";
-import { authLogin, authMe, authLogout } from "@/api/authApi";
+import { authLogin, authMe, authLogout, authRefresh } from "@/api/authApi";
+import { setStoredToken } from "@/api/axiosBase";
 
 const AUTH_API = {
   LOGIN: `${config.authServiceUrl}/api/auth/login`,
@@ -31,32 +32,44 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState(null);
 
   const isAuthenticated = !!user;
 
-  // On mount, verify existing using cookie
   useEffect(() => {
-    let isMounted = true; // 메모리 누수 및 중복 실행 방지
+    let isMounted = true;
 
-    const checkSession = async () => {
+    const initializeAuth = async () => {
       try {
-        const res = await authMe(); // withCredentials는 axiosBase에서 처리하는 것이 좋음
-        if (isMounted && res.data?.user) { 
-          setUser(res.data.user);
+        const refreshRes = await authRefresh({ withCredentials: true });
+        const newAccessToken = refreshRes.data.access_token;
+
+        if (isMounted) {
+          setStoredToken(newAccessToken);
+          setAccessToken(newAccessToken); 
+        }
+
+        const userRes = await authMe({
+          headers: { Authorization: `Bearer ${newAccessToken}` }
+        });
+
+        if (isMounted && userRes.data?.user) {
+          setUser(userRes.data.user);
         }
       } catch (err) {
         if (isMounted) {
-          console.warn("Session expired");
+          console.warn("Session recovery failed (No refresh token or expired)");
           setUser(null);
+          setAccessToken(null);
         }
       } finally {
         if (isMounted) setLoading(false);
       }
     };
 
-    checkSession();
+    initializeAuth();
     return () => { isMounted = false; };
-  }, []); // 의존성이 []이므로 딱 한 번만 실행되어야 함
+  }, []);
 
   // saebyeok - cookie reflected
   const login = useCallback(async (email, password) => {
@@ -64,15 +77,16 @@ export function AuthProvider({ children }) {
       const res = await authLogin({
         email,
         password,
-      }, {
-        withCredentials: true
       });
-      console.log(res);
-      
-      const { user: userData } = res.data;
+       
+      const data = res.data;
+      const userData = data.user;
+      const tokenData = data.access_token;
 
       setUser(userData);
-      
+      setAccessToken(tokenData);
+      setStoredToken(tokenData);
+
       return userData;
     } catch (err) {
       if (err.response?.status === 403 && err.response?.data?.requires_verification) {

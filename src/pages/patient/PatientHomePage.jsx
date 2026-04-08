@@ -36,9 +36,6 @@ function PatientHomePage() {
     [isAuthenticated, loading, navigate]
   );
 
-  const handleOnSignInBtnClick = () => openLogin();
-
-  
   const modules = [
     {
       id: "personal-medical",
@@ -68,7 +65,7 @@ function PatientHomePage() {
       route: "/medical-profile",
       requiresAuth: !user && true,
       disabled:false,
-      onRequireAuth:handleOnSignInBtnClick
+      onRequireAuth:() => openLogin({ route : "/medical-profile" })
     },
     {
       id: "self-triage",
@@ -78,7 +75,7 @@ function PatientHomePage() {
       route: "/triage-engine",
       requiresAuth: !user && true,
       disabled:false,
-      onRequireAuth:handleOnSignInBtnClick
+      onRequireAuth:() => openLogin({ route : "/triage-engine" })
     },
   ];
 

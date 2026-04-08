@@ -4,9 +4,11 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import ProfileDropdown from "./ProfileDropdown";
 import logoImage from "/images/logo.png";
 
-export default function NavBar() {
+export default function NavBar({handleOnClickBack}) {
   const navigate = useNavigate();
   const { t } = useTranslation(["common"]);
+
+  if(!handleOnClickBack) handleOnClickBack = () => navigate(-1);
 
   return (
     <nav className="flex items-center justify-between px-8 py-4 bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100">
@@ -23,7 +25,7 @@ export default function NavBar() {
       {/* Right */}
       <div className="flex items-center gap-4">
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleOnClickBack}
           className="cursor-pointer text-slate-500 hover:text-slate-800 text-sm font-medium"
         >
           &larr; {t("common:back")}

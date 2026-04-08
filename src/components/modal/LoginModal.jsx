@@ -81,10 +81,10 @@ export default function LoginModal({
 
   // 🔥 성공 처리 통합
   const handleSuccess = (res) => {
-    if (onSuccess) {
-      onSuccess(res);
-    } else if (pendingRoute) {
+    if (pendingRoute) {
       navigate(pendingRoute);
+    }else if (onSuccess) {
+      onSuccess(res);
     }
 
     onClose?.();
