@@ -134,6 +134,24 @@ export function parseDisplayData(tab, rec) {
           undefined,
       };
 
+    case "AllergyIntolerance":
+  return {
+    primary:
+      res.code?.text || res.display || "Unknown Allergy",
+
+    secondary: `Criticality: ${
+      res.criticality || "unknown"
+    } · Substance: ${
+      res.reaction?.[0]?.substance?.text ||
+      res.substance ||
+      "unknown"
+    }`,
+
+    date: res.recordedDate || res.date,
+
+    notes: res.note?.[0]?.text,
+  };
+
     default:
       return {
         primary: "Record",
