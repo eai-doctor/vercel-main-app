@@ -114,7 +114,7 @@ export default function Header({
             //     "success": true
             // }
 
-            if (result.statusText === "OK") {
+            if (result.status === 200) {
                 const data = result.data;
                 setAiSummary(data.email_body);
                 setClinicalReport(data.clinical_report);
