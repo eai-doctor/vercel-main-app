@@ -76,6 +76,9 @@ export const uploadReport = (formData) =>
     headers: { 'Content-Type': undefined }  
   });
 
+export const getSoap = (payload) =>
+  api.post(`/api/soap`, { patient_data: payload });
+
 const consultationApi = {
   generateConsultationSummary,
   generatePrescription,
@@ -85,7 +88,8 @@ const consultationApi = {
   updatePreferences,
   getInferFHIR,
   extractLabPdf,
-  uploadReport
+  uploadReport,
+  getSoap
 };
 
 export default consultationApi;

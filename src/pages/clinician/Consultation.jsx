@@ -10,6 +10,7 @@ import { blockCopy } from "@/utils/privacy";
 import { useConsultation, useLanguage } from "@/hooks";
 
 import { generateConsultationSummary } from "@/api/consultationApi";
+import consultationApi from "@/api/consultationApi";
 
 export default function ConsultationContainer() {
   const location = useLocation();
@@ -86,6 +87,50 @@ export default function ConsultationContainer() {
     else stopConsultation();
     return () => stopConsultation();
   }, [consulting]);
+
+  const previousPatientIdRef = useRef(null);
+  // Fetch initial SOAP note when patient changes
+
+  
+
+  
+    const fetchSoapNote = async (payload) => {
+    try {
+      setIsLoadingSoap(true);
+      const response = await consultationApi.getSoap(payload);
+      setSoapNote({
+        subjective: response.data?.subjective || "",
+        objective: response.data?.objective || "",
+        assessment: response.data?.assessment || "",
+        plan: response.data?.plan || ""
+      });
+      // console.log("SOAP note generated successfully");
+    } catch (error) {
+      console.error("Error fetching SOAP note:", error);
+      setSoapNote({
+        subjective: "",
+        objective: "",
+        assessment: "",
+        plan: ""
+      });
+    } finally {
+      setIsLoadingSoap(false);
+    }
+  };
+
+  useEffect(() => {
+    if (patientData) {
+      const currentPatientId = patientData.patient_identification?.mrn ||
+                               patientData.patient_identification?.patient_id;
+
+      // Only fetch if this is a new patient
+      if (currentPatientId && currentPatientId !== previousPatientIdRef.current) {
+        fetchSoapNote(patientData);
+        previousPatientIdRef.current = currentPatientId;
+      }
+    }
+  }, [patientData]);
+
 
   return (
   <div className="min-h-screen bg-white" onCopy={blockCopy}>
