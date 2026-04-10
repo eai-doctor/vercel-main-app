@@ -3,10 +3,12 @@ import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ProfileDropdown from "./ProfileDropdown";
 import logoImage from "/images/logo.png";
+import { useAuth } from "@/context/AuthContext";
 
 export default function NavBar({handleOnClickBack}) {
   const navigate = useNavigate();
   const { t } = useTranslation(["common"]);
+  const { user } = useAuth();
 
   if(!handleOnClickBack) handleOnClickBack = () => navigate(-1);
 
@@ -18,7 +20,7 @@ export default function NavBar({handleOnClickBack}) {
           src={logoImage}
           alt="logo"
           className="w-12 h-12 object-contain cursor-pointer"
-          onClick={()=>window.location.href="/"}
+          onClick={()=>user?.role === "clinician" ? window.location.href="/clinics" : window.location.href="/"}
         />
       </div>
 

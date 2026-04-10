@@ -9,8 +9,8 @@
       "destination": "https://main-service-git-223812018767.northamerica-northeast1.run.app/:path*"
     },
     {
-      "source": "/api/email/:path*",
-      "destination": "https://email-xxx.run.app/:path*"
+      "source": "/api/dpd/:path*",
+      "destination": "https://drugbank-service-338917524320.northamerica-northeast1.run.app/:path*"
     },
     {
       "source": "/(.*)",

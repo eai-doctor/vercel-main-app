@@ -60,7 +60,7 @@ export const updatePreferences = (patientId, language, reportComponents, practic
 
 // --- Advanced Analysis (FHIR & PDF) ---
 export const getInferFHIR = (patientData) =>
-  api.post("/api/mixehr/infer-fhir", {
+  api.post("/api/infer-fhir", {
     patient_data: patientData,
     iterations: 10,
     top_k: 5

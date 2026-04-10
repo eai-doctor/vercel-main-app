@@ -36,9 +36,9 @@ export default function HomePage() {
       title: t('clinic:home.modules.functionLibrary.title'),
       description: t('clinic:home.modules.functionLibrary.description'),
       icon: <BooksIcon className="w-12 h-12 text-blue-500" />,
-      route: "/function-libraries",
+      route: "/functions",
       color: "from-blue-400 to-blue-600",
-      disabled: true
+      disabled: false
     },
   ];
 

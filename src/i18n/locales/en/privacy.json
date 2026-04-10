@@ -64,6 +64,58 @@
     "nameLabel": "Name",
     "emailLabel": "Email",
     "name": "Zhenlong Liu",
-    "email": "ebovirit@gmail.com"
+    "email": "support@e-ai.ca"
+  },
+
+  "documents": {
+  "title": "Security-related Documents",
+  "subtitle": "Click the documents below to download.",
+  "downloadBtn": "Download",
+  "pia": {
+    "title": "Privacy Impact Assessment (PIA)",
+    "desc": "Privacy Impact Assessment — PIA.pdf"
+  },
+  "breach": {
+    "title": "Privacy Incident & Breach Response Policy",
+    "desc": "Privacy Incident & Breach Response Policy"
+  },
+  "policy": {
+    "title": "Privacy Policy",
+    "desc": "Privacy Policy — PRIVACY_POLICY.pdf"
+  },
+  "documents": {
+  "title": "Documents liés à la sécurité",
+  "subtitle": "Cliquez sur les documents ci-dessous pour les télécharger.",
+  "downloadBtn": "Télécharger",
+  "pia": {
+    "title": "Évaluation des facteurs relatifs à la vie privée (PIA)",
+    "desc": "Évaluation des facteurs relatifs à la vie privée — PIA.pdf"
+  },
+  "breach": {
+    "title": "Politique de gestion des incidents et des violations de données",
+    "desc": "Politique de gestion des incidents et des violations de données"
+  },
+  "policy": {
+    "title": "Politique de confidentialité",
+    "desc": "Politique de confidentialité — PRIVACY_POLICY.pdf"
+  },
+  "documents": {
+  "title": "安全相关文件",
+  "subtitle": "点击下方文档进行下载。",
+  "downloadBtn": "下载",
+  "pia": {
+    "title": "隐私影响评估（PIA）",
+    "desc": "隐私影响评估 — PIA.pdf"
+  },
+  "breach": {
+    "title": "隐私事件与数据泄露应对政策",
+    "desc": "隐私事件与数据泄露应对政策"
+  },
+  "policy": {
+    "title": "隐私政策",
+    "desc": "隐私政策 — PRIVACY_POLICY.pdf"
   }
+}
+}
+}
 }

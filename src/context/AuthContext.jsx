@@ -35,6 +35,7 @@ export function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = useState(null);
 
   const isAuthenticated = !!user;
+  const isPatient = isAuthenticated && user.role == "patient";
 
   useEffect(() => {
     let isMounted = true;
@@ -133,7 +134,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, isAuthenticated, loading, login, logout }}
+      value={{ user, setUser, isAuthenticated, isPatient, loading, login, logout }}
     >
       {children}
     </AuthContext.Provider>

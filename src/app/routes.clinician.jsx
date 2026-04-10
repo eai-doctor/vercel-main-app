@@ -1,7 +1,8 @@
 import {
     HomePage,
     PatientSelector,
-    Consultation
+    Consultation,
+    FunctionSelector
 } from '@/pages/clinician'
 
 export const clinicianRoutes = [
@@ -21,10 +22,10 @@ export const clinicianRoutes = [
   //   path: "/consultation-direct",
   //   element: <InitialConsultationUI />,
   // },
-  // {
-  //   path: "/function-libraries",
-  //   element: <FunctionLibraries />,
-  // },
+  {
+    path: "/functions",
+    element: <FunctionSelector />,
+  },
   // {
   //   path: "/prescriptions",
   //   element: <PrescriptionList />,

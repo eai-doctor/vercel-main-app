@@ -8,6 +8,7 @@ import FeatureCard from "./FeatureCard";
 import Header from "./Header";
 import NavBar from "./NavBar";
 import SystemStatus from "./SystemStatus";
+import ExternalApiNotice from './ExternalApiNotice';
 
 export {
     // Header,
@@ -19,5 +20,6 @@ export {
     FeatureCard,
     Header,
     NavBar,
-    SystemStatus
+    SystemStatus,
+    ExternalApiNotice
 };

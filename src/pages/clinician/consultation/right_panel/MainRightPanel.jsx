@@ -248,7 +248,7 @@ export default function MainRightPanel({
           </p>
           <button
             onClick={() => setShowMcGillModal(true)}
-            className="disabled text-gray-500 w-full bg-[#233070] hover:bg-[#233070] font-semibold py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2"
+            className="cursor-pointer text-white w-full bg-[#233070] hover:bg-[#2f3f91] font-semibold py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2"
           >
             <ChartIcon className="w-5 h-5" />
             <span>{t('clinic:consultation.predictionFromStatistics', 'Prediction from Statistics')}</span>

@@ -13,7 +13,7 @@ import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
 function PatientHomePage() {
   const navigate = useNavigate();
   const { t } = useTranslation(["patient", "common", "auth"]);
-  const { isAuthenticated, user, loading } = useAuth();
+  const { isPatient, user, loading } = useAuth();
   const { openLogin } = useAuthModal();
 
   const handleFeatureClick = useCallback(
@@ -23,7 +23,7 @@ function PatientHomePage() {
         return;
       }
 
-      if (!module.requiresAuth || isAuthenticated) {
+      if (!module.requiresAuth || isPatient) {
         navigate(module.route);
         return;
       }
@@ -33,7 +33,7 @@ function PatientHomePage() {
         window.location.replace("/clinic-login"); 
       }
     },
-    [isAuthenticated, loading, navigate]
+    [isPatient, loading, navigate]
   );
 
   const modules = [
@@ -63,7 +63,7 @@ function PatientHomePage() {
       description: t("patient:home.modules.medicalProfile.description"),
       icon: <ClipboardListIcon className="w-8 h-8 text-blue-500" />,
       route: "/medical-profile",
-      requiresAuth: !user && true,
+      requiresAuth: !isPatient && true,
       disabled:false,
       onRequireAuth:() => openLogin({ route : "/medical-profile" })
     },
@@ -73,7 +73,7 @@ function PatientHomePage() {
       description: t("patient:home.modules.selfTriage.description"),
       icon: <AlertIcon className="w-8 h-8 text-blue-500" />,
       route: "/triage-engine",
-      requiresAuth: !user && true,
+      requiresAuth: !isPatient && true,
       disabled:false,
       onRequireAuth:() => openLogin({ route : "/triage-engine" })
     },
@@ -107,6 +107,7 @@ function PatientHomePage() {
               onClick={() => handleFeatureClick(module)}
               disabled={module.disabled}
               requiresAuth={module.requiresAuth}
+              isPatient={isPatient}
               onRequireAuth={module.onRequireAuth}
             />
           ))}

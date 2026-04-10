@@ -17,9 +17,10 @@ const config = {
 
   // Microservices
   transcriptionServiceUrl: getBase("/api/transcription", "http://localhost:5004"),
-  emailServiceUrl: getBase("/api/email", "http://localhost:5002"),
   smsServiceUrl: getBase("/api/sms", "http://localhost:5003"),
   chatboxServiceUrl: getBase("/api/chatbox", "http://localhost:5005"),
+  swintinyServiceUrl: getBase("/api/chatbox", "http://localhost:5020"),
+  dpdServiceUrl: getBase("/api/dpd", "http://localhost:8010"),
 
   // External services (그대로 유지)
   merckServiceUrl:
@@ -30,7 +31,6 @@ const config = {
     import.meta.env.VITE_OPENEMR_URL ||
     "https://jiming-chen-openemr-space.hf.space",
 
-  dpdServiceUrl: getBase("/api/dpd", "http://localhost:8010"),
 
   // Feature flags
   enableTranscription: import.meta.env.VITE_ENABLE_TRANSCRIPTION !== "false",

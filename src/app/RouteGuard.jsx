@@ -51,7 +51,7 @@ function PublicOnlyGuard({ children }) {
 
   if (loading) return null;
 
-  // 로그인 안 된 경우
+  // If the user has no credential
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }

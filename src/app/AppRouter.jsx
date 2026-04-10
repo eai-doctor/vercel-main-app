@@ -5,6 +5,7 @@ import { RouteGuard } from "./RouteGuard"
 import { clinicianRoutes } from "./routes.clinician";
 import { publicRoutes } from "./routes.public";
 import { patientRoutes } from "@/app/routes.patient";
+import { functionRoutes } from "./routes.clinician.functions";
 
 
 export default function AppRouter() {
@@ -16,6 +17,18 @@ export default function AppRouter() {
         ))}
 
         {clinicianRoutes.map(r => (
+          <Route
+            key={r.path}
+            path={r.path}
+            element={
+              <RouteGuard roles={["clinician", "admin"]} requireConsent>
+                {r.element}
+              </RouteGuard>
+            }
+          />
+        ))}
+
+        {functionRoutes.map(r => (
           <Route
             key={r.path}
             path={r.path}

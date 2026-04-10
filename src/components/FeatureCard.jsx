@@ -1,9 +1,9 @@
-export default function FeatureCard({ icon, title, description, onClick, disabled, requiresAuth, isAuthenticated, onRequireAuth, }) {
+export default function FeatureCard({ icon, title, description, onClick, disabled, requiresAuth, isPatient, onRequireAuth, }) {
 
   const handleClick = () => {
     if (disabled) return;
 
-    if (requiresAuth && !isAuthenticated) {
+    if (requiresAuth && !isPatient) {
       onRequireAuth?.(); 
       return;
     }
@@ -49,7 +49,7 @@ export default function FeatureCard({ icon, title, description, onClick, disable
       )}
 
       {/* Auth Required Label */}
-      {requiresAuth && !disabled && (
+      {requiresAuth && !disabled &&!isPatient && (
         <p className="text-xs text-center text-blue-500 mt-4">
           Login required
         </p>

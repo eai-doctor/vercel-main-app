@@ -16,7 +16,7 @@ function Header() {
   }
 
   const handleOnSignInBtnClick = () => openLogin();
-  const onClickHeaderLogo = () => window.location.href="/"
+  const onClickHeaderLogo = () => user?.role === "clinician" ? window.location.href="/clinics" : window.location.href="/"
 
   return (
     <header className="bg-white border-b border-gray-200">

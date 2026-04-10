@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 import MainLeftPanel from "./consultation/left_panel/MainLeftPanel";
 import MainRightPanel from "./consultation/right_panel/MainRightPanel";
+import McgillPredictionModal from "./consultation/modal/McgillPredictionModal";
+
 import { blockCopy } from "@/utils/privacy";
 import { useConsultation, useLanguage } from "@/hooks";
 
@@ -125,6 +127,12 @@ export default function ConsultationContainer() {
             setShowMcGillModal={setShowMcGillModal}
           />
         </div>
+
+        {showMcGillModal && 
+            <McgillPredictionModal 
+                setShowMcGillModal={setShowMcGillModal}
+                patientData={patientData}
+            />}
     </div>
   </div>);
 
