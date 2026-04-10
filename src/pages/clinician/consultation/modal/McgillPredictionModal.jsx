@@ -42,14 +42,7 @@ export default function McgillPredictionModal ({
           setMcGillError(null);
           setMcGillPrediction(null);
     
-          // Use the new FHIR-aware endpoint that handles SNOMED→ICD and RxNorm→ATC mapping
-          console.log("Sending patient data to MixEHR FHIR inference:", {
-            diagnoses: patientData.diagnoses?.length || 0,
-            medications: patientData.medications?.length || 0
-          });
-    
           const data = await consultationApi.getInferFHIR(patientData);
-
     
           // console.log("MixEHR prediction result:", response.data);
           setMcGillPrediction(data);

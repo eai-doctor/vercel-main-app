@@ -94,7 +94,7 @@ export default function Header({
         try {
             setIsGeneratingSummary(true);
 
-            const data = await generateConsultationSummary(
+            const result = await generateConsultationSummary(
                 patientData.patient_identification,
                 {
                 conversation_summary: conversationSummary,
@@ -104,7 +104,7 @@ export default function Header({
                 new_medications: patientData.medications || []
                 }
             );
-
+            
             // const data = {
             //     "clinical_report": "**Patient:** Abdul218 Gusikowski974\n\n**Chief Complaint:** Not specified\n\n**Summary of Consultation:** Not specified\n\n**Diagnoses:**\n*   **Active:**\n    *   Seizure disorder (diagnosed 1980-05-16)\n    *   History of single seizure (situation) (diagnosed 1980-05-16)\n    *   Allergy: Allergy to Penicillin (disorder)\n*   **Resolved:**\n    *   Streptococcal sore throat (disorder) (diagnosed 1977-06-15)\n    *   Viral sinusitis (disorder) (diagnosed 1979-10-11)\n    *   Acute viral pharyngitis (disorder) (diagnosed 1983-08-26)\n\n**Medications:**\n*   **New:** Not specified\n*   **Existing:** Not specified\n\n**Relevant History:**\n*   Patient has a history of active Seizure disorder and a documented Penicillin allergy.\n*   Past medical history includes resolved episodes of Streptococcal sore throat, Viral sinusitis, and Acute viral pharyngitis.",
             //     "email_body": "Dear Abdul218 Gusikowski974,\n\nThank you for your recent visit. We appreciate you taking the time to discuss your health concerns with us.\n\nIt's important to continue monitoring your overall well-being and to follow any general health recommendations we may have discussed. If you have any new symptoms or questions, please do not hesitate to contact our office.\n\nWe are here to support you on your health journey.\n\nSincerely,\nYour Healthcare Team",
@@ -112,7 +112,8 @@ export default function Header({
             //     "success": true
             // }
 
-            if (data.success) {
+            if (result.statusText === "OK") {
+                const data = result.data;
                 setAiSummary(data.email_body);
                 setClinicalReport(data.clinical_report);
                 // console.log("AI summary generated successfully");
@@ -183,28 +184,32 @@ export default function Header({
           <div className="flex flex-wrap items-center gap-y-4">
 
           {/* Left: Avatar + Identity */}
-          <div className="flex items-center gap-4 flex-[1_1_260px] min-w-0">
+          <div className="flex items-center gap-5 flex-[1_1_260px] min-w-0">
             {/* Avatar with status dot */}
             <div className="relative shrink-0">
-              <div className="w-[66px] h-[66px] bg-[#e6ecff] rounded-full border-2 border-[#c7d2f8] flex items-center justify-center text-3xl font-bold text-[#2C3B8D] shadow-sm">
+              <div className="w-[72px] h-[72px] bg-[#e6ecff] rounded-full border-2 border-[#c7d2f8]
+                flex items-center justify-center text-[32px] font-bold text-[#2C3B8D] shadow-sm">
                 {info?.fullName?.charAt(0) || "P"}
               </div>
-              <span className="absolute bottom-0.5 right-0.5 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white" />
+              <span className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white" />
             </div>
 
             {/* Name + chips */}
-            <div className="space-y-2 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight truncate max-w-[280px]">
+            <div className="space-y-2.5 min-w-0">
+
+              {/* Name + gender badge */}
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <h1 className="text-[26px] lg:text-[30px] font-extrabold text-white tracking-tight leading-none truncate max-w-[320px]">
                   {info?.fullName}
                 </h1>
-                <span className="shrink-0 px-2.5 py-0.5 bg-[#eef2ff] text-[#2C3B8D] rounded-full text-[9px] font-bold uppercase tracking-widest border border-[#c7d2f8]">
+                <span className="shrink-0 px-3 py-1 bg-[#eef2ff] text-[#2C3B8D] rounded-full
+                  text-[11px] font-bold uppercase tracking-widest border border-[#c7d2f8]">
                   {info?.gender || 'N/A'}
                 </span>
               </div>
 
-              {/* Info chips */}
-              <div className="flex items-center gap-1.5 flex-wrap">
+              {/* Info chips — larger text */}
+              <div className="flex items-center gap-2 flex-wrap">
                 {[
                   { label: 'MRN', value: info?.mrn || '---', mono: true },
                   { label: 'DOB', value: info?.date_of_birth || '---' },
@@ -215,18 +220,25 @@ export default function Header({
                       : '---',
                   },
                 ].map(({ label, value, mono }) => (
-                  <div key={label} className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-[9px] px-2.5 py-1">
-                    <span className="text-[9px] font-bold uppercase tracking-[1.1px] text-slate-400">{label}</span>
-                    <span className={`text-[11px] font-semibold text-slate-800 ${mono ? 'font-mono' : ''}`}>{value}</span>
+                  <div key={label}
+                    className="flex items-center gap-2 bg-white/15 border border-white/25
+                      rounded-[10px] px-3 py-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-[1.2px] text-white/60">
+                      {label}
+                    </span>
+                    <span className={`text-[14px] font-bold text-white ${mono ? 'font-mono' : ''}`}>
+                      {value}
+                    </span>
                   </div>
                 ))}
               </div>
 
               {/* Model tag */}
               {modelInfo && (
-                <div className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-md px-2 py-0.5 mt-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0" />
-                  <span className="text-[10px] text-slate-400">{modelInfo}</span>
+                <div className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20
+                  rounded-md px-2.5 py-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-300 shrink-0" />
+                  <span className="text-[11px] text-white/50">{modelInfo}</span>
                 </div>
               )}
             </div>

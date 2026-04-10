@@ -193,7 +193,7 @@ function PubMed() {
                 />
               </div>
               <p className="text-[11px] text-slate-400">
-                쉼표로 키워드를 구분하세요. 환자 개인정보는 입력하지 마십시오.
+                Separate keywords with commas. Do not enter patient personal information.
               </p>
             </div>
           </div>

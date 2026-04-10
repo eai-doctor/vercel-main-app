@@ -67,7 +67,7 @@ export default function SendSummaryModal ({
         formData.append('email_body',aiSummary);
         formData.append('patient_id',patientInfo.patient_id);
         formData.append('patient_name',patientInfo.full_name);
-        formData.append('patient_email',"cuu2252@gmail.com");
+        formData.append('patient_email',patientInfo.email);
         // formData.append('patient_email',patientInfo.email);
 
         const res = await uploadReport(formData);
@@ -84,7 +84,10 @@ export default function SendSummaryModal ({
           const { signedUrl } = await uploadAndGetSignedUrl(pdfBlob);
           // const data = await endConsultation(patientEmail, aiSummary, patient_identification, signedUrl);
 
-          setEmailResult(data);
+          setEmailResult({
+            success: success,
+            message: "Email sent successfully"
+          });
           // console.log("Email sent successfully:", response.data);
 
       } catch (error) {

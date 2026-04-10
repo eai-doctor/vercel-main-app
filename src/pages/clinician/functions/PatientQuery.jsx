@@ -87,9 +87,12 @@ function PatientDetailsCard({ details }) {
   const top = entries.filter(([k]) => topFields.includes(k));
   const rest = entries.filter(([k]) => !topFields.includes(k));
 
-  const fullName = details.full_name || details.name ||
-    [details.first_name, details.last_name].filter(Boolean).join(' ') || '—';
+  const info = details.patient_identification;
+  const fullName = info?.full_name || info?.name ||
+    [info?.first_name, info?.last_name].filter(Boolean).join(' ') || '—';
   const initial = fullName.charAt(0).toUpperCase();
+
+  console.log(details.patient_identification)
 
   return (
     <div className="p-5 space-y-5">

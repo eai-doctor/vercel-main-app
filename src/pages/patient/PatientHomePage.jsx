@@ -51,11 +51,9 @@ function PatientHomePage() {
       title: t("patient:home.modules.geneticConsultation.title"),
       description: t("patient:home.modules.geneticConsultation.description"),
       icon: <DnaIcon className="w-8 h-8 text-blue-500" />,
-      route: "/genetic",
       externalUrl:
-        "https://ai-doctor-genetic-frontend-647783808407.northamerica-northeast1.run.app",
+        "https://vercel-genetic-frontend.vercel.app/dashboard",
       requiresAuth: false,
-      disabled:true,
     },
     {
       id: "medical-profile",

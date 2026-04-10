@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Header, ExternalApiNotice } from "@/components";
+import { Header, ExternalApiNotice, NavBar } from "@/components";
 import { PillIcon, AlertIcon } from "@/components/ui/icons";
 import functionApi from "@/api/functionApi";
 
@@ -99,12 +99,7 @@ function HealthCanadaDrugBank() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header
-        title={t('functions:drugBank.title')}
-        subtitle={t('functions:drugBank.subtitle')}
-        showBackButton={true}
-        backRoute="/function-libraries"
-      />
+      <NavBar />
 
       <main className="max-w-6xl mx-auto px-6 py-8">
 

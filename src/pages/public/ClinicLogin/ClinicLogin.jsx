@@ -22,6 +22,7 @@ function ClinicLogin() {
 
     try {
       await login(formData.email, formData.password);
+      window.location.replace("/clinics");
     } catch (err) {
       const msg = t('common:errors.invalidCredentials');
       setError(msg);
