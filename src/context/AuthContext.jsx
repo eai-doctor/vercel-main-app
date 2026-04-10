@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import config from "@/config";
-import { authLogin, authMe, authLogout, authRefresh } from "@/api/authApi";
+import { authLogin, authMe, authLogout, authRefresh, authRegister,authVerifyEmail, authResendVerification } from "@/api/authApi";
 import { setStoredToken } from "@/api/axiosBase";
 
 const AUTH_API = {
@@ -117,6 +117,68 @@ export function AuthProvider({ children }) {
     );
   }, [user]);
 
+  const register = useCallback(async (email, password, name, role) => {
+      console.log("start register")
+     try {
+      const res = await authRegister({
+        email,
+        password,
+        name,
+        role,
+      });
+
+      if (res.data.requires_verification) {
+        return { requiresVerification: true, email: res.data.email };
+      }
+
+      const data = res.data;
+      const userData = data.user;
+      const tokenData = data.access_token;
+
+      setUser(userData);
+      setAccessToken(tokenData);
+      setStoredToken(tokenData);
+
+      return userData;
+
+    } catch (err) {
+      console.log("err", err)
+
+      const message =
+        err.response?.data?.error ||  
+        err.response?.data?.message || 
+        "Registration failed";
+
+      const enrichedError = new Error(message);
+      enrichedError.status = err.response?.status;
+
+      throw enrichedError;
+    }
+  }, []);
+
+  const verifyEmail = useCallback(async (email, code) => {
+    const res = await authVerifyEmail({
+      email,
+      code,
+    });
+    const data = res.data;
+      const userData = data.user;
+      const tokenData = data.access_token;
+
+      setUser(userData);
+      setAccessToken(tokenData);
+      setStoredToken(tokenData);
+
+    return userData;
+  }, []);
+
+  const resendVerification = useCallback(async (email) => {
+    const res = await authResendVerification({
+      email,
+    });
+    return res.data;
+  }, []);
+
   // Set up axios response interceptor for 401s
   useEffect(() => {
     const interceptor = axios.interceptors.response.use(
@@ -134,7 +196,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, isAuthenticated, isPatient, loading, login, logout }}
+      value={{ user, setUser, isAuthenticated, isPatient, loading, login, logout, register, verifyEmail, resendVerification }}
     >
       {children}
     </AuthContext.Provider>

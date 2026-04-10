@@ -11,7 +11,7 @@ export {
     PatientSelector,
     Consultation,
     // InitialConsultationUI,
-    FunctionSelector,
+    FunctionSelector
     // PrescriptionList,
     // EHRbasePatientList
 }

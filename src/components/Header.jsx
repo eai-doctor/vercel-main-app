@@ -24,11 +24,12 @@ function Header() {
         
         {/* -------- Left (Logo) -------- */}
         <div className="flex items-center gap-3 cursor-pointer" onClick={onClickHeaderLogo}>
-          <img
+          <img 
             src={logoImage}
             alt="logo"
             className="w-12 h-12 object-contain"
           />
+          <span className="text-[16px] font-bold text-slate-800 tracking-tight">EAI-DOCTOR</span>
           {/* <h1 className="text-lg font-extrabold text-[#2C3B8D]">
             E-AI Doctor
           </h1> */}

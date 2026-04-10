@@ -2,7 +2,7 @@ import {
     HomePage,
     PatientSelector,
     Consultation,
-    FunctionSelector
+    FunctionSelector,
 } from '@/pages/clinician'
 
 export const clinicianRoutes = [
@@ -25,7 +25,7 @@ export const clinicianRoutes = [
   {
     path: "/functions",
     element: <FunctionSelector />,
-  },
+  }
   // {
   //   path: "/prescriptions",
   //   element: <PrescriptionList />,

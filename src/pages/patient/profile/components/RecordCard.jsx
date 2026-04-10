@@ -14,7 +14,7 @@ export default function RecordCard({ data, onEdit, onDelete, t }) {
           {/* <button onClick={onEdit} className="text-[#3b82f6] hover:text-[#2563eb] text-sm font-medium transition-colors">
             {t('common:edit', 'Edit')}
           </button> */}
-          <button onClick={onDelete} className="cursor-pointer text-red-400 hover:text-red-600 text-sm font-medium transition-colors">
+          <button onClick={onDelete} className="cursor-pointer text-red-400 hover:text-red-600 text-sm font-medium transition-colors hidden">
             {t('common:delete', 'Delete')}
           </button>
         </div>

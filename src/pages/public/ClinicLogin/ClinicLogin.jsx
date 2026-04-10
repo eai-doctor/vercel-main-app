@@ -83,7 +83,7 @@ function ClinicLogin() {
 
         <div className="flex items-center justify-between text-sm">
           <p className="text-center text-sm text-gray-600">
-              <a href="/clinic-register" className="text-[#277cc4] hover:text-[#2C3B8D] font-medium transition-colors">
+              <a href="/clinic-join" className="text-[#277cc4] hover:text-[#2C3B8D] font-medium transition-colors">
                 {t('auth:joinAccount')}
               </a>
             </p>

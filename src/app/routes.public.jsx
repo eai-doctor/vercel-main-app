@@ -1,6 +1,7 @@
 import {
     ClinicLoginPage,
-    PrivacyPolicy
+    PrivacyPolicy,
+    ClinicJoin
 } from '@/pages/public';
 
 import { PublicOnlyGuard } from "@/app/RouteGuard";
@@ -15,4 +16,8 @@ export const publicRoutes = [
   // { path: "/consent", element: <ConsentSettings /> },
   // { path: "/account", element: <AccountSettings /> },
   // { path: "/genetic", element: <GeneticConsult /> },
+  {
+    path: "/clinic-join",
+    element: <ClinicJoin />,
+  },
 ];

@@ -100,6 +100,8 @@ export default function LoginModal({
 
     const email = normalizeEmail(form.email);
 
+    console.log("step", step);
+
     try {
       if (step === "register") {
         if (!form.name.trim()) {
