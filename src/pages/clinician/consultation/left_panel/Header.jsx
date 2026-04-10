@@ -15,6 +15,7 @@ import {
 
 import PrescriptionModal from "../modal/PrescriptionModal";
 import SendSummaryModal from "../modal/SendSummaryModal";
+import ChatboxModal from "@/pages/public/ChatboxModal";
 
 import { generatePrescription, generateConsultationSummary } from "@/api/consultationApi";
 
@@ -33,7 +34,7 @@ export default function Header({
     const [showPrescriptionModal, setShowPrescriptionModal] = useState(false);
     const [isSendingEmail, setIsSendingEmail] = useState(false);
     const [isGeneratingPrescription, setIsGeneratingPrescription] = useState(false);
-    // const [showChatbox, setShowChatbox] = useState(false);
+    const [showChatbox, setShowChatbox] = useState(false);
 
     const [showSendSummaryModal, setShowSendSummaryModal] = useState(false);
     const [patientEmail, setPatientEmail] = useState('');
@@ -276,8 +277,8 @@ export default function Header({
             </button>
 
             <button
-              disabled
-              className="flex-1 sm:flex-none px-4 py-2.5 text-slate-300 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border border-slate-200 whitespace-nowrap cursor-not-allowed sm:min-w-[148px]"
+              onClick={()=>setShowChatbox(true)}
+              className="cursor-pointer flex-1 sm:flex-none px-4 py-2.5 text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border border-slate-200 whitespace-nowrap sm:min-w-[148px]"
             >
               <AiIcon className="w-4 h-4 shrink-0" />
               Ask AI
@@ -310,13 +311,15 @@ export default function Header({
       isGeneratingSummary={isGeneratingSummary}
       setShowSendSummaryModal={setShowSendSummaryModal}
     />}
+
+     {/* Chatbox Modal */}
+      <ChatboxModal
+          isOpen={showChatbox}
+          onClose={() => setShowChatbox(false)}
+          patientSummary={snapshot || conversationSummary || ''}
+      />
 </div>
     );
 }
 
-            {/* Chatbox Modal */}
-            {/* <ChatboxModal
-                isOpen={showChatbox}
-                onClose={() => setShowChatbox(false)}
-                patientSummary={snapshot || conversationSummary || ''}
-            /> */}
+           
