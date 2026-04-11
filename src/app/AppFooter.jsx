@@ -23,7 +23,7 @@ export default function AppFooter () {
                 {isClinicRoute ? "Are you a patient?" : "Are you a clinician?"}{" "}
                 
                 <a
-                  href={isClinicRoute ? "/" : "/clinic-login"}
+                  href={isClinicRoute ? "/" : user?.role==="clinician" ? "/clinics" : "/clinic-login"}
                   className="text-[#277cc4] hover:text-[#2C3B8D] font-medium transition-colors"
                 >
                   {isClinicRoute ? "Visit Patient Portal" : "Visit Clinic Portal"}

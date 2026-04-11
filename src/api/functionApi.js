@@ -15,19 +15,6 @@ export const sendFollowup = (selectedMethod, recipients ) =>
         recipients: recipients
   });
 
-export const askAboAi = (userMessage, chatHistory ) =>
-  api.post("/api/chat", {
-          message: userMessage,
-          patient_summary: "",
-          chat_history: chatHistory,
-          mode: 'clinician'
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": config.chatboxApiKey
-          }
-        });
 
 export const getMerk = (searchTerm) => 
   api.get(`/api/merck`, { params: { searchTerm : searchTerm }});
@@ -56,7 +43,6 @@ export const predictSwintiny = (formData) => {
 const functionApi = {
   getMessageTemplates,
   sendFollowup,
-  askAboAi,
   getMerk,
   getPubMed,
   fetchPubMed,

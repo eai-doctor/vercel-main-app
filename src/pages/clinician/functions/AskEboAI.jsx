@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import Header from "@/components/Header";
 import { AiIcon } from "@/components/ui/icons";
-import functionApi from "@/api/functionApi";
+import chatApi from "@/api/chatApi";
 
 const SUGGESTIONS = [
   "What are the EBO criteria for sepsis?",
@@ -21,8 +20,14 @@ function AskEboAI() {
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
 
+  // 1. chatContainerRef 추가
+  const chatContainerRef = useRef(null);
+
+  // 2. useEffect 수정
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
   }, [chatHistory, isLoading]);
 
   const handleSendMessage = async (overrideMessage) => {
@@ -35,7 +40,7 @@ function AskEboAI() {
     setChatHistory(prev => [...prev, { role: "user", content: userMessage }]);
 
     try {
-      const response = await functionApi.askAboAi(userMessage, chatHistory);
+      const response = await chatApi.askAboAi(userMessage, chatHistory);
       if (response.data.success) {
         setChatHistory(prev => [...prev, { role: "assistant", content: response.data.response }]);
       } else {
@@ -69,7 +74,7 @@ function AskEboAI() {
       <main className="flex-1 flex flex-col max-w-3xl w-full mx-auto px-4 py-6">
 
         {/* Chat area */}
-        <div className="flex-1 overflow-y-auto space-y-6 pb-4">
+        <div  ref={chatContainerRef}  className="flex-1 overflow-y-auto space-y-6 pb-4">
 
           {/* Empty state */}
           {isEmpty && (

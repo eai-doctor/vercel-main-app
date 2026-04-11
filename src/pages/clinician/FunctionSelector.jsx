@@ -26,7 +26,6 @@ function FunctionSelector() {
       description: t('functions:cards.eboai.description'),
       icon: <AlertIcon className="w-8 h-8 text-blue-500" />,
       route: "/functions/ask-ebo-ai",
-      disabled : true
     },
     {
       id: "followups",
