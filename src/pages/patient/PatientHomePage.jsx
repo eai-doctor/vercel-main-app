@@ -42,9 +42,9 @@ function PatientHomePage() {
       title: t("patient:home.modules.healthConsultation.title"),
       description: t("patient:home.modules.healthConsultation.description"),
       icon: <ChatIcon className="w-8 h-8 text-blue-500" />,
-      route: "/personal-genetic",
+      route: "/health-consultation",
       requiresAuth: false,
-      disabled:true
+      dsiabled:false
     },
     {
       id: "genetic-consultation",

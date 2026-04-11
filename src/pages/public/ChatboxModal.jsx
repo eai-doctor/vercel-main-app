@@ -16,27 +16,19 @@ export default function ChatboxModal({ isOpen, onClose, patientSummary }) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  useEffect(() => { scrollToBottom(); }, [messages]);
 
-  // Fetch suggestions when modal opens
   useEffect(() => {
-    if (isOpen && patientSummary && messages.length === 0) {
-      fetchSuggestions();
-    }
+    if (isOpen && patientSummary && messages.length === 0) fetchSuggestions();
   }, [isOpen, patientSummary]);
 
   const fetchSuggestions = async () => {
     try {
       const response = await chatApi.getSuggestions(patientSummary || '');
-
       if (response.data.success && response.data.suggestions) {
         setSuggestions(response.data.suggestions);
       }
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-      // Use default suggestions
+    } catch {
       setSuggestions(t('chatbox.defaultSuggestions', { returnObjects: true }));
     }
   };
@@ -45,42 +37,32 @@ export default function ChatboxModal({ isOpen, onClose, patientSummary }) {
     const textToSend = messageText || input;
     if (!textToSend.trim() || isLoading) return;
 
-    const userMessage = { role: 'user', content: textToSend };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages(prev => [...prev, { role: 'user', content: textToSend }]);
     setInput('');
     setIsLoading(true);
     setShowSuggestions(false);
 
     try {
       const response = await chatApi.sendMessage(textToSend, patientSummary || '', messages);
-
       if (response.data.success) {
-        const aiMessage = {
+        setMessages(prev => [...prev, {
           role: 'assistant',
           content: response.data.response,
           formatted: response.data.formatted_response
-        };
-        setMessages(prev => [...prev, aiMessage]);
-      } else {
-        throw new Error(response.data.error || 'Failed to get response');
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      const errorMessage = {
+        }]);
+      } else throw new Error(response.data.error || 'Failed');
+    } catch {
+      setMessages(prev => [...prev, {
         role: 'assistant',
         content: t('chatbox.errorMessage'),
         isError: true
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      }]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setInput(suggestion);
-    sendMessage(suggestion);
-  };
+  const handleSuggestionClick = (s) => { setInput(s); sendMessage(s); };
 
   const handleClearChat = () => {
     setMessages([]);
@@ -92,110 +74,114 @@ export default function ChatboxModal({ isOpen, onClose, patientSummary }) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-[0_25px_50px_rgba(15,23,42,0.15)] w-full max-w-3xl h-[700px] flex flex-col border border-[rgba(15,23,42,0.1)]">
-        {/* Header */}
-        <div className="bg-[linear-gradient(135deg,#60a5fa,#3b82f6,#2563eb)] p-4 rounded-t-xl flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-[rgba(59,130,246,0.08)] backdrop-blur-sm rounded-lg flex items-center justify-center">
-              <AiIcon className="w-6 h-6 text-white" />
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl h-[700px] flex flex-col border border-slate-200 overflow-hidden">
+
+        {/* ── Header ─────────────────────────────────────────── */}
+        <div className="flex items-center justify-between px-5 py-[18px] border-b border-slate-100 bg-[#f5f7ff] shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-[38px] h-[38px] rounded-[10px] bg-[#e6ecff] flex items-center justify-center shrink-0">
+              <AiIcon className="w-[18px] h-[18px] text-[#2C3B8D]" />
             </div>
             <div>
-              <h2 className="text-white font-bold text-xl">{t('chatbox.title')}</h2>
-              <p className="text-blue-100 text-xs">{t('chatbox.subtitle')}</p>
+              <h2 className="text-[17px] font-semibold text-slate-800 leading-tight">
+                {t('chatbox.title', 'AI Clinical Assistant')}
+              </h2>
+              <p className="text-[11px] text-slate-400">
+                {t('chatbox.subtitle', 'Context-aware · Patient-specific')}
+              </p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+
+          <div className="flex items-center gap-2">
             {messages.length > 0 && (
               <button
                 onClick={handleClearChat}
-                className="text-white/80 hover:text-white text-sm px-3 py-1 rounded-lg hover:bg-white/10 transition-colors"
-                title="Clear chat history"
+                className="flex items-center gap-1.5 text-[12px] font-medium text-slate-500
+                  hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors"
               >
-                <XCircleIcon className="w-4 h-4 inline-block mr-1" /> {t('common:buttons.clear')}
+                <XCircleIcon className="w-3.5 h-3.5" />
+                {t('common:buttons.clear', 'Clear')}
               </button>
             )}
             <button
               onClick={onClose}
-              className="text-white hover:text-gray-200 text-2xl w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-lg
+                text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
             >
               <XCircleIcon className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#f0f4f8]">
-          {/* Welcome Message */}
+        {/* ── Messages ───────────────────────────────────────── */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+
+          {/* Welcome */}
           {messages.length === 0 && (
-            <div className="text-center py-8">
-              <div className="mb-4 flex justify-center"><AiIcon className="w-16 h-16 text-[#3b82f6]" /></div>
-              <h3 className="text-xl font-bold text-[#1e293b] mb-2">{t('chatbox.welcome')}</h3>
-              <p className="text-[#475569] mb-4">
-                {t('chatbox.welcomeSubtitle')}
+            <div className="flex flex-col items-center text-center py-8">
+              <div className="w-14 h-14 rounded-2xl bg-[#e6ecff] flex items-center justify-center mb-4">
+                <AiIcon className="w-7 h-7 text-[#2C3B8D]" />
+              </div>
+              <h3 className="text-[17px] font-semibold text-slate-800 mb-1">
+                {t('chatbox.welcome', 'How can I help?')}
+              </h3>
+              <p className="text-[13px] text-slate-500 max-w-sm leading-relaxed">
+                {t('chatbox.welcomeSubtitle', 'Ask anything about this patient\'s case, medications, or differentials.')}
               </p>
+
               {patientSummary && (
-                <div className="bg-[rgba(59,130,246,0.08)] border border-[rgba(59,130,246,0.2)] rounded-lg p-3 text-sm text-left max-w-md mx-auto card-hover">
-                  <p className="font-semibold text-[#1e293b] mb-1">{t('chatbox.patientContextLoaded')}</p>
-                  <p className="text-[#475569] text-xs line-clamp-3">{patientSummary}</p>
+                <div className="mt-4 bg-white border border-[#c7d2f8] rounded-xl px-4 py-3
+                  text-left max-w-sm w-full">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#2C3B8D] mb-1">
+                    {t('chatbox.patientContextLoaded', 'Patient context loaded')}
+                  </p>
+                  <p className="text-[12px] text-slate-500 line-clamp-3">{patientSummary}</p>
                 </div>
               )}
             </div>
           )}
 
-          {/* Messages */}
+          {/* Message bubbles */}
           {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-[85%] p-4 rounded-xl shadow-[0_4px_12px_rgba(15,23,42,0.1)] ${
-                  msg.role === 'user'
-                    ? 'bg-[linear-gradient(135deg,#60a5fa,#3b82f6,#2563eb)] text-white'
-                    : msg.isError
-                    ? 'bg-red-50 text-red-800 border border-red-200'
-                    : 'bg-white text-[#1e293b] border border-[rgba(15,23,42,0.1)]'
+            <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-[14px] leading-relaxed
+                ${msg.role === 'user'
+                  ? 'bg-[#2C3B8D] text-white rounded-br-sm'
+                  : msg.isError
+                  ? 'bg-red-50 text-red-700 border border-red-200 rounded-bl-sm'
+                  : 'bg-white text-slate-800 border border-slate-200 shadow-sm rounded-bl-sm'
                 }`}
               >
-                {msg.role === 'user' && (
-                  <div className="flex items-center space-x-2 mb-1 opacity-80">
-                    <span className="text-xs font-semibold">{t('chatbox.you')}</span>
-                  </div>
-                )}
                 {msg.role === 'assistant' && !msg.isError && (
-                  <div className="flex items-center space-x-2 mb-2">
-                    <AiIcon className="w-5 h-5 text-[#3b82f6]" />
-                    <span className="text-xs font-semibold text-[#3b82f6]">EboAI</span>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <AiIcon className="w-3.5 h-3.5 text-[#2C3B8D]" />
+                    <span className="text-[11px] font-semibold text-[#2C3B8D]">EboAI</span>
                   </div>
                 )}
-                <div className="prose prose-sm max-w-none">
-                  {msg.role === 'assistant' && msg.formatted ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: msg.formatted }}
-                      className="text-sm leading-relaxed"
-                    />
-                  ) : (
-                    <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                      {msg.content}
-                    </div>
-                  )}
-                </div>
+                {msg.role === 'assistant' && msg.formatted ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: msg.formatted }}
+                    className="prose prose-sm max-w-none"
+                  />
+                ) : (
+                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                )}
               </div>
             </div>
           ))}
 
-          {/* Loading Indicator */}
+          {/* Loading */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-white p-4 rounded-xl shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-[rgba(15,23,42,0.1)]">
-                <div className="flex items-center space-x-2">
-                  <AiIcon className="w-5 h-5 text-[#3b82f6]" />
-                  <span className="text-xs font-semibold text-[#3b82f6]">EboAI</span>
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl rounded-bl-sm px-4 py-3">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <AiIcon className="w-3.5 h-3.5 text-[#2C3B8D]" />
+                  <span className="text-[11px] font-semibold text-[#2C3B8D]">EboAI</span>
                 </div>
-                <div className="flex space-x-2 mt-2">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-100"></div>
-                  <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce delay-200"></div>
+                <div className="flex gap-1.5">
+                  <div className="w-2 h-2 bg-[#2C3B8D] rounded-full animate-bounce" />
+                  <div className="w-2 h-2 bg-[#2C3B8D] rounded-full animate-bounce [animation-delay:100ms]" />
+                  <div className="w-2 h-2 bg-[#2C3B8D] rounded-full animate-bounce [animation-delay:200ms]" />
                 </div>
               </div>
             </div>
@@ -204,57 +190,68 @@ export default function ChatboxModal({ isOpen, onClose, patientSummary }) {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Suggested Questions */}
+        {/* ── Suggestions ────────────────────────────────────── */}
         {showSuggestions && suggestions.length > 0 && messages.length === 0 && (
-          <div className="px-4 py-3 bg-[rgba(59,130,246,0.04)] border-t border-[rgba(15,23,42,0.1)]">
-            <p className="text-xs font-semibold text-[#1e293b] mb-2 flex items-center gap-1"><LightbulbIcon className="w-4 h-4 text-[#3b82f6]" /> {t('chatbox.suggestedQuestions')}</p>
+          <div className="px-4 py-3 bg-white border-t border-slate-100 shrink-0">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-2 flex items-center gap-1.5">
+              <LightbulbIcon className="w-3.5 h-3.5 text-[#2C3B8D]" />
+              {t('chatbox.suggestedQuestions', 'Suggested questions')}
+            </p>
             <div className="flex flex-wrap gap-2">
-              {suggestions.map((suggestion, idx) => (
+              {suggestions.map((s, idx) => (
                 <button
                   key={idx}
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  className="px-3 py-1.5 bg-white hover:bg-[rgba(59,130,246,0.08)] text-[#3b82f6] rounded-full text-xs border border-[rgba(59,130,246,0.2)] hover:border-[rgba(59,130,246,0.4)] transition-colors shadow-[0_1px_3px_rgba(15,23,42,0.08)] hover:shadow-[0_4px_12px_rgba(15,23,42,0.1)] card-hover"
+                  onClick={() => handleSuggestionClick(s)}
                   disabled={isLoading}
+                  className="px-3 py-1.5 bg-[#eef2ff] hover:bg-[#e0e7ff] text-[#2C3B8D]
+                    text-[12px] font-semibold rounded-full border border-[#c7d2f8]
+                    transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {suggestion}
+                  {s}
                 </button>
               ))}
             </div>
           </div>
         )}
 
-        {/* Input */}
-        <div className="p-4 border-t border-[rgba(15,23,42,0.1)] bg-white rounded-b-xl">
-          <div className="flex space-x-2">
+        {/* ── Input ──────────────────────────────────────────── */}
+        <div className="px-4 py-4 border-t border-slate-100 bg-white shrink-0">
+          <div className="flex gap-2">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-              placeholder={t('chatbox.inputPlaceholder')}
-              className="flex-1 px-4 py-3 border border-[rgba(15,23,42,0.1)] rounded-lg focus:outline-none focus:border-[#3b82f6] text-sm transition-colors"
+              placeholder={t('chatbox.inputPlaceholder', 'Ask about medications, differentials, next steps...')}
               disabled={isLoading}
+              className="flex-1 px-4 py-3 text-[14px] border border-slate-200 rounded-xl
+                focus:outline-none focus:border-[#2C3B8D] focus:ring-2 focus:ring-[#2C3B8D]/10
+                text-slate-900 placeholder:text-slate-400 transition-colors
+                disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               onClick={() => sendMessage()}
               disabled={isLoading || !input.trim()}
-              className="px-6 py-3 bg-[linear-gradient(135deg,#60a5fa,#3b82f6,#2563eb)] text-white rounded-lg hover:opacity-90 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)] disabled:opacity-50 disabled:cursor-not-allowed font-medium text-sm btn-glow transition-all duration-250 ease"
+              className="px-5 py-3 bg-[#2C3B8D] hover:bg-[#233070] text-white text-[14px]
+                font-semibold rounded-xl transition-colors
+                disabled:opacity-40 disabled:cursor-not-allowed
+                flex items-center gap-2 whitespace-nowrap"
             >
               {isLoading ? (
-                <span className="flex items-center space-x-2">
+                <>
                   <ClockIcon className="w-4 h-4 animate-spin" />
-                  <span>{t('common:states.thinking')}</span>
-                </span>
+                  {t('common:states.thinking', 'Thinking...')}
+                </>
               ) : (
-                <span className="flex items-center space-x-2">
-                  <span>{t('common:buttons.send')}</span>
-                  <span>→</span>
-                </span>
+                <>
+                  {t('common:buttons.send', 'Send')}
+                  <span className="text-white/70">→</span>
+                </>
               )}
             </button>
           </div>
-          <p className="text-xs text-[#94a3b8] mt-2 text-center">
-            {t('chatbox.pressEnter')}
+          <p className="text-[11px] text-slate-400 mt-2 text-center">
+            {t('chatbox.pressEnter', 'Press Enter to send')}
           </p>
         </div>
       </div>

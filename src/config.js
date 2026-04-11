@@ -19,7 +19,7 @@ const config = {
   transcriptionServiceUrl: getBase("/api/transcription", "http://localhost:5004"),
   smsServiceUrl: getBase("/api/sms", "http://localhost:5003"),
   chatboxServiceUrl: getBase("/api/chatbox", "http://localhost:5005"),
-  swintinyServiceUrl: getBase("/api/chatbox", "http://localhost:5020"),
+  swintinyServiceUrl: getBase("/api/chatbox", "http://localhost:5030"),
   dpdServiceUrl: getBase("/api/dpd", "http://localhost:8010"),
 
   // External services (그대로 유지)

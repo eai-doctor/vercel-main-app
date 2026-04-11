@@ -55,7 +55,6 @@ function FunctionSelector() {
       description: "AI-powered retinal image analysis using Swin Tiny transformer to detect and classify retinal diseases from fundus photographs.",
       icon: <ImageIcon className="w-8 h-8 text-blue-500" />,
       route: "/functions/retinal-disease-detection",
-      disabled: true
     },
     {
       id: "triage-engine",

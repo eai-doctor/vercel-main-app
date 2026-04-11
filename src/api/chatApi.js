@@ -1,7 +1,7 @@
 import config from "@/config";
 import createApi from "./axiosBase";
 
-// const api = createApi(config.chatboxServiceUrl);
+const backApi = createApi(config.backendUrl);
 const api = createApi("https://vercel-chat-alpha.vercel.app");
 
 export const getSuggestions =(patientSummary) =>
@@ -20,10 +20,19 @@ export const sendMessage = (textToSend, patientSummary, messages) =>
           chat_history: messages,
           mode: 'clinician'
         });
+      
+export const getConsultationSummaries = () => 
+  backApi.get('/api/consultation-summaries/symptoms')
+
+export const uploadLabReport = () =>
+  backApi.post(`/api/lab-report/upload`,formData,{ headers: uploadHeaders })
+
 
 const chatApi = {
     getSuggestions,
-    sendMessage
+    sendMessage,
+    getConsultationSummaries,
+    uploadLabReport
 };
 
 export default chatApi;
