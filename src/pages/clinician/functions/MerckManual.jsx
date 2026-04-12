@@ -59,6 +59,9 @@ function MerckManual() {
   const iframeRef = useRef(null);
   const [noticeDismissed, setNoticeDismissed] = useState(false);
   
+  useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
 
   // HTML이 바뀔 때마다 iframe에 직접 주입
   useEffect(() => {

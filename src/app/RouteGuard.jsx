@@ -21,7 +21,7 @@ function RouteGuard({
   // 3. Role check
   if (roles && !roles.includes(user?.role)) {
     if (user?.role === "patient") {
-      return <Navigate to="/personal" replace />;
+      return <Navigate to="/" replace />;
     }
     return <Navigate to="/clinics" replace />;
   }

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { Header, NavBar } from '@/components'
 
 function SkinCancerDetection() {
@@ -9,6 +9,10 @@ function SkinCancerDetection() {
   const [loading, setLoading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
   const fileInputRef = useRef(null)
+
+  useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
 
   const handleFile = useCallback((file) => {
     if (!file) return

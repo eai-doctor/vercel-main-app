@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { Header, ExternalApiNotice, NavBar } from "@/components";
 import { PillIcon, AlertIcon } from "@/components/ui/icons";
@@ -15,6 +15,10 @@ function HealthCanadaDrugBank() {
   const [error, setError] = useState("");
   const [searchInfo, setSearchInfo] = useState(null);
   const [noticeDismissed, setNoticeDismissed] = useState(false);
+
+  useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
 
   const handleSearch = async () => {
     if (!searchTerm.trim()) {

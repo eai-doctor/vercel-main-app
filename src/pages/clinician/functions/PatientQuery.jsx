@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import Header from "@/components/Header";
 import { SearchIcon } from "@/components/ui/icons";
-import { SystemStatus } from "@/components";
-import { getAssignedPatients, getPatientDetails } from "@/api/patientApi";
+import { NavBar, SystemStatus } from "@/components";
+import { getPatients, getAssignedPatients, getPatientDetails } from "@/api/patientApi";
 
 /* ------------------------------------------------------------------ */
 /* Section Header (Encounters 패턴)                                     */
@@ -166,7 +166,8 @@ function PatientQuery() {
   const fetchPatients = async () => {
     try {
       setLoading(true);
-      const response = await getAssignedPatients();
+      // const response = await getAssignedPatients();
+      const response = await getPatients();
       setPatients(response.data.patients || []);
       setError("");
     } catch (err) {
@@ -210,12 +211,7 @@ function PatientQuery() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <Header
-        title={t('functions:patientQuery.title')}
-        subtitle={t('functions:patientQuery.subtitle')}
-        showBackButton
-        backRoute="/function-libraries"
-      />
+      <NavBar />
 
       <main className="max-w-4xl mx-auto px-4 py-8">
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import Header from "@/components/Header";
-import { SystemStatus } from "@/components";
+import { NavBar, SystemStatus } from "@/components";
 import {
   WarningIcon,
   MailIcon,
@@ -13,7 +13,7 @@ import {
   LightbulbIcon,
 } from "@/components/ui/icons";
 
-import { getAssignedPatients } from "@/api/patientApi";
+import { getPatients,getAssignedPatients } from "@/api/patientApi";
 import functionApi from "@/api/functionApi";
 
 /* ------------------------------------------------------------------ */
@@ -199,7 +199,8 @@ export default function FollowUps() {
   const fetchPatients = async () => {
     try {
       setLoading(true);
-      const response = await getAssignedPatients();
+      // const response = await getAssignedPatients();
+      const response = await getPatients();
       setPatients(response.data.patients || []);
       setError('');
     } catch (err) {
@@ -400,12 +401,7 @@ export default function FollowUps() {
   /* ---------------------------------------------------------------- */
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <Header
-        title={t('functions:followUps.title')}
-        subtitle={t('functions:followUps.subtitle')}
-        showBackButton
-        backRoute="/function-libraries"
-      />
+      <NavBar />
 
       <main className="max-w-4xl mx-auto px-4 py-8">
 

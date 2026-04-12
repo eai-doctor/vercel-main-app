@@ -42,10 +42,9 @@ export default function McgillPredictionModal ({
           setMcGillError(null);
           setMcGillPrediction(null);
     
-          const data = await consultationApi.getInferFHIR(patientData);
+          const response = await consultationApi.getInferFHIR(patientData);
     
-          // console.log("MixEHR prediction result:", response.data);
-          setMcGillPrediction(data);
+          setMcGillPrediction(response.data);
     
         } catch (error) {
           console.error("Error getting MixEHR prediction:", error);

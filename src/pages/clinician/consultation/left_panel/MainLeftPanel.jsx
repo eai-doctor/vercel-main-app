@@ -48,12 +48,15 @@ export default function MainLeftPanel({
 
   const patient_identification = patientData.patient_identification;
   const diagnoses = patientData.diagnoses;
-  const encounters = patientData.encounters;
+  const consultations = patientData.consultations;
+  const admissions = patientData.admissions;
   const vital_signs = patientData.vital_signs;
   const immunizations = patientData.immunizations;
   const medications = patientData.medications;
   const labs = patientData.labs;
   const imaging = patientData.imaging;
+
+  console.log("MainLeftPanel rendered with patientData:", patientData);
 
   return(
       <>
@@ -82,7 +85,8 @@ export default function MainLeftPanel({
 
         {/* 3.3 Encounters (recent + more) - Accordion */}
         <Encounters 
-          encounters ={encounters}
+          consultations ={consultations}
+          admissions ={admissions}
         />
 
         {/* 3.4 Vital Signs (most recent first, show 3 by default) */}

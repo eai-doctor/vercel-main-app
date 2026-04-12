@@ -6,7 +6,7 @@ import { Search, User, ChevronRight, AlertCircle, ClipboardList, Loader2 } from 
 import { Header, NavBar, ProfileDropdown, SystemStatus } from "@/components";
 import { UserIcon } from "@/components/ui/icons";
 import { useAuth } from "@/context/AuthContext";
-import { getAssignedPatients, getPatientDetails } from "@/api/patientApi";
+import { getPatients, getAssignedPatients, getPatientDetails } from "@/api/patientApi";
 
 export default function PatientSelector() {
   const { t } = useTranslation(['clinic', 'common']);
@@ -26,7 +26,8 @@ export default function PatientSelector() {
     if (!clinicianId) return;
     try {
       setLoading(true);
-      const response = await getAssignedPatients(searchTerm);
+      // const response = await getAssignedPatients(searchTerm);
+      const response = await getPatients(searchTerm);
       setPatients(response.data.patients || []);
       setError(null);
     } catch (err) {
@@ -106,7 +107,7 @@ export default function PatientSelector() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {hasSearched ? (
               patients.length > 0 ? (
-                patients.map((patient) => (
+                filteredPatients.map((patient) => (
                   <button
                     key={patient.id}
                     onClick={() => handleSelectPatient(patient)}
@@ -120,7 +121,7 @@ export default function PatientSelector() {
                       }
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-bold text-gray-800">{patient.name}</h4>
+                      <h4 className="font-bold text-gray-800">{patient.full_name}</h4>
                       <p className="text-sm text-gray-500">MRN: {patient.mrn || 'N/A'}</p>
                     </div>
                     <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-blue-500" />

@@ -96,16 +96,15 @@ export default function ChatboxModal({ isOpen, onClose, patientSummary }) {
             {messages.length > 0 && (
               <button
                 onClick={handleClearChat}
-                className="flex items-center gap-1.5 text-[12px] font-medium text-slate-500
+                className="cursor-pointer flex items-center gap-1.5 text-[12px] font-medium text-slate-500 bg-slate-50
                   hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors"
               >
-                <XCircleIcon className="w-3.5 h-3.5" />
                 {t('common:buttons.clear', 'Clear')}
               </button>
             )}
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg
+              className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-lg
                 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
             >
               <XCircleIcon className="w-5 h-5" />

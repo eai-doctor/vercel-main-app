@@ -4,19 +4,20 @@ import { formatDate } from "@/utils/DateUtils";
 import { CalendarIcon } from "@/components/ui/icons";
 
 const formatEncounterDetails = (entry, t) => {
-    const fields = [
-        entry.provider ? `${t('clinic:consultation.provider', 'Provider')}: ${entry.provider}` : null,
-        entry.hospital ? `${t('clinic:consultation.hospital', 'Hospital')}: ${entry.hospital}` : null,
-        entry.reason ? `${t('clinic:consultation.reason', 'Reason')}: ${entry.reason}` : null,
-        entry.summary ? `${t('clinic:consultation.summary', 'Summary')}: ${entry.summary}` : null,
-        entry.relevance_to_focus ? `${t('clinic:consultation.relevance', 'Relevance')}: ${entry.relevance_to_focus}` : null,
-        entry.admission_date ? `${t('clinic:consultation.admission', 'Admission')}: ${formatDate(entry.admission_date)}` : null,
-        entry.discharge_date ? `${t('clinic:consultation.discharge', 'Discharge')}: ${formatDate(entry.discharge_date)}` : null,
-    ].filter(Boolean);
-    return fields.length ? fields.join("\n") : "";
+  const fields = [
+    entry.provider     ? `${t('clinic:consultation.provider',   'Provider')}: ${entry.provider}` : null,
+    entry.hospital     ? `${t('clinic:consultation.hospital',   'Hospital')}: ${entry.hospital}` : null,
+    entry.reason       ? `${t('clinic:consultation.reason',     'Reason')}: ${entry.reason}` : null,
+    entry.summary      ? `${t('clinic:consultation.summary',    'Summary')}: ${entry.summary}` : null,
+    entry.relevance_to_focus ? `${t('clinic:consultation.relevance', 'Relevance')}: ${entry.relevance_to_focus}` : null,
+    entry.admission_date ? `${t('clinic:consultation.admission','Admission')}: ${formatDate(entry.admission_date)}` : null,
+    entry.discharge_date ? `${t('clinic:consultation.discharge','Discharge')}: ${formatDate(entry.discharge_date)}` : null,
+  ].filter(Boolean);
+  return fields.length ? fields.join("\n") : "";
 };
 
-export default function Encounters({ encounters }) {
+
+export default function Encounters({ consultations, admissions }) {
   const { t } = useTranslation(['clinic', 'common']);
 
   const [showMoreEncounters, setShowMoreEncounters] = useState(false);
@@ -26,21 +27,27 @@ export default function Encounters({ encounters }) {
     setExpandedEncounters(prev => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const encounterList = (Array.isArray(encounters) ? encounters : [])
-    .map(e => ({
-      type: e.admission_date
-        ? t('clinic:consultation.admissionType', 'Admission')
-        : t('clinic:consultation.consultationType', 'Consultation'),
-      date: e.date || e.admission_date,
-      description: e.admission_date
-        ? `${e.hospital} – ${e.reason}`
-        : `${e.specialty} – ${e.reason}`,
-      details: formatEncounterDetails(e, t),
-    }))
-    .filter(e => e.date)  // date 없는 항목 제외
+  const encounterList = [
+    ...(Array.isArray(consultations)
+      ? consultations.map(c => ({
+          type: t('clinic:consultation.consultationType', 'Consultation'),
+          date: c.date,
+          description: `${c.specialty}${c.reason ? ` – ${c.reason}` : ''}`,
+          details: formatEncounterDetails(c, t),
+        }))
+      : []),
+    ...(Array.isArray(admissions)
+      ? admissions.map(a => ({
+          type: t('clinic:consultation.admissionType', 'Admission'),
+          date: a.admission_date,
+          description: `${a.hospital}${a.reason ? ` – ${a.reason}` : ''}`,
+          details: formatEncounterDetails(a, t),
+        }))
+      : []),
+  ]
+    .filter(e => e.date)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  // ✅ 버그 수정: encounterList 기준으로 통일
   const visible = showMoreEncounters ? encounterList : encounterList.slice(0, 5);
 
   return (
@@ -55,7 +62,6 @@ export default function Encounters({ encounters }) {
           <h2 className="text-[17px] font-semibold text-slate-800">
             {t('clinic:consultation.encounters', 'Encounters')}
           </h2>
-          {/* ✅ encounterList.length 기준 */}
           {encounterList.length > 0 && (
             <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#eef2ff] text-[#2C3B8D]">
               {encounterList.length}
@@ -63,7 +69,6 @@ export default function Encounters({ encounters }) {
           )}
         </div>
 
-        {/* ✅ encounterList.length 기준 */}
         {encounterList.length > 5 && (
           <button
             type="button"
@@ -79,7 +84,6 @@ export default function Encounters({ encounters }) {
 
       {/* Body */}
       <div className="p-3">
-        {/* ✅ encounterList.length 기준 */}
         {encounterList.length === 0 ? (
           <div className="px-2.5 py-3">
             <span className="text-[14px] text-slate-400 italic">

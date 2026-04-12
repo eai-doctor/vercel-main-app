@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Fields from "./components/Fields";
 import triageEngineApi from "@/api/triageApi";
 import { NavBar } from "@/components";
@@ -26,6 +26,10 @@ function TriageEngine() {
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
 
   // ✅ validation (간단 버전)
   const canProceed = () => {

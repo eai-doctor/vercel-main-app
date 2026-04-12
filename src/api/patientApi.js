@@ -2,7 +2,11 @@
 import config from "@/config";
 import createApi from "./axiosBase";
 
-const patientApi = createApi(config.backendUrl); // 혹은 별도의 patientServiceUrl
+const patientApi = createApi(config.backendUrl);
+
+export const getPatients = () => {
+  return patientApi.get(`/api/patients`);
+};
 
 export const getAssignedPatients = (searchTerm = "") => {
   return patientApi.get(`/api/assigned_patients`, {
@@ -19,6 +23,7 @@ export const getPatientDetails = (patientId) =>
   patientApi.get(`/api/patient/${patientId}`);
 
 export default {
+  getPatients,
   getAssignedPatients,
   getPatientDetails
 };

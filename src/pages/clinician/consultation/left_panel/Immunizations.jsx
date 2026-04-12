@@ -69,8 +69,8 @@ export default function Immunizations({ immunizations }) {
 
                                 {/* Status badge */}
                                 {im.status && (
-                                    <span className="text-[11px] px-2.5 py-0.5 rounded-full font-semibold bg-[#eef2ff] text-[#2C3B8D] whitespace-nowrap">
-                                        {im.status}
+                                    <span className={`text-[11px] px-2.5 py-0.5 rounded-full font-semibold whitespace-nowrap
+                                        ${im.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-[#eef2ff] text-[#2C3B8D]'}`}>
                                     </span>
                                 )}
 

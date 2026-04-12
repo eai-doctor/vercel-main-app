@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import functionApi from '@/api/functionApi'
 import { NavBar } from '@/components'
 import { useState, useRef, useCallback } from 'react'
@@ -137,6 +138,10 @@ export default function RetinalDiseaseDetection() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
 
   // ── File handling ──────────────────────────────────────────────────────────
   const applyFile = useCallback((file) => {

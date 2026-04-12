@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Header from "@/components/Header";
 import { AiIcon } from "@/components/ui/icons";
 import chatApi from "@/api/chatApi";
+import { NavBar } from "@/components";
 
 const SUGGESTIONS = [
   "What are the EBO criteria for sepsis?",
@@ -25,10 +26,13 @@ function AskEboAI() {
 
   // 2. useEffect 수정
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [chatHistory, isLoading]);
+  useEffect(() => {
+       window.scrollTo(0, 0)
+     }, [])
 
   const handleSendMessage = async (overrideMessage) => {
     const userMessage = (overrideMessage ?? message).trim();
@@ -63,18 +67,10 @@ function AskEboAI() {
   const isEmpty = chatHistory.length === 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex flex-col">
-      <Header
-        title={t('functions:askEboAI.title')}
-        subtitle={t('functions:askEboAI.subtitle')}
-        showBackButton
-        backRoute="/function-libraries"
-      />
-
-      <main className="flex-1 flex flex-col max-w-3xl w-full mx-auto px-4 py-6">
-
-        {/* Chat area */}
-        <div  ref={chatContainerRef}  className="flex-1 overflow-y-auto space-y-6 pb-4">
+    <div className="h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex flex-col">
+  <NavBar />
+  <main className="flex-1 flex flex-col max-w-3xl w-full mx-auto px-4 py-6 min-h-0">
+    <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-6 pb-4 min-h-0">
 
           {/* Empty state */}
           {isEmpty && (

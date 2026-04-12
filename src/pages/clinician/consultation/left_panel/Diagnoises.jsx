@@ -90,11 +90,18 @@ export default function Diagnoses({ diagnoses }) {
                                     {d.condition || '—'}
                                 </span>
 
-                                {/* ICD code (optional) */}
-                                {d.icd_code && (
-                                    <span className="text-[11px] font-mono text-slate-400 whitespace-nowrap">
-                                        {d.icd_code}
-                                    </span>
+                                {/* code + code_system (icd_code → code) */}
+                                {d.code && (
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="text-[11px] font-mono text-slate-400 whitespace-nowrap">
+                                            {d.code}
+                                        </span>
+                                        {d.code_system && (
+                                            <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-medium whitespace-nowrap">
+                                                {d.code_system}
+                                            </span>
+                                        )}
+                                    </div>
                                 )}
 
                                 {/* Date */}

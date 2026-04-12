@@ -6,14 +6,16 @@ import ClinicJoin from "./ClinicJoin";
 // import ConsentSettings from "./ConsentSettings";
 // import AccountSettings from "./AccountSettings";
 // import GeneticConsult from "./GeneticConsult";
+import FreeMessageLimitModal from "./FreeMessageLimitModal";
 
 export {
     ClinicLoginPage,
     // LandingPage,
     // PersonalLandingPage,
     PrivacyPolicy,
-    ClinicJoin
+    ClinicJoin,
     // ConsentSettings,
     // AccountSettings,
-    // GeneticConsult
+    // GeneticConsult,
+    FreeMessageLimitModal
 }

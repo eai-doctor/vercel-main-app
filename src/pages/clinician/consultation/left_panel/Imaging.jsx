@@ -75,7 +75,7 @@ export default function Imaging({ imaging }) {
                     <div>
                         {visible.map((img, i) => {
                             const isExpanded = expanded[i];
-                            const hasDetails = img.findings || img.impression || img.indication || img.recommendations;
+                            const hasDetails = img.findings?.trim() || img.impression?.trim() || img.indication?.trim();
 
                             return (
                                 <div
@@ -100,7 +100,7 @@ export default function Imaging({ imaging }) {
                                         </span>
 
                                         {/* Region */}
-                                        {img.region && (
+                                        {img.region?.trim() && (
                                             <span className="text-[12px] text-slate-400 whitespace-nowrap">
                                                 {img.region}
                                             </span>
@@ -122,7 +122,7 @@ export default function Imaging({ imaging }) {
                                     {/* Expanded details */}
                                     {isExpanded && hasDetails && (
                                         <div className="mx-2.5 mb-2 px-4 py-3 bg-slate-50 rounded-xl border border-slate-100">
-                                            {img.findings && (
+                                            {img.findings?.trim() && (
                                                 <div className="flex gap-2 py-1 [&+&]:border-t [&+&]:border-slate-100">
                                                     <span className="text-[11px] font-medium uppercase tracking-wide text-slate-400 min-w-[90px] pt-0.5">
                                                         {t('clinic:consultation.findings', 'Findings')}
@@ -130,7 +130,7 @@ export default function Imaging({ imaging }) {
                                                     <span className="text-[13px] text-slate-700">{img.findings}</span>
                                                 </div>
                                             )}
-                                            {img.impression && (
+                                            {img.impression?.trim() && (
                                                 <div className="flex gap-2 py-1 border-t border-slate-100">
                                                     <span className="text-[11px] font-medium uppercase tracking-wide text-slate-400 min-w-[90px] pt-0.5">
                                                         {t('clinic:consultation.impression', 'Impression')}
@@ -138,7 +138,7 @@ export default function Imaging({ imaging }) {
                                                     <span className="text-[13px] text-slate-700">{img.impression}</span>
                                                 </div>
                                             )}
-                                            {img.indication && (
+                                            {img.indication?.trim() && (
                                                 <div className="flex gap-2 py-1 border-t border-slate-100">
                                                     <span className="text-[11px] font-medium uppercase tracking-wide text-slate-400 min-w-[90px] pt-0.5">
                                                         {t('clinic:consultation.indication', 'Indication')}

@@ -3,26 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { formatDate } from "@/utils/DateUtils";
 import { PillIcon } from "@/components/ui/icons";
 
-const statusStyle = (status) => {
-    switch (status?.toLowerCase()) {
-        case 'active':
-            return 'bg-green-100 text-green-700';
-        case 'stopped':
-        case 'cancelled':
-            return 'bg-red-100 text-red-700';
-        case 'completed':
-            return 'bg-[#eef2ff] text-[#2C3B8D]';
-        default:
-            return 'bg-slate-100 text-slate-500';
-    }
-};
-
 export default function Medications({ medications }) {
     const { t } = useTranslation(['clinic', 'common']);
     const [showMore, setShowMore] = useState(false);
+    const [expandedItems, setExpandedItems] = useState({});
+
+    const toggleItem = (index) => {
+        setExpandedItems(prev => ({ ...prev, [index]: !prev[index] }));
+    };
 
     const sorted = Array.isArray(medications)
-        ? [...medications].sort((a, b) => new Date(b.date) - new Date(a.date))
+        ? [...medications].sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
         : [];
 
     const visible = showMore ? sorted : sorted.slice(0, 5);
@@ -69,38 +60,73 @@ export default function Medications({ medications }) {
                     </div>
                 ) : (
                     <div>
-                        {visible.map((m, i) => (
-                            <div
-                                key={`${m.name}-${m.date}-${i}`}
-                                className="flex items-center gap-x-3 px-2.5 py-3 rounded-xl [&+&]:border-t [&+&]:border-slate-100"
-                            >
-                                {/* Status badge */}
-                                {m.status && (
-                                    <span className={`text-[11px] px-2.5 py-0.5 rounded-full font-semibold whitespace-nowrap ${statusStyle(m.status)}`}>
-                                        {m.status}
-                                    </span>
-                                )}
+                        {visible.map((m, i) => {
+                            const isExpanded = expandedItems[i];
+                            const hasDetails = m.dose || m.frequency || m.route || m.indication || m.end_date || m.code || m.code_system;
 
-                                {/* Medication name */}
-                                <span className="flex-1 min-w-[160px] text-[15px] font-semibold text-slate-900">
-                                    {m.name || '—'}
-                                </span>
+                            return (
+                                <div
+                                    key={`${m.name}-${m.start_date}-${i}`}
+                                    className="[&+&]:border-t [&+&]:border-slate-100"
+                                >
+                                    {/* Main row */}
+                                    <button
+                                        type="button"
+                                        onClick={() => hasDetails && toggleItem(i)}
+                                        className={`w-full flex flex-wrap items-center gap-x-3 gap-y-1.5 px-2.5 py-3 rounded-xl transition-colors text-left ${hasDetails ? 'hover:bg-[#f8faff] cursor-pointer' : 'cursor-default'}`}
+                                    >
+                                        {/* Code system badge */}
+                                        {m.code_system && (
+                                            <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-medium whitespace-nowrap">
+                                                {m.code_system}
+                                            </span>
+                                        )}
 
-                                {/* Dose (optional) */}
-                                {m.dose && (
-                                    <span className="text-[13px] text-slate-500 whitespace-nowrap">
-                                        {m.dose}
-                                    </span>
-                                )}
+                                        {/* Medication name */}
+                                        <span className="flex-1 min-w-[160px] text-[15px] font-semibold text-slate-900">
+                                            {m.name || '—'}
+                                        </span>
 
-                                {/* Date */}
-                                {m.date && (
-                                    <span className="text-[12px] text-slate-500 font-mono whitespace-nowrap">
-                                        {formatDate(m.date)}
-                                    </span>
-                                )}
-                            </div>
-                        ))}
+                                        {/* Start date */}
+                                        {m.start_date && (
+                                            <span className="text-[12px] text-slate-500 font-mono whitespace-nowrap">
+                                                {formatDate(m.start_date)}
+                                            </span>
+                                        )}
+
+                                        {/* Expand chevron */}
+                                        {hasDetails && (
+                                            <span className={`text-[10px] text-slate-400 transition-transform duration-200 ml-auto ${isExpanded ? 'rotate-180' : ''}`}>
+                                                ▼
+                                            </span>
+                                        )}
+                                    </button>
+
+                                    {/* Expanded details */}
+                                    {isExpanded && hasDetails && (
+                                        <div className="mx-2.5 mb-2 px-4 py-3 bg-slate-50 rounded-xl border border-slate-100">
+                                            {[
+                                                m.dose         && { label: t('clinic:consultation.dose',        'Dose'),        value: m.dose },
+                                                m.frequency    && { label: t('clinic:consultation.frequency',   'Frequency'),   value: m.frequency },
+                                                m.route        && { label: t('clinic:consultation.route',       'Route'),       value: m.route },
+                                                m.indication   && { label: t('clinic:consultation.indication',  'Indication'),  value: m.indication },
+                                                m.end_date     && { label: t('clinic:consultation.endDate',     'End date'),    value: formatDate(m.end_date) },
+                                                m.code         && { label: t('clinic:consultation.code',        'Code'),        value: m.code },
+                                            ].filter(Boolean).map((row, ri) => (
+                                                <div key={ri} className="flex gap-2 py-1 [&+&]:border-t [&+&]:border-slate-100">
+                                                    <span className="text-[11px] font-medium uppercase tracking-wide text-slate-400 min-w-[90px] pt-0.5">
+                                                        {row.label}
+                                                    </span>
+                                                    <span className="text-[13px] text-slate-700">
+                                                        {row.value}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
             </div>

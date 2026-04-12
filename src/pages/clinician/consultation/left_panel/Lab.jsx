@@ -6,7 +6,6 @@ import { PlusCircleIcon } from "@/components/ui/icons";
 export default function Lab({ labs, patientId, setPatientData }) {
     const { t } = useTranslation(['clinic', 'common']);
     const [showMoreLabs, setShowMoreLabs] = useState(false);
-    const [showAddLabModal, setShowAddLabModal] = useState(false);
 
     const sorted = useMemo(() => {
         if (!Array.isArray(labs)) return [];
@@ -36,27 +35,17 @@ export default function Lab({ labs, patientId, setPatientData }) {
                     )}
                 </div>
 
-                <div className="flex items-center gap-3">
-                    {sorted.length > 5 && (
-                        <button
-                            type="button"
-                            onClick={() => setShowMoreLabs(prev => !prev)}
-                            className="text-[13px] text-[#2C3B8D] hover:text-[#233070] font-medium transition-colors"
-                        >
-                            {showMoreLabs
-                                ? t('clinic:consultation.showRecentOnly', 'Show recent only')
-                                : t('clinic:consultation.showAll', { count: sorted.length, defaultValue: 'Show all ({{count}})' })}
-                        </button>
-                    )}
-                    {/* <button
+                {sorted.length > 5 && (
+                    <button
                         type="button"
-                        onClick={() => setShowAddLabModal(true)}
-                        className="flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg bg-[#2C3B8D] text-white hover:bg-[#233070] transition-colors"
+                        onClick={() => setShowMoreLabs(prev => !prev)}
+                        className="text-[13px] text-[#2C3B8D] hover:text-[#233070] font-medium transition-colors"
                     >
-                        <PlusCircleIcon className="w-[14px] h-[14px]" />
-                        {t('clinic:consultation.addLabResult', 'Add Lab Result')}
-                    </button> */}
-                </div>
+                        {showMoreLabs
+                            ? t('clinic:consultation.showRecentOnly', 'Show recent only')
+                            : t('clinic:consultation.showAll', { count: sorted.length, defaultValue: 'Show all ({{count}})' })}
+                    </button>
+                )}
             </div>
 
             {/* Body */}
@@ -71,19 +60,26 @@ export default function Lab({ labs, patientId, setPatientData }) {
                     <div>
                         {visible.map((lab, i) => (
                             <div
-                                key={`${lab.measurement}-${lab.date}-${i}`}
-                                className="flex items-center gap-x-3 px-2.5 py-3 rounded-xl [&+&]:border-t [&+&]:border-slate-100"
+                                key={`${lab.test_name}-${lab.date}-${i}`}
+                                className="flex flex-wrap items-center gap-x-3 gap-y-1 px-2.5 py-3 rounded-xl [&+&]:border-t [&+&]:border-slate-100"
                             >
-                                {/* Measurement name */}
+                                {/* Test name */}
                                 <span className="flex-1 min-w-[160px] text-[15px] font-semibold text-slate-900">
-                                    {lab.measurement || '—'}
+                                    {lab.test_name || '—'}
                                 </span>
 
-                                {/* Value + unit */}
+                                {/* Result + unit */}
                                 <span className="text-[14px] text-slate-700 font-mono whitespace-nowrap">
-                                    {lab.value != null ? lab.value : '—'}
-                                    {lab.unit ? ` ${lab.unit}` : ''}
+                                    {lab.result ? lab.result : '—'}
+                                    {lab.result && lab.unit ? ` ${lab.unit}` : ''}
                                 </span>
+
+                                {/* Reference range */}
+                                {lab.reference_range && (
+                                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-medium whitespace-nowrap">
+                                        {t('clinic:consultation.ref', 'Ref')}: {lab.reference_range}
+                                    </span>
+                                )}
 
                                 {/* Date */}
                                 <span className="text-[12px] text-slate-500 font-mono whitespace-nowrap">
@@ -94,15 +90,6 @@ export default function Lab({ labs, patientId, setPatientData }) {
                     </div>
                 )}
             </div>
-
-            {/* Add Lab Modal */}
-            {/* {showAddLabModal && (
-                <AddLabModal
-                    setShowAddLabModal={setShowAddLabModal}
-                    setPatientData={setPatientData}
-                    patientId={patientId}
-                />
-            )} */}
         </section>
     );
 }

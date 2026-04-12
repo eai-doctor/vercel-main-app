@@ -1,9 +1,10 @@
+import ReactMarkdown from 'react-markdown';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 
-import { LoginModal } from "@/components/modal";
+import { FreeMessageLimitModal } from "@/pages/public";
 import { ProfileDropdown } from "@/components";
 import {
   AiIcon, MicrophoneIcon, ClipboardIcon, LightbulbIcon,
@@ -12,6 +13,7 @@ import {
 import chatApi from '@/api/chatApi';
 import consultationApi from '@/api/consultationApi';
 import ChatboxModal from "@/pages/public/ChatboxModal";
+import { useAuthModal } from '@/context/AuthModalContext';
 
 const AUDIO_CONSTRAINTS = {
   audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
@@ -22,6 +24,7 @@ export default function HealthConsultation() {
   const { t } = useTranslation(['patient', 'common', 'functions']);
   const navigate = useNavigate();
   const { isAuthenticated, user, token, loading } = useAuth();
+  const { openLogin } = useAuthModal();
 
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [pendingMessage, setPendingMessage] = useState(null);
@@ -38,6 +41,7 @@ export default function HealthConsultation() {
   ]);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   const [consulting, setConsulting] = useState(false);
   const streamRef = useRef(null);
@@ -66,13 +70,37 @@ export default function HealthConsultation() {
   const [previousSymptoms, setPreviousSymptoms] = useState([]);
   const [isSymptomsLoading, setIsSymptomsLoading] = useState(false);
 
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const [showPlusMenu, setShowPlusMenu] = useState(false);
   const [isUploadingReport, setIsUploadingReport] = useState(false);
   const [activeReportId, setActiveReportId] = useState(null);
   const labReportInputRef = useRef(null);
   const plusMenuRef = useRef(null);
 
-  // useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+  const getStoredCount = () => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('free_msg') || '{}');
+      const today = new Date().toDateString();
+      if (stored.date !== today) return 0;
+      return stored.count || 0;
+    } catch { return 0; }
+  };
+
+  const incrementCount = () => {
+    const today = new Date().toDateString();
+    const count = getStoredCount() + 1;
+    localStorage.setItem('free_msg', JSON.stringify({ date: today, count }));
+    return count;
+  };
+
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages, isLoadingChat]);
+  useEffect(() => {
+       window.scrollTo(0, 0)
+     }, [])
 
   useEffect(() => {
     if (!isAuthenticated || loading) return;
@@ -131,10 +159,17 @@ export default function HealthConsultation() {
   const sendMessage = async (messageText = null) => {
     const textToSend = messageText || input;
     if (!textToSend.trim() || isLoadingChat) return;
+    
     if (!isAuthenticated && !loading) {
-      const count = messages.filter(m => m.role === 'user').length;
-      if (count >= FREE_MESSAGE_LIMIT) { setPendingMessage(textToSend); setShowLoginModal(true); return; }
+      const currentCount = getStoredCount();
+      if (currentCount >= FREE_MESSAGE_LIMIT) {
+        setPendingMessage(textToSend);
+        setShowLimitModal(true);
+        return;
+      }
+      incrementCount(); 
     }
+
     setMessages(prev => [...prev, { role: 'user', content: textToSend }]);
     setInput(''); setIsLoadingChat(true); setShowSuggestions(false);
     try {
@@ -157,12 +192,13 @@ export default function HealthConsultation() {
   const handleClearChat = () => { setMessages([]); setShowSuggestions(true); };
 
   const handleGenerateChatSummary = async () => {
-    if (!isAuthenticated && !loading) { setPendingAction('generateChatSummary'); setShowLoginModal(true); return; }
+    if (!isAuthenticated && !loading) { setPendingAction('generateChatSummary'); setShowLimitModal(true); return; }
     const cleanMessages = messages.filter(m => m.role === 'user' || m.role === 'assistant').map(({ role, content }) => ({ role, content }));
     if (cleanMessages.length === 0) return;
     try {
       setIsGeneratingChatSummary(true); setSaveSummaryResult(null);
-      const response = await axios.post(`${API_URL}/api/consultation-summaries/generate`, { messages: cleanMessages });
+      const response = await chatApi.generateConsultationSummaries(cleanMessages); 
+      console.log('Summary response:', response);
       if (response.data.success) { setChatSummary(response.data.summary); setSummaryModelUsed(response.data.model_used || ''); setShowChatSummaryModal(true); }
       else alert(t('chat.summaryFailed'));
     } catch (e) { alert(t('chat.summaryGenerateFailed', { error: e.response?.data?.error || e.message })); }
@@ -238,7 +274,8 @@ export default function HealthConsultation() {
         { full_name: "Patient Portal User", mrn: "PORTAL-USER" },
         { conversation_summary: conversationSummary || transcriptHistory, patient_snapshot: snapshot || conversationSummary || transcriptHistory, conversation_history: snapshot || transcriptHistory, new_diagnoses: [], new_medications: [] }
       );
-      if (response.data.success) setAiSummary(response.data.summary);
+      // if (response.data.success) setAiSummary(response.data.email_body);
+      if (response.data.success) setAiSummary(response.data.clinical_report);
       else alert(t('chat.summaryFailed'));
     } catch (e) { alert(t('chat.summaryGenerateFailed', { error: e.response?.data?.error || e.message })); setAiSummary(t('chat.summaryError')); }
     finally { setIsGeneratingSummary(false); }
@@ -310,7 +347,7 @@ export default function HealthConsultation() {
               ? <ProfileDropdown variant="dark" />
               : (
                 <button
-                  onClick={() => { setPendingMessage(null); setShowLoginModal(true); }}
+                  onClick={() => { setPendingMessage(null); openLogin(); }}
                   className="px-4 py-2 bg-white/15 hover:bg-white/25 text-white text-[13px]
                     font-semibold rounded-xl transition-colors border border-white/20"
                 >
@@ -363,7 +400,7 @@ export default function HealthConsultation() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+          <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
             {messages.length === 0 && (
               <div className="flex flex-col items-center text-center py-10">
                 <div className="w-14 h-14 rounded-2xl bg-[#e6ecff] flex items-center justify-center mb-4">
@@ -514,7 +551,7 @@ export default function HealthConsultation() {
               <p className="text-[11px] text-slate-400">{t('chat.inputHint', 'Press Enter to send')}</p>
               {!isAuthenticated && !loading && (
                 <p className="text-[11px] text-slate-400">
-                  {t('chat.freeMessagesRemaining', { count: Math.max(0, FREE_MESSAGE_LIMIT - userMsgCount) })} —{' '}
+                  {t('chat.freeMessagesRemaining', { count: Math.max(0, FREE_MESSAGE_LIMIT - getStoredCount()) })} —{' '}
                   <button onClick={() => setShowLoginModal(true)} className="text-[#2C3B8D] hover:underline font-medium">
                     {t('common:buttons.signIn', 'sign in')}
                   </button>{' '}
@@ -704,7 +741,11 @@ export default function HealthConsultation() {
             />
             <div className="p-5 space-y-4">
               <div className="bg-slate-50 border border-slate-100 rounded-xl p-4">
-                <p className="text-[14px] text-slate-700 whitespace-pre-wrap leading-relaxed">{chatSummary}</p>
+                <div className="text-[14px] text-slate-700 leading-relaxed prose prose-sm max-w-none
+                  prose-headings:text-slate-800 prose-strong:text-slate-800
+                  prose-ul:my-1 prose-li:my-0.5 prose-p:my-1.5">
+                  <ReactMarkdown>{chatSummary}</ReactMarkdown>
+                </div>
               </div>
 
               {saveSummaryResult && (
@@ -822,6 +863,11 @@ export default function HealthConsultation() {
           </div>
         </div>
       )}
+
+      <FreeMessageLimitModal
+        isOpen={showLimitModal}
+        onClose={() => setShowLimitModal(false)}
+      />
     </div>
   );
 }

@@ -40,39 +40,47 @@ export default function ActiveConditions({ diagnoses }) {
       ) : (
         <div>
           {activeConditions.map((d, i) => {
-            const sensitive = isSensitiveDiagnosis(d.icd_code);
+            const sensitive = isSensitiveDiagnosis(d.code);
 
-            return ( <div
-              key={`${d.condition}-${d.icd_code}-${i}`}
-              className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-2.5 py-3 rounded-xl hover:bg-[#f8faff] transition-colors [&+&]:border-t [&+&]:border-slate-100"
-            >
-              {/* Condition name */}
-              <span className="flex-1 min-w-[160px] text-[15px] font-semibold text-slate-900">
-                {d.condition}
-              </span>
+            return (
+              <div
+                key={`${d.condition}-${d.code}-${i}`}
+                className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-2.5 py-3 rounded-xl hover:bg-[#f8faff] transition-colors [&+&]:border-t [&+&]:border-slate-100"
+              >
+                {/* Condition name */}
+                <span className="flex-1 min-w-[160px] text-[15px] font-semibold text-slate-900">
+                  {d.condition}
+                </span>
 
-              {/* ICD code badge */}
-              <span className={`font-mono text-[12px] px-2.5 py-0.5 rounded-full bg-[#eef2ff] text-[#2C3B8D] font-semibold whitespace-nowrap ${sensitive ? 'blur-sm hover:blur-none transition-all duration-200' : ''}`}>
-                {d.icd_code || "—"}
-              </span>
+                {/* Code badge + code_system label */}
+                <div className="flex items-center gap-1.5">
+                  <span className={`font-mono text-[12px] px-2.5 py-0.5 rounded-full bg-[#eef2ff] text-[#2C3B8D] font-semibold whitespace-nowrap ${sensitive ? 'blur-sm hover:blur-none transition-all duration-200' : ''}`}>
+                    {d.code || "—"}
+                  </span>
+                  {d.code_system && (
+                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-medium whitespace-nowrap">
+                      {d.code_system}
+                    </span>
+                  )}
+                </div>
 
-              {sensitive && (
-              <span className="text-[11px] px-2 py-0.5 rounded-full
-                bg-amber-100 text-amber-700 font-medium whitespace-nowrap">
-                Senstive Content
-              </span>
-            )}
+                {sensitive && (
+                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium whitespace-nowrap">
+                    Sensitive Content
+                  </span>
+                )}
 
-              {/* Status badge */}
-              <span className="text-[12px] px-2.5 py-0.5 rounded-full bg-green-100 text-green-700 font-semibold capitalize whitespace-nowrap">
-                {d.status || "—"}
-              </span>
+                {/* Status badge */}
+                <span className="text-[12px] px-2.5 py-0.5 rounded-full bg-green-100 text-green-700 font-semibold capitalize whitespace-nowrap">
+                  {d.status || "—"}
+                </span>
 
-              {/* Onset date */}
-              <span className="text-[12px] text-slate-500 whitespace-nowrap">
-                {t('clinic:consultation.onset', 'Onset')}: {d.date_diagnosed ? formatDate(d.date_diagnosed) : "—"}
-              </span>
-            </div>)
+                {/* Onset date */}
+                <span className="text-[12px] text-slate-500 whitespace-nowrap">
+                  {t('clinic:consultation.onset', 'Onset')}: {d.date_diagnosed ? formatDate(d.date_diagnosed) : "—"}
+                </span>
+              </div>
+            );
           })}
         </div>
       )}

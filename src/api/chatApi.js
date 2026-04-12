@@ -42,17 +42,17 @@ export const getConsultationSummaries = () =>
   backApi.get('/api/consultation-summaries/symptoms')
 
 export const generateConsultationSummaries = (cleanMessages) => 
-  backApi.get('/api/consultation-summaries/generate', {
+  backApi.post('/api/consultation-summaries/generate', {
         messages: cleanMessages,
       })
 
 export const saveConsultationSummaries = (chatSummary, cleanMessages, summaryModelUsed) =>
-  backApi.get('/api/consultation-summaries/save',{
+  backApi.post('/api/consultation-summaries/save',{
         summary: chatSummary,
         messages: cleanMessages,
         model_used: summaryModelUsed,
       })
-
+  
 export const uploadLabReport = () =>
   backApi.post(`/api/lab-report/upload`,formData,{ headers: uploadHeaders })
 
@@ -63,6 +63,7 @@ const chatApi = {
     sendMessage,
     sendPatientMessage,
     getConsultationSummaries,
+    generateConsultationSummaries,
     saveConsultationSummaries,
     uploadLabReport
 };

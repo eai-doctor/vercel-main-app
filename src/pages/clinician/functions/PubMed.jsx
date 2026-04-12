@@ -1,46 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import Header from "@/components/Header";
 import { DocumentIcon, BooksIcon, MicroscopeIcon, AlertIcon } from "@/components/ui/icons";
 import functionApi from "@/api/functionApi";
-import { NavBar } from "@/components";
+import { NavBar, ExternalApiNotice } from "@/components";
 
-// Law 25 / PIPEDA
-function ExternalApiNotice({ service, onDismiss }) {
-  return (
-    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6">
-      <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center shrink-0 mt-0.5">
-          <AlertIcon className="w-4 h-4 text-amber-600" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-semibold text-amber-800 mb-1">
-            External Medical Database Connection Notice (Law 25 / PIPEDA)
-          </p>
-          <p className="text-[12px] text-amber-700 leading-relaxed">
-            This feature sends your query to an external server ({service}).
-            The transmitted information may include your search query. Do not
-            enter patient-identifiable information (e.g., name, MRN, date of birth).
-            Search records may be stored on external servers.
-            Do not perform searches containing personal information without patient consent.
-          </p>
-          <p className="text-[11px] text-amber-600 mt-1.5 font-medium">
-            ⚠ Do not enter patient name, MRN, date of birth, or any personal information in the search field.
-          </p>
-        </div>
-        {onDismiss && (
-          <button
-            onClick={onDismiss}
-            className="text-amber-500 hover:text-amber-700 text-[18px] leading-none shrink-0 mt-0.5"
-            aria-label="Close"
-          >
-            ×
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
+
 function PubMed() {
   const { t } = useTranslation(['functions', 'common']);
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,6 +17,10 @@ function PubMed() {
   const [error, setError] = useState("");
   const [searchInfo, setSearchInfo] = useState(null);
   const [noticeDismissed, setNoticeDismissed] = useState(false);
+
+  useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
 
   const handleSearch = async () => {
     if (!searchTerm.trim()) {

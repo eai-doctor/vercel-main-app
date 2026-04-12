@@ -68,9 +68,9 @@ export default function VitalSigns({ vital_signs }) {
                                 </span>
 
                                 {/* Value + unit */}
-                                <span className="text-[14px] text-slate-700 font-mono whitespace-nowrap">
-                                    {v.value != null ? v.value : '—'}
-                                    {v.unit ? ` ${v.unit}` : ''}
+                               <span className="text-[14px] text-slate-700 font-mono whitespace-nowrap">
+                                    {v.value ? v.value : '—'}
+                                    {v.value && v.unit ? ` ${v.unit}` : ''}
                                 </span>
 
                                 {/* Date */}
