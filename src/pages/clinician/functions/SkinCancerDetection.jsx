@@ -189,31 +189,31 @@ function SkinCancerDetection() {
   </div>
 )}
 
-{/* All Conditions */}
-{result?.all_classes && (
-  <details className="bg-[#1e293b]/50 border border-[#334155] rounded-xl">
-    <summary className="px-4 py-3 text-xs text-[#64748b] cursor-pointer select-none hover:text-[#94a3b8] transition-colors">
-      All conditions ({Object.keys(result.all_classes).length - 1})
-    </summary>
-    <div className="px-4 pb-4 space-y-2 border-t border-[#334155] pt-3">
-      {Object.entries(result.all_classes)
-        .filter(([key]) => key !== 'Disease_Risk')
-        .sort(([, a], [, b]) => b - a)
-        .map(([key, val]) => {
-          const pct = (val * 100)
-          const isHigh = pct >= (result.threshold_used * 100)
-          return (
-            <div key={key} className="flex justify-between items-center">
-              <span className="text-xs text-[#64748b]">{key}</span>
-              <span className={`text-xs font-medium ${isHigh ? 'text-red-300' : 'text-[#475569]'}`}>
-                {pct.toFixed(1)}%
-              </span>
-            </div>
-          )
-        })}
-    </div>
-  </details>
-)}
+          {/* All Conditions */}
+          {result?.all_classes && (
+            <details className="bg-[#1e293b]/50 border border-[#334155] rounded-xl">
+              <summary className="px-4 py-3 text-xs text-[#64748b] cursor-pointer select-none hover:text-[#94a3b8] transition-colors">
+                All conditions ({Object.keys(result.all_classes).length - 1})
+              </summary>
+              <div className="px-4 pb-4 space-y-2 border-t border-[#334155] pt-3">
+                {Object.entries(result.all_classes)
+                  .filter(([key]) => key !== 'Disease_Risk')
+                  .sort(([, a], [, b]) => b - a)
+                  .map(([key, val]) => {
+                    const pct = (val * 100)
+                    const isHigh = pct >= (result.threshold_used * 100)
+                    return (
+                      <div key={key} className="flex justify-between items-center">
+                        <span className="text-xs text-[#64748b]">{key}</span>
+                        <span className={`text-xs font-medium ${isHigh ? 'text-red-300' : 'text-[#475569]'}`}>
+                          {pct.toFixed(1)}%
+                        </span>
+                      </div>
+                    )
+                  })}
+              </div>
+            </details>
+          )}
           
           {/* Error Message */}
           {error && (
