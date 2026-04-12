@@ -13,6 +13,10 @@
       "destination": "https://drugbank-service-338917524320.northamerica-northeast1.run.app/:path*"
     },
     {
+      "source": "/api/swintiny/:path*",
+      "destination": "https://swintiny-service-338917524320.northamerica-northeast1.run.app/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
