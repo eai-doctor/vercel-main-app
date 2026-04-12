@@ -67,25 +67,26 @@ export default function SendSummaryModal ({
         formData.append('email_body',aiSummary);
         formData.append('patient_id',patientInfo.patient_id);
         formData.append('patient_name',patientInfo.full_name);
-        formData.append('patient_email',patientInfo.email);
-        // formData.append('patient_email',patientInfo.email);
+        formData.append('patient_email', patientEmail);
 
         const res = await uploadReport(formData);
         console.log(res);
 
-        const { signedUrl, token } = res.data;
-        return { signedUrl, token };
+        // const { signedUrl, token } = res.data;
+        return res;
       };
 
       try {
           setIsSendingEmail(true);
 
           const pdfBlob = generatePDF();
-          const { signedUrl } = await uploadAndGetSignedUrl(pdfBlob);
+          const response = await uploadAndGetSignedUrl(pdfBlob);
           // const data = await endConsultation(patientEmail, aiSummary, patient_identification, signedUrl);
 
+          console.log("PDF uploaded and email sent successfully:", response);
+
           setEmailResult({
-            success: success,
+            success: true,
             message: "Email sent successfully"
           });
           // console.log("Email sent successfully:", response.data);
@@ -226,7 +227,7 @@ export default function SendSummaryModal ({
                       )}
                       {emailResult.success && (
                         <p className="text-xs text-gray-600 mt-3">
-                          {t('clinic:consultation.sentTo', 'Sent to')}: {patientEmail} {t('clinic:consultation.at', 'at')} {new Date(emailResult.timestamp).toLocaleString()}
+                          {t('clinic:consultation.sentTo', 'Sent to')}: {patientEmail} {t('clinic:consultation.at', 'at')} {new Date().toLocaleString()}
                         </p>
                       )}
                     </div>

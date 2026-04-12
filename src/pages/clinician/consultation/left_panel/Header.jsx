@@ -106,8 +106,6 @@ export default function Header({
                 }
             );
 
-            console.log(result);
-            
             // const data = {
             //     "clinical_report": "**Patient:** Abdul218 Gusikowski974\n\n**Chief Complaint:** Not specified\n\n**Summary of Consultation:** Not specified\n\n**Diagnoses:**\n*   **Active:**\n    *   Seizure disorder (diagnosed 1980-05-16)\n    *   History of single seizure (situation) (diagnosed 1980-05-16)\n    *   Allergy: Allergy to Penicillin (disorder)\n*   **Resolved:**\n    *   Streptococcal sore throat (disorder) (diagnosed 1977-06-15)\n    *   Viral sinusitis (disorder) (diagnosed 1979-10-11)\n    *   Acute viral pharyngitis (disorder) (diagnosed 1983-08-26)\n\n**Medications:**\n*   **New:** Not specified\n*   **Existing:** Not specified\n\n**Relevant History:**\n*   Patient has a history of active Seizure disorder and a documented Penicillin allergy.\n*   Past medical history includes resolved episodes of Streptococcal sore throat, Viral sinusitis, and Acute viral pharyngitis.",
             //     "email_body": "Dear Abdul218 Gusikowski974,\n\nThank you for your recent visit. We appreciate you taking the time to discuss your health concerns with us.\n\nIt's important to continue monitoring your overall well-being and to follow any general health recommendations we may have discussed. If you have any new symptoms or questions, please do not hesitate to contact our office.\n\nWe are here to support you on your health journey.\n\nSincerely,\nYour Healthcare Team",

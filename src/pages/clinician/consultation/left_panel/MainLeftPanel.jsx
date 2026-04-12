@@ -56,8 +56,6 @@ export default function MainLeftPanel({
   const labs = patientData.labs;
   const imaging = patientData.imaging;
 
-  console.log("MainLeftPanel rendered with patientData:", patientData);
-
   return(
       <>
         {/* Header */}

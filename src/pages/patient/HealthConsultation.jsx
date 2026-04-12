@@ -23,7 +23,7 @@ const FREE_MESSAGE_LIMIT = 5;
 export default function HealthConsultation() {
   const { t } = useTranslation(['patient', 'common', 'functions']);
   const navigate = useNavigate();
-  const { isAuthenticated, user, token, loading } = useAuth();
+  const { isAuthenticated, user, loading, accessToken } = useAuth();
   const { openLogin } = useAuthModal();
 
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -142,9 +142,13 @@ export default function HealthConsultation() {
       const formData = new FormData();
       formData.append('file', file);
       if (user?.name) formData.append('patient_name', user.name);
+
       const headers = { 'X-API-Key': '' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-      const response = await chatApi.uploadLabReport(formData, { headers });
+      if (accessToken) headers['Authorization'] = `Bearer ${accessToken}`;
+      console.log('Uploading lab report with formData:', formData);
+      const response = await chatApi.uploadLabReport(formData, headers);
+
+
       if (response.data.report_id) setActiveReportId(response.data.report_id);
       setMessages(prev => [...prev, {
         role: 'assistant',
