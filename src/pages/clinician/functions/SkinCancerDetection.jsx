@@ -157,7 +157,7 @@ function SkinCancerDetection() {
 
           {/* Results Section */}
           {/* Top Findings */}
-{result.all_classes && (
+{result?.all_classes && (
   <div className="bg-[#1e293b]/70 border border-[#334155] rounded-xl p-4 mb-3">
     <p className="text-xs font-medium text-[#64748b] uppercase tracking-wider mb-3">Top Findings</p>
     <div className="space-y-3">
@@ -190,7 +190,7 @@ function SkinCancerDetection() {
 )}
 
 {/* All Conditions */}
-{result.all_classes && (
+{result?.all_classes && (
   <details className="bg-[#1e293b]/50 border border-[#334155] rounded-xl">
     <summary className="px-4 py-3 text-xs text-[#64748b] cursor-pointer select-none hover:text-[#94a3b8] transition-colors">
       All conditions ({Object.keys(result.all_classes).length - 1})
