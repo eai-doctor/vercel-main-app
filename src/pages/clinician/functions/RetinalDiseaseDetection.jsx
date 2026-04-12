@@ -193,6 +193,7 @@ export default function RetinalDiseaseDetection() {
 
     try {
       const res = await functionApi.predictSwintiny(formData);
+      console.log(res);
       const data = res.data;
       if (res.status!=200) {
         setError(data?.detail ?? data?.message ?? `Request failed: ${res.status}`)
