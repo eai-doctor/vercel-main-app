@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { Header, NavBar } from '@/components'
+import functionApi from '@/api/functionApi'
 
 function SkinCancerDetection() {
   const [selectedFile, setSelectedFile] = useState(null)
@@ -57,10 +58,7 @@ function SkinCancerDetection() {
     formData.append('file', selectedFile)
 
     try {
-      const res = await fetch(`http://localhost:5006/predict`, {
-        method: 'POST',
-        body: formData,
-      })
+      const res = await functionApi.predictSwintiny(formData);
       const data = await res.json().catch(() => null)
       if (!res.ok) {
         setError(data?.detail ?? data?.message ?? `Request Failed: ${res.status}`)
