@@ -59,7 +59,7 @@ function SkinCancerDetection() {
     formData.append('file', selectedFile)
 
     try {
-      const res = await functionApi.predictSwintiny(formData);
+      const res = await functionApi.predictClipVitb16(formData);
       console.log(res);
       const data = res.data;
       if (res.status !==200) {

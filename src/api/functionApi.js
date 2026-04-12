@@ -3,7 +3,8 @@ import createApi from "./axiosBase";
 
 const api = createApi(config.backendUrl);
 const durgbankApi = createApi(config.dpdServiceUrl);
-const swintinyApi = createApi(config.swintinyServiceUrl);
+const swintinyApi = createApi(config.swintinyServiceUrl); 
+const clipVitb16Api = createApi(config.clipVitb16ServiceUrl);
 
 // --- FollowUps ---
 export const getMessageTemplates = () =>
@@ -40,6 +41,14 @@ export const predictSwintiny = (formData) => {
   });
 };
 
+export const predictClipVitb16 = (formData) => {
+  return clipVitb16Api.post("/predict", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 const functionApi = {
   getMessageTemplates,
   sendFollowup,
@@ -47,7 +56,8 @@ const functionApi = {
   getPubMed,
   fetchPubMed,
   getDrugBank,
-  predictSwintiny
+  predictSwintiny,
+  predictClipVitb16
 };
 
 export default functionApi;
