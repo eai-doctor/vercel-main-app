@@ -156,96 +156,64 @@ function SkinCancerDetection() {
           )}
 
           {/* Results Section */}
-          {result && !loading && (
-            <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h2 className="text-lg font-semibold text-[#94a3b8] mb-3">Screening Results</h2>
-
-              {/* 상단 요약 카드 */}
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className={`rounded-xl p-4 ${result.disease_risk_positive ? 'bg-red-500/15 border border-red-500/30' : 'bg-green-500/10 border border-green-500/30'}`}>
-                  <p className={`text-xs mb-1 ${result.disease_risk_positive ? 'text-red-400' : 'text-green-400'}`}>
-                    Overall Disease Risk
-                  </p>
-                  <p className={`text-3xl font-bold ${result.disease_risk_positive ? 'text-red-300' : 'text-green-300'}`}>
-                    {(result.disease_risk_probability * 100).toFixed(1)}%
-                  </p>
-                  <span className={`inline-block mt-2 text-xs px-2 py-0.5 rounded-full font-medium
-                    ${result.disease_risk_positive ? 'bg-red-500/20 text-red-300' : 'bg-green-500/20 text-green-300'}`}>
-                    {result.disease_risk_positive ? 'Review Recommended' : 'No Immediate Concern'}
-                  </span>
-                </div>
-                <div className="rounded-xl p-4 bg-[#1e293b]/70 border border-[#334155]">
-                  <p className="text-xs text-[#64748b] mb-1">Detection Threshold</p>
-                  <p className="text-3xl font-bold text-[#cbd5e1]">
-                    {(result.threshold_used * 100).toFixed(1)}%
-                  </p>
-                  <span className="inline-block mt-2 text-xs px-2 py-0.5 rounded-full bg-[#334155] text-[#94a3b8]">
-                    Adaptive
-                  </span>
-                </div>
+          {/* Top Findings */}
+{result.all_classes && (
+  <div className="bg-[#1e293b]/70 border border-[#334155] rounded-xl p-4 mb-3">
+    <p className="text-xs font-medium text-[#64748b] uppercase tracking-wider mb-3">Top Findings</p>
+    <div className="space-y-3">
+      {Object.entries(result.all_classes)
+        .filter(([key]) => key !== 'Disease_Risk')
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 5)
+        .map(([key, val]) => {
+          const pct = (val * 100)
+          const isHigh = pct >= (result.threshold_used * 100)
+          return (
+            <div key={key}>
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-sm text-[#cbd5e1]">{key}</span>
+                <span className={`text-sm font-semibold ${isHigh ? 'text-red-300' : 'text-[#94a3b8]'}`}>
+                  {pct.toFixed(1)}%
+                </span>
               </div>
-
-              {/* Top Findings */}
-              <div className="bg-[#1e293b]/70 border border-[#334155] rounded-xl p-4 mb-3">
-                <p className="text-xs font-medium text-[#64748b] uppercase tracking-wider mb-3">Top Findings</p>
-                <div className="space-y-3">
-                  {Object.entries(result.all_classes)
-                    .filter(([key]) => key !== 'Disease_Risk')
-                    .sort(([, a], [, b]) => b - a)
-                    .slice(0, 5)
-                    .map(([key, val]) => {
-                      const pct = (val * 100)
-                      const isHigh = pct >= 21.4  // threshold_used
-                      return (
-                        <div key={key}>
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-sm text-[#cbd5e1]">{key}</span>
-                            <span className={`text-sm font-semibold ${isHigh ? 'text-red-300' : 'text-[#94a3b8]'}`}>
-                              {pct.toFixed(1)}%
-                            </span>
-                          </div>
-                          <div className="h-1.5 bg-[#334155] rounded-full overflow-hidden">
-                            <div
-                              className={`h-full rounded-full ${isHigh ? 'bg-red-400' : 'bg-[#38bdf8]'}`}
-                              style={{ width: `${Math.min(pct, 100)}%` }}
-                            />
-                          </div>
-                        </div>
-                      )
-                    })}
-                </div>
+              <div className="h-1.5 bg-[#334155] rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full ${isHigh ? 'bg-red-400' : 'bg-[#38bdf8]'}`}
+                  style={{ width: `${Math.min(pct, 100)}%` }}
+                />
               </div>
+            </div>
+          )
+        })}
+    </div>
+  </div>
+)}
 
-              {/* All Conditions (접기/펼치기) */}
-              <details className="bg-[#1e293b]/50 border border-[#334155] rounded-xl">
-                <summary className="px-4 py-3 text-xs text-[#64748b] cursor-pointer select-none hover:text-[#94a3b8] transition-colors">
-                  All conditions ({Object.keys(result.all_classes).length - 1})
-                </summary>
-                <div className="px-4 pb-4 space-y-2 border-t border-[#334155] pt-3">
-                  {Object.entries(result.all_classes)
-                    .filter(([key]) => key !== 'Disease_Risk')
-                    .sort(([, a], [, b]) => b - a)
-                    .map(([key, val]) => {
-                      const pct = (val * 100)
-                      const isHigh = pct >= (result.threshold_used * 100)
-                      return (
-                        <div key={key} className="flex justify-between items-center">
-                          <span className="text-xs text-[#64748b]">{key}</span>
-                          <span className={`text-xs font-medium ${isHigh ? 'text-red-300' : 'text-[#475569]'}`}>
-                            {pct.toFixed(1)}%
-                          </span>
-                        </div>
-                      )
-                    })}
-                </div>
-              </details>
-
-              {/* Disclaimer */}
-              <p className="text-xs text-[#475569] leading-relaxed mt-3">
-                This result is generated by an automated system. Please consult a healthcare professional for a formal evaluation.
-              </p>
-            </section>
-          )}
+{/* All Conditions */}
+{result.all_classes && (
+  <details className="bg-[#1e293b]/50 border border-[#334155] rounded-xl">
+    <summary className="px-4 py-3 text-xs text-[#64748b] cursor-pointer select-none hover:text-[#94a3b8] transition-colors">
+      All conditions ({Object.keys(result.all_classes).length - 1})
+    </summary>
+    <div className="px-4 pb-4 space-y-2 border-t border-[#334155] pt-3">
+      {Object.entries(result.all_classes)
+        .filter(([key]) => key !== 'Disease_Risk')
+        .sort(([, a], [, b]) => b - a)
+        .map(([key, val]) => {
+          const pct = (val * 100)
+          const isHigh = pct >= (result.threshold_used * 100)
+          return (
+            <div key={key} className="flex justify-between items-center">
+              <span className="text-xs text-[#64748b]">{key}</span>
+              <span className={`text-xs font-medium ${isHigh ? 'text-red-300' : 'text-[#475569]'}`}>
+                {pct.toFixed(1)}%
+              </span>
+            </div>
+          )
+        })}
+    </div>
+  </details>
+)}
           
           {/* Error Message */}
           {error && (
