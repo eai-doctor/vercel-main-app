@@ -21,6 +21,7 @@ function ChatPanel({
     sendMessage, 
     plusMenuRef, 
     showPlusMenu, 
+    setShowPlusMenu ,
     isUploadingReport, 
     isAuthenticated, 
     labReportInputRef, 
