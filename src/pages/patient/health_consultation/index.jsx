@@ -58,7 +58,6 @@ export default function HealthConsultation() {
 
 
   const [showLimitModal, setShowLimitModal] = useState(false);
-  const [showPlusMenu, setShowPlusMenu] = useState(false);
   const labReportInputRef = useRef(null);
   const plusMenuRef = useRef(null);
 
@@ -80,6 +79,7 @@ export default function HealthConsultation() {
     activeReportId, setActiveReportId,snapshot, setSnapshot,
     showChatSummaryModal,
     setShowChatSummaryModal,
+    showPlusMenu, setShowPlusMenu,
     
     // Actions
     sendMessage,
@@ -87,7 +87,7 @@ export default function HealthConsultation() {
     stopRecording,
     generateChatSummary,
     uploadLabReport
-  } = useHealthConsultation(user, accessToken, isAuthenticated, loading, openLogin, setShowPlusMenu);
+  } = useHealthConsultation(user, accessToken, isAuthenticated, loading, openLogin);
 
   const TABS = getTabs(t);
 
@@ -242,6 +242,7 @@ export default function HealthConsultation() {
           sendMessage= {sendMessage}
           plusMenuRef= {plusMenuRef} 
           showPlusMenu= {showPlusMenu}
+          setShowPlusMenu= {setShowPlusMenu}
           isUploadingReport= {isUploadingReport} 
           isAuthenticated= {isAuthenticated}
           labReportInputRef= {labReportInputRef}

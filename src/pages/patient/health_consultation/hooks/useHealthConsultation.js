@@ -5,7 +5,7 @@ import consultationApi from '@/api/consultationApi';
 import { AUDIO_CONSTRAINTS, FREE_MESSAGE_LIMIT } from '../constants';
 import { getStoredMessageCount, incrementMessageCount } from '../utils';
 
-export const useHealthConsultation = (user, accessToken, isAuthenticated, loading, openLogin, setShowPlusMenu) => {
+export const useHealthConsultation = (user, accessToken, isAuthenticated, loading, openLogin) => {
   const { t } = useTranslation(['patient', 'common']);
 
   // --- 1. Chat States ---
@@ -29,6 +29,9 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
   const [summaryModelUsed, setSummaryModelUsed] = useState('');
   const [aiSummary, setAiSummary] = useState('');
   const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
+
+  const [showPlusMenu, setShowPlusMenu] = useState(false);
+  
   
   // --- 4. Refs ---
   const streamRef = useRef(null);
@@ -251,6 +254,7 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
     setSnapshot,
     showChatSummaryModal,
     setShowChatSummaryModal,
+    showPlusMenu, setShowPlusMenu,
     
     // Actions
     sendMessage,
