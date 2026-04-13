@@ -138,14 +138,14 @@ export default function HealthConsultation() {
     const file = e.target.files[0]; if (!file) return;
     setShowPlusMenu(false); setIsUploadingReport(true);
     setMessages(prev => [...prev, { role: 'user', content: `📎 Uploading lab report: ${file.name}…` }]);
+
     try {
       const formData = new FormData();
       formData.append('file', file);
       if (user?.name) formData.append('patient_name', user.name);
 
-      const headers = { 'X-API-Key': '' };
+      const headers = { 'X-API-Key': '', "Content-Type": "multipart/form-data"};
       if (accessToken) headers['Authorization'] = `Bearer ${accessToken}`;
-      console.log('Uploading lab report with formData:', formData);
       const response = await chatApi.uploadLabReport(formData, headers);
 
 
@@ -161,6 +161,8 @@ export default function HealthConsultation() {
   };
 
   const sendMessage = async (messageText = null) => {
+
+    console.log("sendMessage")
     const textToSend = messageText || input;
     if (!textToSend.trim() || isLoadingChat) return;
     
@@ -178,7 +180,7 @@ export default function HealthConsultation() {
     setInput(''); setIsLoadingChat(true); setShowSuggestions(false);
     try {
       const headers = { 'X-API-Key': '' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
+      if (accessToken) headers['Authorization'] = `Bearer ${accessToken}`;
       const response = await chatApi.sendPatientMessage({
         message: textToSend, patient_summary: conversationSummary || '',
         chat_history: messages, mode: 'patient',
