@@ -23,7 +23,8 @@ export default function ConsultationContainer() {
   const latestSummaryRef = useRef("");
 
   const [showConfigPanel, setShowConfigPanel] = useState(false);
-  const [showMcGillModal, setShowMcGillModal] = useState(false)
+  const [showMcGillModal, setShowMcGillModal] = useState(false);
+  const [activeTab, setActiveTab] = useState("patient")
 
   const [patientData, setPatientData] = useState(null);
   const [snapshot, setSnapshot] = useState("");
@@ -134,8 +135,32 @@ export default function ConsultationContainer() {
 
   return (
   <div className="min-h-screen bg-white" onCopy={blockCopy}>
+    <div className="lg:hidden flex border-b border-gray-200 sticky top-0 bg-white z-10">
+      <button
+        className={`flex-1 py-3 text-sm font-medium transition-colors ${
+          activeTab === "patient"
+            ? "border-b-2 border-blue-500 text-blue-600"
+            : "text-gray-500"
+        }`}
+        onClick={() => setActiveTab("patient")}
+      >
+        Patient Information
+      </button>
+      <button
+        className={`flex-1 py-3 text-sm font-medium transition-colors ${
+          activeTab === "ai"
+            ? "border-b-2 border-blue-500 text-blue-600"
+            : "text-gray-500"
+        }`}
+        onClick={() => setActiveTab("ai")}
+      >
+        AI Consultation
+      </button>
+    </div>
+
     <div className="flex flex-col lg:flex-row gap-6 p-4 lg:p-6 max-w-screen-2xl mx-auto">
-        <div className="w-full lg:w-2/3 overflow-y-auto space-y-6">
+        <div className={`w-full lg:w-2/3 overflow-y-auto space-y-6 
+            ${activeTab !== "patient" ? "hidden lg:block" : ""}`}>
           <MainLeftPanel 
             // onBackToPatientList={onBackToPatientList}
             patientData={patientData}
@@ -151,7 +176,11 @@ export default function ConsultationContainer() {
         </div>
 
         {/* Right Panel - AI Consultation (Desktop only) */}
-        <div className="hidden lg:block w-full lg:w-1/3 bg-white border-r border-[rgba(15,23,42,0.1)] backdrop-blur-lg p-6 rounded-xl shadow-[0_25px_50px_rgba(15,23,42,0.15)] border border-[rgba(15,23,42,0.1)] space-y-6 lg:sticky lg:top-4 lg:h-[calc(100vh-2rem)] overflow-y-auto">
+        <div className={`w-full lg:w-1/3 bg-white border-r border-[rgba(15,23,42,0.1)] 
+            backdrop-blur-lg p-6 rounded-xl shadow-[0_25px_50px_rgba(15,23,42,0.15)] 
+            border border-[rgba(15,23,42,0.1)] space-y-6 lg:sticky lg:top-4 
+            lg:h-[calc(100vh-2rem)] overflow-y-auto
+            ${activeTab !== "ai" ? "hidden lg:block" : ""}`}>
           <MainRightPanel 
             // patientData={patientData}
             consulting={consulting}
