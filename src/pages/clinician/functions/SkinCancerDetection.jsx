@@ -156,39 +156,78 @@ function SkinCancerDetection() {
             </div>
           )}
 
-          {/* Results Section */}
-          {/* Top Findings */}
-{result?.all_classes && (
-  <div className="bg-[#1e293b]/70 border border-[#334155] rounded-xl p-4 mb-3">
-    <p className="text-xs font-medium text-[#64748b] uppercase tracking-wider mb-3">Top Findings</p>
-    <div className="space-y-3">
-      {Object.entries(result.all_classes)
-        .filter(([key]) => key !== 'Disease_Risk')
-        .sort(([, a], [, b]) => b - a)
-        .slice(0, 5)
-        .map(([key, val]) => {
-          const pct = (val * 100)
-          const isHigh = pct >= (result.threshold_used * 100)
-          return (
-            <div key={key}>
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-sm text-[#cbd5e1]">{key}</span>
-                <span className={`text-sm font-semibold ${isHigh ? 'text-red-300' : 'text-[#94a3b8]'}`}>
-                  {pct.toFixed(1)}%
-                </span>
+        {/* Results Section */}
+        {result && (
+          <div className="space-y-4">
+            
+            {/* Main Result Card */}
+            <div className={`rounded-xl p-5 border ${
+              result.cancer_positive
+                ? 'bg-red-500/10 border-red-500/40'
+                : 'bg-emerald-500/10 border-emerald-500/40'
+            }`}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">{result.cancer_positive ? '⚠️' : '✅'}</span>
+                <div>
+                  <p className={`text-lg font-bold ${result.cancer_positive ? 'text-red-300' : 'text-emerald-300'}`}>
+                    {result.cancer_positive ? 'Positive — Cancer Detected' : 'Negative — No Cancer Detected'}
+                  </p>
+                  <p className="text-xs text-[#64748b]">
+                    Threshold: {(result.threshold_used * 100).toFixed(1)}%
+                  </p>
+                </div>
               </div>
-              <div className="h-1.5 bg-[#334155] rounded-full overflow-hidden">
-                <div
-                  className={`h-full rounded-full ${isHigh ? 'bg-red-400' : 'bg-[#38bdf8]'}`}
-                  style={{ width: `${Math.min(pct, 100)}%` }}
-                />
+
+              {/* Probability Bar */}
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-xs text-[#94a3b8]">Cancer Probability</span>
+                  <span className={`text-sm font-bold ${result.cancer_positive ? 'text-red-300' : 'text-emerald-300'}`}>
+                    {(result.cancer_probability * 100).toFixed(1)}%
+                  </span>
+                </div>
+                <div className="h-2 bg-[#334155] rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-700 ${
+                      result.cancer_positive ? 'bg-red-400' : 'bg-emerald-400'
+                    }`}
+                    style={{ width: `${Math.min(result.cancer_probability * 100, 100)}%` }}
+                  />
+                </div>
+                {/* Threshold marker */}
+                <div className="relative h-2 mt-1">
+                  <div
+                    className="absolute top-0 w-px h-2 bg-[#94a3b8]"
+                    style={{ left: `${result.threshold_used * 100}%` }}
+                  />
+                  <span
+                    className="absolute text-[10px] text-[#64748b] -translate-x-1/2"
+                    style={{ left: `${result.threshold_used * 100}%`, top: '6px' }}
+                  >
+                    threshold
+                  </span>
+                </div>
               </div>
             </div>
-          )
-        })}
-    </div>
-  </div>
-)}
+
+            {/* Warning */}
+            {result.cancer_positive && (
+              <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                <p className="text-xs text-amber-300 leading-relaxed">
+                  ⚕️ This result suggests a high probability of malignancy. Please consult a dermatologist or medical professional as soon as possible.
+                </p>
+              </div>
+            )}
+
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && (
+          <div className="p-3 bg-red-500/15 border border-red-500/40 rounded-lg">
+            <p className="text-sm text-red-300">{error}</p>
+          </div>
+        )}
 
           {/* All Conditions */}
           {result?.all_classes && (
