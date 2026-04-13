@@ -49,7 +49,6 @@ function RecordingPanel({
     setIsChatHistoryLoading(true);
     try {
       const response = await chatApi.getChatHistory(user?.id || "PORTAL-USER");
-      console.log(response);
       if (response.data.success) setChatHistory(response.data.histories || []);
     } catch (e) { console.error(e); } 
     finally { setIsChatHistoryLoading(false); }
@@ -65,10 +64,7 @@ const groupedHistory = chatHistory.reduce((acc, item) => {
 }, {});
 const historyDates = Object.keys(groupedHistory).sort((a, b) => b.localeCompare(a));
 
-console.log(chatHistory);
-console.log(groupedHistory);
-
-// ── Chat History Panel (데스크톱: 풀 패널, 모바일: 토글 아코디언) ──
+// ── Chat History Panel  ──
 const ChatHistoryPanel = ({ mobile = false }) => {
   if (!isAuthenticated) return null;
 

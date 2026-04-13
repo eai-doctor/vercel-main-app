@@ -11,9 +11,9 @@ export default function RecordCard({ data, onEdit, onDelete, t }) {
           {data.notes && <p className="text-xs text-[#475569] mt-1 italic line-clamp-2">{data.notes}</p>}
         </div>
         <div className="flex items-center space-x-3 ml-3 shrink-0">
-          <button onClick={onEdit} className="text-[#3b82f6] hover:text-[#2563eb] text-sm font-medium transition-colors">
+          {/* <button onClick={onEdit} className="text-[#3b82f6] hover:text-[#2563eb] text-sm font-medium transition-colors">
             {t('common:edit', 'Edit')}
-          </button>
+          </button> */}
           <button onClick={onDelete} className="cursor-pointer text-red-400 hover:text-red-600 text-sm font-medium transition-colors">
             {t('common:delete', 'Delete')}
           </button>

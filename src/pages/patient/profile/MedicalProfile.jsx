@@ -138,13 +138,13 @@ export default function MedicalProfile() {
         {/* 섹션 헤더 및 추가 버튼 */}
         <div className="flex justify-between items-end mb-6 px-2">
           <h2 className="text-xl font-bold text-slate-800">{tabLabels[activeTab]}</h2>
-          <Button 
+          {/* <Button 
             onClick={() => { setEditingRecord(null); setShowModal(true); }}
               className="bg-[#2C3B8D] hover:bg-[#1f2a63] text-white"
           >
             <span className="text-lg font-bold">+</span>
             {t('common:add')}
-          </Button>
+          </Button> */}
         </div>
 
         {/* Error Message */}

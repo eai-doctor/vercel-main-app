@@ -1,4 +1,3 @@
-import ReactMarkdown from 'react-markdown';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -51,7 +50,6 @@ export default function HealthConsultation() {
   const [emailResult, setEmailResult] = useState(null);
 
   const [showChatboxModal, setShowChatboxModal] = useState(false);
-  const [showChatSummaryModal, setShowChatSummaryModal] = useState(false);
   const [pendingAction, setPendingAction] = useState(null); 
   const [pendingMessage, setPendingMessage] = useState(null); 
 
@@ -80,6 +78,8 @@ export default function HealthConsultation() {
     isGeneratingSummary, setIsGeneratingSummary,
     isUploadingReport, setIsUploadingReport,
     activeReportId, setActiveReportId,snapshot, setSnapshot,
+    showChatSummaryModal,
+    setShowChatSummaryModal,
     
     // Actions
     sendMessage,
@@ -284,6 +284,8 @@ export default function HealthConsultation() {
       {/* ── Chat Summary Modal ── */}
       {showChatSummaryModal && 
         <ChatSummaryModal 
+          t={t}
+          summaryModelUsed={summaryModelUsed}
           setShowChatSummaryModal={setShowChatSummaryModal} 
           setSaveSummaryResult={setSaveSummaryResult} 
           chatSummary={chatSummary} 

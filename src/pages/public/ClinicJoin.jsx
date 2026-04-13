@@ -96,7 +96,7 @@ function ClinicJoin() {
         </div>
         <a href="/clinic-login"
           className="text-[13px] font-semibold text-[#2C3B8D] hover:text-[#233070] transition-colors">
-          Already have an account → Sign in
+          <span className={`lg:inline hidden`}>Already have an account →</span> Sign in
         </a>
       </nav>
 

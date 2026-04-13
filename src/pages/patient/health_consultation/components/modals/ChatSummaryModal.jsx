@@ -1,9 +1,13 @@
+import ReactMarkdown from 'react-markdown';
+
 import {
   AiIcon, MicrophoneIcon, ClipboardIcon, LightbulbIcon,
   MailIcon, CheckCircleIcon, XCircleIcon, ClockIcon, UserIcon
 } from '@/components/ui/icons';
 
-function ChatSummaryModal({ setShowChatSummaryModal, setSaveSummaryResult, chatSummary, saveSummaryResult, handleSaveSummary, isSavingSummary }) {
+import ModalHeader from './ModalHeader';
+
+function ChatSummaryModal({ t, setShowChatSummaryModal, setSaveSummaryResult, chatSummary, saveSummaryResult, handleSaveSummary, isSavingSummary, summaryModelUsed }) {
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">

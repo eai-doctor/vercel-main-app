@@ -24,6 +24,7 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
   
   // --- 3. Summary & Modal States ---
   const [chatSummary, setChatSummary] = useState('');
+  const [showChatSummaryModal, setShowChatSummaryModal] = useState(false);
   const [isGeneratingChatSummary, setIsGeneratingChatSummary] = useState(false);
   const [summaryModelUsed, setSummaryModelUsed] = useState('');
   const [aiSummary, setAiSummary] = useState('');
@@ -193,9 +194,11 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
     setIsGeneratingChatSummary(true);
     try {
       const response = await chatApi.generateConsultationSummaries(cleanMessages);
+      console.log(response);
       if (response.data.success) {
         setChatSummary(response.data.summary);
         setSummaryModelUsed(response.data.model_used || '');
+        setShowChatSummaryModal(true);
         return response.data;
       }
     } catch (e) {
@@ -246,6 +249,8 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
     activeReportId, setActiveReportId,
     snapshot,
     setSnapshot,
+    showChatSummaryModal,
+    setShowChatSummaryModal,
     
     // Actions
     sendMessage,
