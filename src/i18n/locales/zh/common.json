@@ -43,7 +43,8 @@
     "returnToHome": "返回首页",
     "add": "添加",
     "back": "返回",
-    "privacyConsent": "隐私与同意"
+    "privacyConsent": "隐私与同意",
+    "next": "下一步"
   },
   "states": {
     "loading": "加载中...",
@@ -59,7 +60,9 @@
     "analyzing": "分析中...",
     "saving": "保存中...",
     "saved": "已保存",
-    "sending": "发送中..."
+    "sending": "发送中...",
+    "successfullyUpdated" : "更新成功！",
+    "welcomeBack" : "欢迎回来！"
   },
   "errors": {
     "generic": "出了点问题，请重试。",
@@ -71,7 +74,10 @@
     "fileSizeLimit": "文件大小必须小于50MB。",
     "chatError": "抱歉，出了点问题。请重试。",
     "error": "错误",
-    "unknown": "发生了未知错误。"
+    "failToLoad": "加载失败",
+    "unknown": "发生了未知错误。",
+    "invalidCredentials": "请检查您的电子邮件或密码。",
+    "unknownEmail": "未找到该电子邮件，请先检查邮箱地址。"
   },
   "labels": {
     "email": "邮箱",
@@ -119,7 +125,7 @@
   },
   "addRecord": "添加记录",
   "confirmDelete": "删除此记录？",
-  "noRecords": "暂无{{type}}",
+  "noRecords": "未找到记录",
   "clickAdd": "点击\"+ 添加\"来添加您的第一条记录",
   "call911": "拨打急救电话",
   "edit": "编辑",

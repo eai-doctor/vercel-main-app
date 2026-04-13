@@ -1,0 +1,69 @@
+{
+  "title": "隐私政策",
+  "subtitle": "Ebovir Biotech | 最后更新：2026.02.23",
+  "download": "下载 PDF",
+  "back": "返回",
+
+  "summary": {
+    "title": "概述",
+    "body": "Ebovir Biotech（“Ebovir”、“我们”）致力于根据魁北克第25号法案及相关加拿大隐私法律保护个人信息。"
+  },
+
+  "scope": {
+    "title": "适用范围",
+    "items": [
+      "网站访问者",
+      "平台用户（患者和客户）",
+      "姓名、出生日期、联系方式",
+      "医疗和基因数据（需明确同意）",
+      "咨询记录及上传文件",
+      "音频记录（经同意）",
+      "AI生成结果",
+      "使用日志和审计记录"
+    ]
+  },
+
+  "purpose": {
+    "title": "目的与法律依据",
+    "items": [
+      "提供AI辅助医疗/基因服务",
+      "生成结构化分析报告",
+      "维护账户安全",
+      "遵守法律义务",
+      "开展经同意的研究"
+    ]
+  },
+
+  "ai": {
+    "title": "人工智能的使用",
+    "body": "我们的服务使用人工智能系统分析医疗和基因信息并生成结构化结果。AI结果不构成医疗诊断，也不能替代专业医疗人员。"
+  },
+
+  "thirdParty": {
+    "title": "第三方服务提供商",
+    "items": [
+      "Google Cloud Platform",
+      "MongoDB Atlas",
+      "SendGrid"
+    ]
+  },
+
+  "rights": {
+    "title": "个人权利",
+    "items": [
+      "访问您的信息",
+      "请求更正",
+      "请求删除",
+      "撤回同意",
+      "请求数据可携性"
+    ]
+  },
+
+  "officer": {
+    "title": "隐私负责人",
+    "nameLabel": "姓名",
+    "emailLabel": "邮箱",
+    "name": "Zhenlong Liu",
+    "email": "support@e-ai.ca"
+  }
+}

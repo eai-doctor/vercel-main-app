@@ -31,7 +31,6 @@ function ProfileDropdown({ variant = "light" }) {
   const handleLogout = () => {
     setOpen(false);
     logout();
-    navigate("/");
   };
 
   const initials = user?.name
@@ -91,7 +90,7 @@ function ProfileDropdown({ variant = "light" }) {
               )}
             </div>
             <div className="border-t border-gray-100" />
-            <button
+            {/* <button
               onClick={() => { setOpen(false); navigate('/consent'); }}
               className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
             >
@@ -109,11 +108,12 @@ function ProfileDropdown({ variant = "light" }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               <span>{t('buttons.accountSettings', 'Account Settings')}</span>
-            </button>
+            </button> */}
+
             <div className="border-t border-gray-100" />
             <button
               onClick={handleLogout}
-              className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors rounded-b-xl"
+              className="cursor-pointer w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors rounded-b-xl"
             >
               <svg
                 className="w-4 h-4"

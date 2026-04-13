@@ -2,7 +2,8 @@
   "home": {
     "welcome": {
       "title": "欢迎使用医疗AI平台",
-      "subtitle": "综合医疗管理的先进人工智能系统"
+      "subtitle": "综合医疗管理的先进人工智能系统",
+      "signin" : "登录以访问患者记录和AI医疗工具"
     },
     "modules": {
       "consultation": {

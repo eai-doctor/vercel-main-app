@@ -53,11 +53,17 @@
     "additionalNotesPlaceholder": "其他相关信息..."
   },
   "results": {
+    "triage_status": "分诊状态",
+    "assessment_summary": "评估摘要",
+    "safety_alerts": "安全警报",
+    "potential_considerations": "潜在考虑因素",
+    "next_steps": "后续步骤",
     "triageLevel": "分诊级别",
     "assessment": "评估",
     "recommendations": "建议",
     "redFlags": "危险信号",
     "differentialDiagnosis": "鉴别诊断",
-    "disclaimer": "本评估仅供参考，不构成医疗建议。"
+    "disclaimer": "本评估仅供参考，不构成医疗建议。",
+    "start_over": "重新开始"
   }
 }

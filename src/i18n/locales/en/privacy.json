@@ -1,0 +1,121 @@
+{
+  "title": "Privacy Policy",
+  "subtitle": "Ebovir Biotech | Last Updated: 2026.02.23",
+  "download": "Download PDF",
+  "back": "Back",
+
+  "summary": {
+    "title": "Summary",
+    "body": "Ebovir Biotech (\"Ebovir\", \"we\", \"us\", or \"our\") is committed to protecting personal information in accordance with Quebec Law 25 and other applicable Canadian privacy laws."
+  },
+
+  "scope": {
+    "title": "Scope",
+    "items": [
+      "Website visitors",
+      "Platform users (patients and clients)",
+      "Name, date of birth, contact information",
+      "Medical and genetic data (with explicit consent)",
+      "Consultation details and uploaded documents",
+      "Audio recordings (where consented)",
+      "AI-generated outputs",
+      "Usage logs and audit records"
+    ]
+  },
+
+  "purpose": {
+    "title": "Purpose and Legal Basis",
+    "items": [
+      "Deliver AI-assisted medical/genetic services",
+      "Generate structured analytical reports",
+      "Maintain account security",
+      "Comply with legal obligations",
+      "Conduct consented research"
+    ]
+  },
+
+  "ai": {
+    "title": "Use of AI",
+    "body": "Our services use artificial intelligence systems to analyze medical and genetic information and generate structured outputs. AI outputs are not medical diagnoses and do not replace licensed healthcare professionals."
+  },
+
+  "thirdParty": {
+    "title": "Third-Party Service Providers",
+    "items": [
+      "Google Cloud Platform",
+      "MongoDB Atlas",
+      "SendGrid"
+    ]
+  },
+
+  "rights": {
+    "title": "Individual Rights",
+    "items": [
+      "Access your information",
+      "Request correction",
+      "Request deletion",
+      "Withdraw consent",
+      "Request portability"
+    ]
+  },
+
+  "officer": {
+    "title": "Privacy Officer",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "name": "Zhenlong Liu",
+    "email": "support@e-ai.ca"
+  },
+
+  "documents": {
+  "title": "Security-related Documents",
+  "subtitle": "Click the documents below to download.",
+  "downloadBtn": "Download",
+  "pia": {
+    "title": "Privacy Impact Assessment (PIA)",
+    "desc": "Privacy Impact Assessment — PIA.pdf"
+  },
+  "breach": {
+    "title": "Privacy Incident & Breach Response Policy",
+    "desc": "Privacy Incident & Breach Response Policy"
+  },
+  "policy": {
+    "title": "Privacy Policy",
+    "desc": "Privacy Policy — PRIVACY_POLICY.pdf"
+  },
+  "documents": {
+  "title": "Documents liés à la sécurité",
+  "subtitle": "Cliquez sur les documents ci-dessous pour les télécharger.",
+  "downloadBtn": "Télécharger",
+  "pia": {
+    "title": "Évaluation des facteurs relatifs à la vie privée (PIA)",
+    "desc": "Évaluation des facteurs relatifs à la vie privée — PIA.pdf"
+  },
+  "breach": {
+    "title": "Politique de gestion des incidents et des violations de données",
+    "desc": "Politique de gestion des incidents et des violations de données"
+  },
+  "policy": {
+    "title": "Politique de confidentialité",
+    "desc": "Politique de confidentialité — PRIVACY_POLICY.pdf"
+  },
+  "documents": {
+  "title": "安全相关文件",
+  "subtitle": "点击下方文档进行下载。",
+  "downloadBtn": "下载",
+  "pia": {
+    "title": "隐私影响评估（PIA）",
+    "desc": "隐私影响评估 — PIA.pdf"
+  },
+  "breach": {
+    "title": "隐私事件与数据泄露应对政策",
+    "desc": "隐私事件与数据泄露应对政策"
+  },
+  "policy": {
+    "title": "隐私政策",
+    "desc": "隐私政策 — PRIVACY_POLICY.pdf"
+  }
+}
+}
+}
+}

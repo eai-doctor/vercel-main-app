@@ -53,11 +53,17 @@
     "additionalNotesPlaceholder": "Toute autre information..."
   },
   "results": {
+    "triage_status": "Statut de triage",
+    "assessment_summary": "Résumé de l’évaluation",
+    "safety_alerts": "Alertes de sécurité",
+    "potential_considerations": "Considérations potentielles",
+    "next_steps": "Prochaines étapes",
     "triageLevel": "Niveau de triage",
     "assessment": "Évaluation",
     "recommendations": "Recommandations",
     "redFlags": "Signaux d'alarme",
     "differentialDiagnosis": "Diagnostic différentiel",
-    "disclaimer": "Cette évaluation est à titre informatif uniquement et ne constitue pas un avis médical."
+    "disclaimer": "Cette évaluation est à titre informatif uniquement et ne constitue pas un avis médical.",
+    "start_over": "Recommencer"
   }
 }

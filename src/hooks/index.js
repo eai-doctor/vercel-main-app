@@ -1,9 +1,9 @@
-import useTranscription from './useTranscription';
-import useAudioRecorder from './useAudioRecorder';
 import useLanguage from './useLanguage';
+import useSessionGuard from './useSessionGuard';
+import useConsultation from './useConsultation';
 
 export {
-    useTranscription,
-    useAudioRecorder,
-    useLanguage
+    useLanguage,
+    useSessionGuard,
+    useConsultation
 };

@@ -43,9 +43,10 @@
     "returnToHome": "Return to Home",
     "add": "Add",
     "back": "Back",
-    "privacyConsent": "Privacy & Consent"
+    "privacyConsent": "Privacy & Consent",
+    "next" : "Next"
   },
-  "states": {
+  "states": {  
     "loading": "Loading...",
     "thinking": "Thinking...",
     "systemOnline": "System Status: Online",
@@ -60,7 +61,8 @@
     "saving": "Saving...",
     "saved": "Saved",
     "sending": "Sending...",
-    "successfullyUpdated" : "Succeessfully Updated!"
+    "successfullyUpdated" : "Successfully Updated!",
+    "welcomeBack" : "Welcome Back!"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -72,7 +74,10 @@
     "fileSizeLimit": "File size must be less than 50MB.",
     "chatError": "Sorry, something went wrong. Please try again.",
     "error": "Error",
-    "unknown": "An unknown error occurred."
+    "failToLoad" : "Failed to load",
+    "unknown": "An unknown error occurred.",
+    "invalidCredentials" : "Please check your email or password.",
+    "unknownEmail" : "Email is not found, please check the email address first"
   },
   "labels": {
     "email": "Email",
@@ -120,7 +125,7 @@
   },
   "addRecord": "Add Record",
   "confirmDelete": "Delete this record?",
-  "noRecords": "No {{type}} yet",
+  "noRecords": "No records found",
   "clickAdd": "Click \"+ Add\" to add your first record",
   "call911": "Call 911",
   "edit": "Edit",

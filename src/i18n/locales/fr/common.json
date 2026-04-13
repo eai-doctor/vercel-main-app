@@ -43,7 +43,8 @@
     "returnToHome": "Retour à l'accueil",
     "add": "Ajouter",
     "back": "Retour",
-    "privacyConsent": "Confidentialité et consentement"
+    "privacyConsent": "Confidentialité et consentement",
+    "next": "Suivant"
   },
   "states": {
     "loading": "Chargement...",
@@ -59,7 +60,9 @@
     "analyzing": "Analyse en cours...",
     "saving": "Enregistrement en cours...",
     "saved": "Enregistré",
-    "sending": "Envoi en cours..."
+    "sending": "Envoi en cours...",
+    "successfullyUpdated" : "Mise à jour réussie !",
+    "welcomeBack" : "Bon retour !"
   },
   "errors": {
     "generic": "Une erreur est survenue. Veuillez réessayer.",
@@ -71,7 +74,10 @@
     "fileSizeLimit": "La taille du fichier doit être inférieure à 50 Mo.",
     "chatError": "Désolé, une erreur est survenue. Veuillez réessayer.",
     "error": "Erreur",
-    "unknown": "Une erreur inconnue est survenue."
+    "failToLoad": "Échec du chargement",
+    "unknown": "Une erreur inconnue est survenue.",
+    "invalidCredentials": "Veuillez vérifier votre adresse e-mail ou votre mot de passe.",
+    "unknownEmail": "Adresse e-mail introuvable, veuillez vérifier l’adresse e-mail."
   },
   "labels": {
     "email": "Courriel",
@@ -119,7 +125,7 @@
   },
   "addRecord": "Ajouter un dossier",
   "confirmDelete": "Supprimer ce dossier ?",
-  "noRecords": "Aucun(e) {{type}} pour le moment",
+  "noRecords": "Aucun enregistrement trouvé",
   "clickAdd": "Cliquez sur \"+ Ajouter\" pour ajouter votre premier dossier",
   "call911": "Appelez le 911",
   "edit": "Modifier",
