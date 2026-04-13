@@ -149,7 +149,7 @@ function ClinicJoin() {
         </div>
 
         {/* ── CTA / Form area ────────────────────────────────────── */}
-        <div className="max-w-lg mx-auto">
+        <div className="max-w-lg mx-auto hidden">
 
           {/* ── Step: choice ─────────────────────────────────────── */}
           {step === "choice" && (
