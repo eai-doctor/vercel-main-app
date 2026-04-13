@@ -5,8 +5,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useLanguage, useSessionGuard } from "@/hooks";
 
 import AppFooter from './AppFooter';
-import { LoginModal } from "@/components/modal";
 import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
+import { LoginModal } from "@/pages/public";
 
 function AppLayoutInner() {
   const { user, loading } = useAuth();

@@ -11,6 +11,9 @@ export const getSuggestions =(patientSummary) =>
           mode: 'clinician'
         }
       )
+
+export const getChatHistory =(userId) =>
+  backApi.get(`/api/chat/${userId}`);
       
 export const askAboAi = (userMessage, chatHistory ) =>
   api.post("/api/chat", {
@@ -34,6 +37,15 @@ export const sendMessage = (textToSend, patientSummary, messages) =>
           chat_history: messages,
           mode: 'clinician'
         });
+
+export const saveMessage = (message, response, user_id) =>
+  backApi.post( `/api/chat/save`,
+        {
+          message: message,
+          response: response,
+          user_id: user_id,
+        });
+
 
 export const sendPatientMessage = (data, chatHeaders) =>
   api.post( `/api/chat`, data, { headers: chatHeaders });
@@ -59,8 +71,10 @@ export const uploadLabReport = (formData, uploadHeaders) =>
 
 const chatApi = {
     getSuggestions,
+    getChatHistory,
     askAboAi,
     sendMessage,
+    saveMessage,
     sendPatientMessage,
     getConsultationSummaries,
     generateConsultationSummaries,

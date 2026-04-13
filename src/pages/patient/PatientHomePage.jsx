@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
 
-import config from "@/config";
 import { useAuth } from "@/context/AuthContext";
 import { FeatureCard, Header, SystemStatus } from "@/components";
-import { LoginModal } from "@/components/modal";
 import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, UserIcon } from "@/components/ui/icons";
 import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
 

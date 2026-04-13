@@ -20,7 +20,6 @@ export default function FormModal({ tab, initialData, onSave, onClose, t, labels
           </h3>
           
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* 탭별 조건부 렌더링 */}
             {tab === "Condition" && (
               <>
                 <Field label={t('common:name')} value={form.name} onChange={(v) => updateForm("name", v)} required />
@@ -38,7 +37,108 @@ export default function FormModal({ tab, initialData, onSave, onClose, t, labels
               </>
             )}
 
-            {/* 나머지 탭(MedicationRequest, AllergyIntolerance, Immunization)도 같은 패턴으로 추가 */}
+            {tab === "MedicationRequest" && (
+  <>
+    <Field
+      label={t('common:medication')}
+      value={form.medication}
+      onChange={(v) => updateForm("medication", v)}
+      required
+      placeholder="e.g. Ibuprofen 100 MG Oral Tablet"
+    />
+    <Field
+      label={t('common:dosage')}
+      value={form.dosage}
+      onChange={(v) => updateForm("dosage", v)}
+      placeholder="e.g. Take as needed."
+    />
+    <SelectField
+      label={t('common:status')}
+      value={form.status}
+      options={["active", "stopped", "cancelled", "completed"]}
+      onChange={(v) => updateForm("status", v)}
+    />
+    <Field
+      label={t('common:date')}
+      value={form.date}
+      onChange={(v) => updateForm("date", v)}
+      type="date"
+    />
+  </>
+)}
+
+{tab === "AllergyIntolerance" && (
+  <>
+    <Field
+      label={t('common:display')}
+      value={form.display}
+      onChange={(v) => updateForm("display", v)}
+      required
+      placeholder="e.g. Allergy to Penicillin (disorder)"
+    />
+    <Field
+      label={t('common:substance')}
+      value={form.substance}
+      onChange={(v) => updateForm("substance", v)}
+      required
+      placeholder="e.g. Penicillin G"
+    />
+    <SelectField
+      label={t('common:type')}
+      value={form.type}
+      options={["allergy", "intolerance"]}
+      onChange={(v) => updateForm("type", v)}
+    />
+    <SelectField
+      label={t('common:category')}
+      value={form.category}
+      options={["medication", "food", "environment", "biologic"]}
+      onChange={(v) => updateForm("category", v)}
+    />
+    <SelectField
+      label={t('common:criticality')}
+      value={form.criticality}
+      options={["low", "high", "unable-to-assess"]}
+      onChange={(v) => updateForm("criticality", v)}
+    />
+    <SelectField
+      label={t('common:status')}
+      value={form.status}
+      options={["active", "inactive", "resolved"]}
+      onChange={(v) => updateForm("status", v)}
+    />
+    <Field
+      label={t('common:date')}
+      value={form.date}
+      onChange={(v) => updateForm("date", v)}
+      type="date"
+    />
+  </>
+)}
+
+{tab === "Immunization" && (
+  <>
+    <Field
+      label={t('common:vaccine')}
+      value={form.vaccine}
+      onChange={(v) => updateForm("vaccine", v)}
+      required
+      placeholder="e.g. IPV"
+    />
+    <SelectField
+      label={t('common:status')}
+      value={form.status}
+      options={["completed", "not-done"]}
+      onChange={(v) => updateForm("status", v)}
+    />
+    <Field
+      label={t('common:date')}
+      value={form.date}
+      onChange={(v) => updateForm("date", v)}
+      type="date"
+    />
+  </>
+)}
 
             <div className="flex justify-end space-x-3 pt-6 border-t mt-6">
               <button type="button" onClick={onClose} className="px-4 py-2 text-sm font-medium text-[#64748b] hover:text-[#1e293b]">

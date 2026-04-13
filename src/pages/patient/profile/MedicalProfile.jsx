@@ -47,6 +47,7 @@ export default function MedicalProfile() {
 
     try {
       const res = await medicalRecordApi.getRecords(userId, activeTab);
+      console.log(res);
       const data = res.data.records || [];
 
       cacheRef.current[cacheKey] = data;
@@ -92,7 +93,6 @@ export default function MedicalProfile() {
         throw new Error(err.error || "Failed to delete record");
       }
 
-      // 성공 처리
       window.alert("Record successfully deleted");
       setRecords(prev => prev.filter(r => r._id !== rec._id));
 
@@ -110,10 +110,8 @@ export default function MedicalProfile() {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] pb-20">
-      {/* 상단 네비게이션 */}
       <NavBar />
 
-      {/* 헤더 섹션 (이미지 스타일 반영) */}
       <header className="max-w-4xl mx-auto pt-16 pb-8 text-center px-6">
         <h1 className="text-[40px] font-bold text-[#1e293b] leading-tight mb-4">
           {t('patient:medicalProfile.title')}
@@ -121,7 +119,7 @@ export default function MedicalProfile() {
       </header>
 
       <main className="max-w-5xl mx-auto px-6">
-        {/* 탭 네비게이션 */}
+        {/* Tabs */}
         <div className="flex flex-wrap justify-center gap-2 mb-10">
           {TAB_KEYS.map((key) => (
             <Button
@@ -138,7 +136,7 @@ export default function MedicalProfile() {
         </div>
 
         {/* 섹션 헤더 및 추가 버튼 */}
-        <div className="flex justify-between items-end mb-6 px-2 hidden">
+        <div className="flex justify-between items-end mb-6 px-2">
           <h2 className="text-xl font-bold text-slate-800">{tabLabels[activeTab]}</h2>
           <Button 
             onClick={() => { setEditingRecord(null); setShowModal(true); }}
@@ -149,14 +147,14 @@ export default function MedicalProfile() {
           </Button>
         </div>
 
-        {/* 에러 메시지 */}
+        {/* Error Message */}
         {error && (
           <div className="max-w-md mx-auto mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-center text-sm border border-red-100">
             {error}
           </div>
         )}
 
-        {/* 컨텐츠 영역 */}
+        {/* Contents Area */}
         {loading ? (
           <div className="flex justify-center py-20">
             <div className="w-10 h-10 border-4 border-slate-200 border-t-blue-600 rounded-full animate-spin"></div>

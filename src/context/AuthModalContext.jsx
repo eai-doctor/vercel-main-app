@@ -7,11 +7,13 @@ export function AuthModalProvider({ children }) {
   const [pendingRoute, setPendingRoute] = useState(null);
   const [onSuccess, setOnSuccess] = useState(null);
   const [message, setMessage] = useState(null);
+  const [requiredStep, setRequiredStep] = useState("login");
 
   const openLogin = useCallback(
-    ({ route = null, onSuccess = null, message = null } = {}) => {
+    ({ route = null, onSuccess = null, message = null, step = "login" } = {}) => {
+      setRequiredStep(step);
       setPendingRoute(route);
-      setOnSuccess(() => onSuccess); // 함수 유지 중요
+      setOnSuccess(() => onSuccess); 
       setMessage(message);
       setLoginOpen(true);
     },
@@ -23,6 +25,7 @@ export function AuthModalProvider({ children }) {
     setPendingRoute(null);
     setOnSuccess(null);
     setMessage(null);
+    setRequiredStep("login");
   }, []);
 
   return (
@@ -34,6 +37,7 @@ export function AuthModalProvider({ children }) {
         pendingRoute,
         onSuccess,
         message,
+        requiredStep
       }}
     >
       {children}

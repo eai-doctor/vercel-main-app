@@ -12,12 +12,12 @@ export default function LoginModal({
   defaultRole = "patient",
   message,
 }) {
-  const { login, register, verifyEmail, resendVerification } = useAuth();
-  const { pendingRoute } = useAuthModal();
+  const { login, register, verifyEmail, resendVerification,  } = useAuth();
+  const { pendingRoute, requiredStep } = useAuthModal();
   const { t } = useTranslation(["auth", "patient"]);
   const navigate = useNavigate();
 
-  const [step, setStep] = useState("login"); // login | register | verify
+  const [step, setStep] = useState(requiredStep); // login | register | verify
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -36,7 +36,7 @@ export default function LoginModal({
 
   // 초기화
   useEffect(() => {
-    setStep("login");
+    setStep(requiredStep);
     setForm({ email: "", password: "", name: "", role: defaultRole });
     setVerificationCode("");
     setVerificationEmail("");
@@ -47,7 +47,7 @@ export default function LoginModal({
     return () => {
       if (cooldownRef.current) clearInterval(cooldownRef.current);
     };
-  }, [defaultRole]);
+  }, [defaultRole, requiredStep]);
 
   // resend cooldown
   useEffect(() => {
@@ -79,7 +79,6 @@ export default function LoginModal({
     return t("common:errors.generic");
   };
 
-  // 🔥 성공 처리 통합
   const handleSuccess = (res) => {
     if (pendingRoute) {
       navigate(pendingRoute);

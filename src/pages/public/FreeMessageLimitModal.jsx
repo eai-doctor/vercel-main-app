@@ -68,7 +68,7 @@ export default function FreeMessageLimitModal({ isOpen, onClose }) {
         {/* Actions */}
         <div className="p-6 space-y-2.5">
           <button
-            onClick={() => { onClose(); navigate('/register'); }}
+            onClick={() => { onClose(); openLogin({ step: "register" }); }}
             className="w-full py-3 rounded-xl bg-[#2C3B8D] hover:bg-[#233070] text-white
               text-[14px] font-semibold transition-colors"
           >

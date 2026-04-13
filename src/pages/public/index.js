@@ -7,6 +7,7 @@ import ClinicJoin from "./ClinicJoin";
 // import AccountSettings from "./AccountSettings";
 // import GeneticConsult from "./GeneticConsult";
 import FreeMessageLimitModal from "./FreeMessageLimitModal";
+import LoginModal from "./LoginModal";
 
 export {
     ClinicLoginPage,
@@ -17,5 +18,6 @@ export {
     // ConsentSettings,
     // AccountSettings,
     // GeneticConsult,
-    FreeMessageLimitModal
+    FreeMessageLimitModal,
+    LoginModal
 }
