@@ -105,9 +105,9 @@ export default function MedicalProfile() {
     try {
       const res = await medicalRecordApi.deleteRecord( userId, rec._id, activeTab );
 
-      if (res.statusText !== "OK") {
-        throw new Error(err.error || "Failed to delete record");
-      }
+      // if (res.statusText !== "OK") {
+      //   throw new Error("Failed to delete record");
+      // }
 
       window.alert("Record successfully deleted");
       setRecords(prev => prev.filter(r => r._id !== rec._id));
