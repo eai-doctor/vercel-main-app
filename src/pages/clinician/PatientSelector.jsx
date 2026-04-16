@@ -1,41 +1,80 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
-import { Search, User, ChevronRight, AlertCircle, ClipboardList, Loader2 } from "lucide-react";
+import { Search, ChevronRight, AlertCircle, Loader2 } from "lucide-react";
 
-import { Header, NavBar, ProfileDropdown, SystemStatus } from "@/components";
+import { NavBar, SystemStatus } from "@/components";
 import { UserIcon } from "@/components/ui/icons";
 import { useAuth } from "@/context/AuthContext";
-import { getPatients, getAssignedPatients, getPatientDetails } from "@/api/patientApi";
+import { getPatients, getPatientDetails } from "@/api/patientApi";
+
+// 캐시 유효시간: 5분. 새로고침 시 TTL 내면 API 재호출 없음
+const CACHE_TTL_MS = 5 * 60 * 1000;
+
+function getCacheKey(clinicianId) {
+  return `patient_cache_${clinicianId}`;
+}
+
+function readCache(key) {
+  try {
+    const raw = sessionStorage.getItem(key);
+    if (!raw) return null;
+    const { data, timestamp } = JSON.parse(raw);
+    if (Date.now() - timestamp > CACHE_TTL_MS) {
+      sessionStorage.removeItem(key);
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(key, data) {
+  try {
+    sessionStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
+  } catch {
+    // sessionStorage 용량 초과 시 캐싱 스킵
+  }
+}
 
 export default function PatientSelector() {
   const { t } = useTranslation(['clinic', 'common']);
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectingId, setSelectingId] = useState(null); // per-card loading
+  const [selectingId, setSelectingId] = useState(null);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
 
   const clinicianId = user?.user_id || user?.id;
 
   const fetchPatients = useCallback(async () => {
-    if (!clinicianId) return;
+    const cacheKey = getCacheKey(clinicianId);
+
+    // TTL 내 캐시 존재 → API 미호출, 즉시 렌더
+    const cached = readCache(cacheKey);
+    if (cached) {
+      setPatients(cached);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
     try {
-      setLoading(true);
-      // const response = await getAssignedPatients(searchTerm);
-      const response = await getPatients(searchTerm);
-      setPatients(response.data.patients || []);
+      const response = await getPatients();
+      const patientsData = response.data.patients || [];
+      setPatients(patientsData);
+      writeCache(cacheKey, patientsData);
       setError(null);
     } catch (err) {
       setError(t('clinic:patientSelector.loadError'));
     } finally {
       setLoading(false);
     }
-  }, [clinicianId, searchTerm]);
+  }, [clinicianId, t]);
 
   useEffect(() => {
     if (!clinicianId) {
@@ -50,11 +89,7 @@ export default function PatientSelector() {
       setSelectingId(patient.id);
       const response = await getPatientDetails(patient.id);
       const patientDetails = response.data.patient_data;
-      navigate("/consultation", { 
-        state: { 
-          patientData: patientDetails 
-        } 
-      });
+      navigate("/consultation", { state: { patientData: patientDetails } });
     } catch (err) {
       alert(`Failed to load patient data: ${err.message}`);
     } finally {
@@ -62,9 +97,14 @@ export default function PatientSelector() {
     }
   };
 
-  const filteredPatients = patients.filter(p => {
+  // 검색어 없으면 전체 표시, 있으면 필터링
+  const filteredPatients = patients.filter((p) => {
     const term = searchTerm.trim().toLowerCase();
-    return p.full_name?.toLowerCase().includes(term) || p.mrn?.toLowerCase().includes(term);
+    if (!term) return true;
+    return (
+      p.full_name?.toLowerCase().includes(term) ||
+      p.mrn?.toLowerCase().includes(term)
+    );
   });
 
   return (
@@ -89,61 +129,64 @@ export default function PatientSelector() {
               className="w-full pl-12 pr-4 py-4 bg-white border-none shadow-md rounded-2xl focus:ring-2 focus:ring-blue-400 transition-all text-lg"
               placeholder={t('clinic:patientSelector.searchPlaceholder')}
               value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setHasSearched(e.target.value.trim().length > 0);
-              }}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
 
-        {/* ── List loading overlay ── */}
+        {/* {!loading && !error && (
+          <p className="text-sm text-gray-400 text-center mb-4">
+            {searchTerm.trim()
+              ? `Showing ${filteredPatients.length} of ${patients.length} patients`
+              : `${patients.length} patients`}
+          </p>
+        )} */}
+
         {loading ? (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <Loader2 className="w-10 h-10 text-blue-400 animate-spin" />
             <p className="text-gray-400 text-base">Loading patients…</p>
           </div>
+        ) : error ? (
+          <div className="py-12 text-center bg-white/50 rounded-3xl border-2 border-dashed border-red-200">
+            <AlertCircle className="w-12 h-12 text-red-300 mx-auto mb-3" />
+            <p className="text-red-500">{error}</p>
+            <button onClick={fetchPatients} className="mt-4 text-sm text-blue-500 underline">
+              Retry
+            </button>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {hasSearched ? (
-              patients.length > 0 ? (
-                filteredPatients.map((patient) => (
-                  <button
-                    key={patient.id}
-                    onClick={() => handleSelectPatient(patient)}
-                    disabled={!!selectingId}
-                    className="cursor-pointer flex items-center p-5 bg-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-left border border-transparent hover:border-blue-200 group disabled:opacity-60 disabled:pointer-events-none"
-                  >
-                    <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors shrink-0">
-                      {selectingId === patient.id
-                        ? <Loader2 className="w-5 h-5 animate-spin" />
-                        : <UserIcon />
-                      }
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-gray-800">{patient.full_name}</h4>
-                      <p className="text-sm text-gray-500">MRN: {patient.mrn || 'N/A'}</p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-blue-500" />
-                  </button>
-                ))
-              ) : (
-                <div className="col-span-full py-12 text-center bg-white/50 rounded-3xl border-2 border-dashed border-gray-200">
-                  <AlertCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500">{t('clinic:patientSelector.noResults')}</p>
-                </div>
-              )
+            {filteredPatients.length > 0 ? (
+              filteredPatients.map((patient) => (
+                <button
+                  key={patient.id}
+                  onClick={() => handleSelectPatient(patient)}
+                  disabled={!!selectingId}
+                  className="cursor-pointer flex items-center p-5 bg-white rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-left border border-transparent hover:border-blue-200 group disabled:opacity-60 disabled:pointer-events-none"
+                >
+                  <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors shrink-0">
+                    {selectingId === patient.id
+                      ? <Loader2 className="w-5 h-5 animate-spin" />
+                      : <UserIcon />}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-bold text-gray-800">{patient.full_name}</h4>
+                    <p className="text-sm text-gray-500">MRN: {patient.mrn || "N/A"}</p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-blue-500" />
+                </button>
+              ))
             ) : (
-              <div className="col-span-full py-20 text-center">
-                <ClipboardList className="w-16 h-16 text-blue-200 mx-auto mb-4" />
-                <p className="text-gray-400 text-lg">{t('clinic:patientSelector.startSearching')}</p>
+              <div className="col-span-full py-12 text-center bg-white/50 rounded-3xl border-2 border-dashed border-gray-200">
+                <AlertCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                <p className="text-gray-500">{t('clinic:patientSelector.noResults')}</p>
               </div>
             )}
           </div>
         )}
       </main>
 
-      {/* System Status - keep same as HomePage */}
       <SystemStatus />
     </div>
   );

@@ -11,12 +11,9 @@ function Header() {
   const { user, loading } = useAuth();
   const { openLogin } = useAuthModal();
 
-  if (loading) {
-    return null; 
-  }
 
   const handleOnSignInBtnClick = () => openLogin();
-  const onClickHeaderLogo = () => user?.role === "clinician" ? window.location.href="/clinics" : window.location.href="/"
+  const onClickHeaderLogo = () => !loading && user?.role === "clinician" ? window.location.href="/clinics" : window.location.href="/"
 
   return (
     <header className="bg-white border-b border-gray-200">
