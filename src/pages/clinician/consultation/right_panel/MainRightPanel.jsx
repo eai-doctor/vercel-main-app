@@ -68,7 +68,10 @@ export default function MainRightPanel({
             </h2>
           </div>
           <div className="p-4 max-h-48 overflow-y-auto">
-            {!isCaptionAvailable ? (
+            <p className="text-[14px] text-slate-400 italic text-center py-2">
+                {t('clinic:consultation.audioRecording', 'We are listening ...')}
+              </p>
+            {/* {!isCaptionAvailable ? (
               <p className="text-[14px] text-slate-400 italic text-center py-2">
                 {t('clinic:consultation.audioRecording', 'We are listening ...')}
               </p>
@@ -85,7 +88,7 @@ export default function MainRightPanel({
               <p className="text-[14px] text-slate-400 italic text-center py-2">
                 {t('clinic:consultation.listeningSpeakHere', 'Listening... speak to see transcription here')}
               </p>
-            )}
+            )} */}
           </div>
         </section>
       )}

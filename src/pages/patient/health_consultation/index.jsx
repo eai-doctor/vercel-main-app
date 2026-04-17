@@ -5,10 +5,6 @@ import { useAuth } from '@/context/AuthContext';
 
 import { FreeMessageLimitModal } from "@/pages/public";
 import { ProfileDropdown } from "@/components";
-import {
-  AiIcon, MicrophoneIcon, ClipboardIcon, LightbulbIcon,
-  MailIcon, CheckCircleIcon, XCircleIcon, ClockIcon, UserIcon
-} from '@/components/ui/icons';
 import chatApi from '@/api/chatApi';
 import consultationApi from '@/api/consultationApi';
 import ChatboxModal from "@/pages/public/ChatboxModal";
@@ -161,7 +157,6 @@ export default function HealthConsultation() {
 
       {/* ── Header ── */}
       <div className="bg-[#2C3B8D] shadow-sm mx-3 mt-3 mb-0 p-3 rounded-2xl lg:mx-6 lg:mt-6 lg:p-5">
-        {/* 데스크톱 헤더 */}
         <div className="hidden lg:flex items-center justify-between">
           <div>
             <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">
@@ -186,7 +181,6 @@ export default function HealthConsultation() {
           </div>
         </div>
 
-        {/* 모바일 헤더 */}
         <div className="flex lg:hidden items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate("/")} className="w-8 h-8 flex items-center justify-center bg-white/15 rounded-lg border border-white/20">
@@ -205,7 +199,6 @@ export default function HealthConsultation() {
           }
         </div>
 
-        {/* 모바일 탭바 — 헤더 안에 배치 */}
         <div className="flex lg:hidden bg-white/10 rounded-xl p-1 gap-1">
           {TABS.map(tab => (
             <button
