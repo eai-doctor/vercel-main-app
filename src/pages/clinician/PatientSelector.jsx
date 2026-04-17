@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Search, ChevronRight, AlertCircle, Loader2 } from "lucide-react";
 
 import { NavBar, SystemStatus } from "@/components";
@@ -8,7 +8,6 @@ import { UserIcon } from "@/components/ui/icons";
 import { useAuth } from "@/context/AuthContext";
 import { getPatients, getPatientDetails } from "@/api/patientApi";
 
-// 캐시 유효시간: 5분. 새로고침 시 TTL 내면 API 재호출 없음
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 function getCacheKey(clinicianId) {
@@ -41,6 +40,7 @@ function writeCache(key, data) {
 export default function PatientSelector() {
   const { t } = useTranslation(['clinic', 'common']);
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
 
   const [patients, setPatients] = useState([]);
@@ -50,11 +50,21 @@ export default function PatientSelector() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const clinicianId = user?.user_id || user?.id;
+  const isSearching = searchTerm.trim().length > 0;
+  const showLoadingUI = loading && isSearching;
+  const showSkeleton = loading && !isSearching && patients.length === 0;
+
+  // if if search term is present
+    useEffect(() => {
+      if (location.state?.searchTerm) {
+        setSearchTerm(location.state.searchTerm);
+      } 
+    }, [location.state, navigate]);
+  
 
   const fetchPatients = useCallback(async () => {
     const cacheKey = getCacheKey(clinicianId);
 
-    // TTL 내 캐시 존재 → API 미호출, 즉시 렌더
     const cached = readCache(cacheKey);
     if (cached) {
       setPatients(cached);
@@ -89,7 +99,7 @@ export default function PatientSelector() {
       setSelectingId(patient.id);
       const response = await getPatientDetails(patient.id);
       const patientDetails = response.data.patient_data;
-      navigate("/consultation", { state: { patientData: patientDetails } });
+      navigate("/consultation", { state: { patientData: patientDetails, searchTerm } });
     } catch (err) {
       alert(`Failed to load patient data: ${err.message}`);
     } finally {
@@ -97,7 +107,6 @@ export default function PatientSelector() {
     }
   };
 
-  // 검색어 없으면 전체 표시, 있으면 필터링
   const filteredPatients = patients.filter((p) => {
     const term = searchTerm.trim().toLowerCase();
     if (!term) return true;
@@ -142,7 +151,7 @@ export default function PatientSelector() {
           </p>
         )} */}
 
-        {loading ? (
+        {showLoadingUI  ? (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <Loader2 className="w-10 h-10 text-blue-400 animate-spin" />
             <p className="text-gray-400 text-base">Loading patients…</p>
@@ -155,7 +164,23 @@ export default function PatientSelector() {
               Retry
             </button>
           </div>
-        ) : (
+        ) : showSkeleton ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex items-center p-5 bg-white rounded-2xl shadow-sm border border-transparent"
+              >
+                <div className="w-12 h-12 bg-gray-100 rounded-full mr-4 animate-pulse shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-gray-100 rounded w-1/2 animate-pulse" />
+                  <div className="h-3 bg-gray-100 rounded w-1/3 animate-pulse" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+        : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredPatients.length > 0 ? (
               filteredPatients.map((patient) => (
@@ -177,7 +202,7 @@ export default function PatientSelector() {
                   <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-blue-500" />
                 </button>
               ))
-            ) : (
+            ) :  (
               <div className="col-span-full py-12 text-center bg-white/50 rounded-3xl border-2 border-dashed border-gray-200">
                 <AlertCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                 <p className="text-gray-500">{t('clinic:patientSelector.noResults')}</p>

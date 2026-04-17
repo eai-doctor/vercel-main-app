@@ -14,6 +14,7 @@ import { generatePrescription, generateConsultationSummary } from "@/api/consult
 
 export default function Header({
   patientData,
+  handleBackToPatientList,
   snapshot,
   conversationSummary,
   modelInfo,
@@ -103,7 +104,6 @@ export default function Header({
     action();
   };
 
-  // ── 공통 버튼 정의 ──────────────────────────────────────
   const actionButtons = [
     {
       label: "Prescription",
@@ -113,16 +113,16 @@ export default function Header({
       className: "bg-emerald-600 hover:bg-emerald-700 text-white",
       fabClassName: "bg-emerald-600 text-white",
     },
-    {
-      label: "Summary",
-      icon: isSendingEmail
-        ? <div className="w-[15px] h-[15px] border-2 border-white border-t-transparent rounded-full animate-spin" />
-        : <MailIcon className="w-[15px] h-[15px] shrink-0" />,
-      onClick: handleOnClickSendSummary,
-      disabled: isSendingEmail,
-      className: "bg-[#7733CF] hover:bg-[#6622BE] text-white",
-      fabClassName: "bg-[#7733CF] text-white",
-    },
+    // {
+    //   label: "Summary",
+    //   icon: isSendingEmail
+    //     ? <div className="w-[15px] h-[15px] border-2 border-white border-t-transparent rounded-full animate-spin" />
+    //     : <MailIcon className="w-[15px] h-[15px] shrink-0" />,
+    //   onClick: handleOnClickSendSummary,
+    //   disabled: isSendingEmail,
+    //   className: "bg-[#7733CF] hover:bg-[#6622BE] text-white",
+    //   fabClassName: "bg-[#7733CF] text-white",
+    // },
     {
       label: "Ask AI",
       icon: <AiIcon className="w-[15px] h-[15px] shrink-0" />,
@@ -135,13 +135,11 @@ export default function Header({
 
   return (
     <>
-      {/* ── 헤더 카드 ─────────────────────────────────────── */}
       <div className="bg-white rounded-2xl border border-slate-200 p-4 w-full">
         <div className="flex items-center justify-between">
-          {/* 왼쪽: 네비게이션 */}
           <div className="flex items-center gap-2">
             <button
-              onClick={() => navigate("/patients")}
+              onClick={handleBackToPatientList}
               className="cursor-pointer group flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg transition-all border border-slate-200 text-sm font-medium"
             >
               <span className="opacity-50 group-hover:-translate-x-0.5 transition-transform">←</span>
@@ -158,7 +156,6 @@ export default function Header({
             </button>
           </div>
 
-          {/* 오른쪽: 데스크탑 버튼 (sm 이상에서만 표시) */}
           <div className="hidden sm:flex items-center gap-2">
             {actionButtons.map((btn) => (
               <button
@@ -174,17 +171,14 @@ export default function Header({
             <ProfileDropdown variant="default" />
           </div>
 
-          {/* 모바일: 프로필만 표시 */}
           <div className="sm:hidden">
             <ProfileDropdown variant="default" />
           </div>
         </div>
       </div>
 
-      {/* ── 모바일 FAB (sm 미만에서만 표시) ──────────────── */}
       <div className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-3 sm:hidden">
 
-        {/* 스피드 다이얼 아이템 (fabOpen일 때 표시) */}
         <div
           className={`flex flex-col items-end gap-2.5 transition-all duration-200 ${
             fabOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
