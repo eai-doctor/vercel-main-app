@@ -60,7 +60,6 @@ function SkinCancerDetection() {
 
     try {
       const res = await functionApi.predictClipVitb16(formData);
-      console.log(res);
       const data = res.data;
       if (res.status !==200) {
         setError(data?.detail ?? data?.message ?? `Request Failed: ${res.status}`)

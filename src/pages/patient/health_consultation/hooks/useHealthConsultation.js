@@ -197,7 +197,6 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
     setIsGeneratingChatSummary(true);
     try {
       const response = await chatApi.generateConsultationSummaries(cleanMessages);
-      console.log(response);
       if (response.data.success) {
         setChatSummary(response.data.summary);
         setSummaryModelUsed(response.data.model_used || '');

@@ -23,7 +23,6 @@ function Symptoms({ data, setData }) {
 
     const timer = setTimeout(async () => {
       try {
-        console.log("triageGetSymptoms" , query, currentLanguage.code);
         const res = await triageEngineApi.triageGetSymptoms(query, currentLanguage.code);
         if (res.data?.success) {
           setSuggestions(res.data.symptoms || []);

@@ -55,8 +55,6 @@ export default function MedicalProfile() {
       const res = await medicalRecordApi.getRecords(userId, activeTab);
       const data = res.data.records || [];
 
-      console.log(`Fetched ${data.length} records for tab ${activeTab}:`, data);
-
       cacheRef.current[cacheKey] = data;
       setRecords(data);
 
@@ -93,7 +91,6 @@ export default function MedicalProfile() {
   });
 
   async function handleDelete(rec) {
-    console.log("Attempting to delete record:", rec);
     if (!rec?._id) {
       console.error("Invalid record");
       return;
@@ -148,7 +145,6 @@ export default function MedicalProfile() {
         setShowModal(false);
         setForm(getInitialForm(activeTab));
       } else {
-        console.log("Creating record with form data:", form);
         const response = await createRecord(userId, activeTab, form);
         if(response.status === 201){
           setRecords(prev => [{ _id: response.data.id, ... form }, ...prev]);

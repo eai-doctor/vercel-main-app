@@ -142,8 +142,6 @@ export function AuthProvider({ children }) {
       return userData;
 
     } catch (err) {
-      console.log("err", err)
-
       const message =
         err.response?.data?.error ||  
         err.response?.data?.message || 
