@@ -230,8 +230,6 @@ function TranscribeDictate() {
           }
       );
 
-      console.log(response)
-
       if (response.status !== 200) { setError(t('functions:transcribe.summaryError')); return; }
       const data = response.data;
       if (data.success) setSummary(data.clinical_report);
