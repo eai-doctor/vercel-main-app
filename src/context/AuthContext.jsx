@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import config from "@/config";
-import { authLogin, authMe, authLogout, authRefresh, authRegister,authVerifyEmail, authResendVerification } from "@/api/authApi";
+import { authLogin, authMe, authLogout, authRefresh, authRegister,authVerifyEmail, authResendVerification, authForgotPassword } from "@/api/authApi";
 import { setStoredToken } from "@/api/axiosBase";
 
 const AUTH_API = {
@@ -177,6 +177,17 @@ export function AuthProvider({ children }) {
     return res.data;
   }, []);
 
+  const changePassword = useCallback(async (currentPassword, newPassword) => {
+    return null;
+  }, []);
+
+  const forgotPassword = useCallback(async (email) => {
+    const res = await authForgotPassword({
+      email,
+    });
+    return res.data;
+  }, []);
+
   // Set up axios response interceptor for 401s
   useEffect(() => {
     const interceptor = axios.interceptors.response.use(
@@ -194,7 +205,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, isAuthenticated, isPatient, loading, login, logout, register, verifyEmail, resendVerification, accessToken }}
+      value={{ user, setUser, isAuthenticated, isPatient, loading, login, logout, register, verifyEmail, resendVerification, accessToken, changePassword, forgotPassword }}
     >
       {children}
     </AuthContext.Provider>

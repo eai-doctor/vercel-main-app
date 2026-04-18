@@ -5,7 +5,7 @@ import { Lock, User, Eye, EyeOff } from "lucide-react"; // Eye, EyeOff 추가
 import { useAuth } from '@/context/AuthContext';
 import { Button, Input, Label } from "@/components/ui";
 
-function ClinicLogin() {
+function Fields() {
   const { login } = useAuth();
   const { t } = useTranslation(['landing', 'common', 'clinic', 'auth']);
 
@@ -104,4 +104,4 @@ function ClinicLogin() {
   );
 }
 
-export default ClinicLogin;
+export default Fields;

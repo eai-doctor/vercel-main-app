@@ -8,7 +8,7 @@ import { PillIcon, MailIcon, AiIcon } from "@/components/ui/icons";
 
 import PrescriptionModal from "../modal/PrescriptionModal";
 import SendSummaryModal from "../modal/SendSummaryModal";
-import ChatboxModal from "@/pages/public/ChatboxModal";
+import ChatboxModal from "@/pages/public/modal/ChatboxModal";
 
 import { generatePrescription, generateConsultationSummary } from "@/api/consultationApi";
 

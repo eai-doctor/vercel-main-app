@@ -1,4 +1,4 @@
-import TriageEngine from "./triage/TriageEngine";
+import TriageEngine from "./triage";
 
 export {
     TriageEngine

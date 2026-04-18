@@ -15,3 +15,8 @@ export const authResendVerification = (data) => authApi.post("/api/auth/resend-v
 export const authConsent = (data) => authApi.post("/api/auth/consent", data);
 export const authExportData = () => authApi.get("/api/auth/export");
 export const authAccount = () => authApi.get("/api/auth/account");
+
+export const authUpdateProfile = (data) => authApi.put("/api/auth/me", data);
+
+export const authForgotPassword = (data) => authApi.post("/api/auth/forgot-password", data);
+export const authResetPassword  = (data) => authApi.post("/api/auth/reset-password", data);

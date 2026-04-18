@@ -31,7 +31,7 @@ function TriageEngine() {
      window.scrollTo(0, 0)
    }, [])
 
-  // ✅ validation (간단 버전)
+  // ✅ validation
   const canProceed = () => {
     switch (currentStep) {
       case STEPS.DEMOGRAPHICS:
@@ -79,7 +79,7 @@ function TriageEngine() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-96 bg-[#f8fafc]">
       <NavBar />
 
       <header className="max-w-4xl mx-auto pt-16 text-center px-6">

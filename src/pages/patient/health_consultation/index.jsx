@@ -7,7 +7,7 @@ import { FreeMessageLimitModal } from "@/pages/public";
 import { ProfileDropdown } from "@/components";
 import chatApi from '@/api/chatApi';
 import consultationApi from '@/api/consultationApi';
-import ChatboxModal from "@/pages/public/ChatboxModal";
+import ChatboxModal from "@/pages/public/modal/ChatboxModal";
 import { useAuthModal } from '@/context/AuthModalContext';
 
 import ChatSummaryModal from './components/modals/ChatSummaryModal';
