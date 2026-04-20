@@ -44,13 +44,14 @@ const Settings = () => {
         {/* <EmailSection
           user={user}
           changeEmail={changeEmail}
+          
           verifyEmailChange={verifyEmailChange}
           t={t}
           inputCls={inputCls}
         /> */}
         <PasswordSection changePassword={changePassword} t={t} inputCls={inputCls} /> 
-        <ExportSection exportUserData={exportUserData} t={t} />
-        <DangerZoneSection onRequestDelete={() => setShowDelete(true)} t={t} />
+        {/* <ExportSection exportUserData={exportUserData} t={t} />
+        <DangerZoneSection onRequestDelete={() => setShowDelete(true)} t={t} /> */}
       </main>
       <DeleteAccountModal
         open={showDelete}

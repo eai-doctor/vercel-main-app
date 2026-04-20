@@ -4,23 +4,6 @@ import config from "@/config";
 import { authLogin, authMe, authLogout, authRefresh, authRegister,authVerifyEmail, authResendVerification, authForgotPassword } from "@/api/authApi";
 import { setStoredToken } from "@/api/axiosBase";
 
-const AUTH_API = {
-  LOGIN: `${config.authServiceUrl}/api/auth/login`,
-  REGISTER: `${config.authServiceUrl}/api/auth/register`,
-  LOGOUT: `${config.authServiceUrl}/api/auth/logout`,
-  ME: `${config.authServiceUrl}/api/auth/me`,
-  VERIFY_EMAIL: `${config.authServiceUrl}/api/auth/verify-email`,
-  RESEND_VERIFICATION: `${config.authServiceUrl}/api/auth/resend-verification`,
-  CONSENT: `${config.authServiceUrl}/api/auth/consent`,
-  EXPORT: `${config.authServiceUrl}/api/auth/export`,
-  ACCOUNT: `${config.authServiceUrl}/api/auth/account`,
-};
-
-const BACKEND_API = {
-  EXPORT: `${config.backendUrl}/api/user-data/export`,
-  USER_DATA: `${config.backendUrl}/api/user-data`,
-};
-
 const AuthContext = createContext(null);
 
 export function useAuth() {
@@ -73,32 +56,31 @@ export function AuthProvider({ children }) {
   }, []);
 
   // saebyeok - cookie reflected
-  const login = useCallback(async (email, password) => {
-    try {
-      const res = await authLogin({
-        email,
-        password,
-      });
-       
-      const data = res.data;
-      const userData = data.user;
-      const tokenData = data.access_token;
+const login = useCallback(async (email, password) => {
+  try {
+    const res = await authLogin({ email, password });
+    const { user: userData, access_token: tokenData } = res.data;
+    setUser(userData);
+    setAccessToken(tokenData);
+    setStoredToken(tokenData);
+    return userData;
 
-      setUser(userData);
-      setAccessToken(tokenData);
-      setStoredToken(tokenData);
-
-      return userData;
-    } catch (err) {
-      if (err.response?.status === 403 && err.response?.data?.requires_verification) {
-        const enriched = new Error(err.response.data.error);
-        enriched.requiresVerification = true;
-        enriched.email = err.response.data.email;
-        throw enriched;
-      }
-      throw err;
+  } catch (err) {
+    if (err.response?.status === 403 && err.response?.data?.requires_verification) {
+      const enriched = new Error(err.response.data.error);
+      enriched.code = "REQUIRES_VERIFICATION";
+      enriched.requiresVerification = true;
+      enriched.email = err.response.data.email;
+      throw enriched;
     }
-  }, []);
+
+    const code = err.response?.data?.code;
+    const enrichedError = new Error(err.response?.data?.error ?? "unknown");
+    enrichedError.code = code;
+    enrichedError.status = err.response?.status;
+    throw enrichedError;
+  }
+}, []);
 
   // saebyeok - cookie reflected
   const logout = useCallback(async () => {
@@ -117,42 +99,29 @@ export function AuthProvider({ children }) {
     );
   }, [user]);
 
-  const register = useCallback(async (email, password, name, role) => {
-      console.log("start register")
-     try {
-      const res = await authRegister({
-        email,
-        password,
-        name,
-        role,
-      });
+ const register = useCallback(async (email, password, name, role) => {  // t 제거
+  try {
+    const res = await authRegister({ email, password, name, role });
 
-      if (res.data.requires_verification) {
-        return { requiresVerification: true, email: res.data.email };
-      }
-
-      const data = res.data;
-      const userData = data.user;
-      const tokenData = data.access_token;
-
-      setUser(userData);
-      setAccessToken(tokenData);
-      setStoredToken(tokenData);
-
-      return userData;
-
-    } catch (err) {
-      const message =
-        err.response?.data?.error ||  
-        err.response?.data?.message || 
-        "Registration failed";
-
-      const enrichedError = new Error(message);
-      enrichedError.status = err.response?.status;
-
-      throw enrichedError;
+    if (res.data.requires_verification) {
+      return { requiresVerification: true, email: res.data.email };
     }
-  }, []);
+
+    const { user: userData, access_token: tokenData } = res.data;
+    setUser(userData);
+    setAccessToken(tokenData);
+    setStoredToken(tokenData);
+    return userData;
+
+  } catch (err) {
+    // 에러 정규화만 담당, 번역 없음
+    const code = err.response?.data?.code;
+    const enrichedError = new Error(err.response?.data?.error ?? "unknown");
+    enrichedError.code = code;
+    enrichedError.status = err.response?.status;
+    throw enrichedError;
+  }
+}, []);
 
   const verifyEmail = useCallback(async (email, code) => {
     const res = await authVerifyEmail({

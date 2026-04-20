@@ -3,7 +3,7 @@ import {
   MedicalProfile,
   HealthConsultation
 } from '@/pages/patient';
-import { TriageEngine } from '@/pages/function';
+import { TriageEngine } from '@/pages/public/function';
 import { PatientOnlyGuard } from "@/app/RouteGuard";
 
 export const patientRoutes = [

@@ -49,15 +49,19 @@ function ChatPanel({
                     </div>
                 </div>
                 <div className="flex items-center gap-1.5">
-                    {messages.some(m => m.role === 'user') && (
+                    <button onClick={generateChatSummary} disabled={isGeneratingChatSummary}
+                        className="cursor-pointer text-[11px] font-semibold text-[#2C3B8D] px-2.5 py-1.5 rounded-lg hover:bg-[#eef2ff] transition-colors disabled:opacity-50">
+                        {isGeneratingChatSummary ? t('common:states.generating') : t('chat.summarize', 'Summarize')}
+                    </button>
+                    {/* {messages.some(m => m.role === 'user') && (
                     <button onClick={generateChatSummary} disabled={isGeneratingChatSummary}
                         className="text-[11px] font-semibold text-[#2C3B8D] px-2.5 py-1.5 rounded-lg hover:bg-[#eef2ff] transition-colors disabled:opacity-50">
                         {isGeneratingChatSummary ? t('common:states.generating') : t('chat.summarize', 'Summarize')}
                     </button>
-                    )}
+                    )} */}
                     {messages.length > 0 && (
                     <button onClick={handleClearChat}
-                        className="text-[11px] text-slate-400 hover:text-slate-600 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+                        className="cursor-pointer text-[11px] text-slate-400 hover:text-slate-600 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition-colors">
                         {t('common:buttons.clear', 'Clear')}
                     </button>
                     )}
@@ -132,7 +136,6 @@ function ChatPanel({
   
             {/* Input */}
             <div className="px-3 py-3 border-t border-slate-100 bg-white rounded-b-2xl shrink-0">
-              {/* 모바일: 2줄 레이아웃, 데스크톱: 1줄 */}
               <div className="flex gap-2 items-center">
                 <input
                   type="text" value={input}

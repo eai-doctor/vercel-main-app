@@ -11,7 +11,7 @@ import {
     // OpenEMR, 
     TranscribeDictate, 
 } from '@/pages/clinician/functions';
-import { TriageEngine } from '@/pages/function';
+import { TriageEngine } from '@/pages/public/function';
 
 
 export const functionRoutes = [

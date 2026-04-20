@@ -25,6 +25,7 @@ import {
 } from './utils';
 import EmailSummaryModal from './components/modals/EmailSummaryModal';
 import RecordingPanel from './components/RecordingPanel';
+import { usePreviousSymptoms } from './hooks/usePreviousSymptoms';
 
 export default function HealthConsultation() {
   const { t } = useTranslation(['patient', 'common', 'functions']);
@@ -112,21 +113,52 @@ export default function HealthConsultation() {
 
   const handleSuggestionClick = (s) => { setInput(s); sendMessage(s); };
   const handleClearChat = () => { setMessages([]); setShowSuggestions(true); };
+  const {
+    previousSymptoms,
+    isSymptomsLoading,
+    refetch: refetchSymptoms,
+  } = usePreviousSymptoms(isAuthenticated, loading);
 
   const handleSaveSummary = async () => {
-    const cleanMessages = messages.filter(m => m.role === 'user' || m.role === 'assistant').map(({ role, content }) => ({ role, content }));
+    const cleanMessages = messages
+      .filter(m => m.role === 'user' || m.role === 'assistant')
+      .map(({ role, content }) => ({ role, content }));
     try {
       setIsSavingSummary(true);
-      const response = await chatApi.saveConsultationSummaries(chatSummary, cleanMessages, summaryModelUsed);
-      setSaveSummaryResult({ success: response.data.success, message: response.data.success ? t('chat.summarySaved') : t('chat.summarySaveFailed') });
-    } catch (e) { setSaveSummaryResult({ success: false, message: e.response?.data?.error || e.message }); }
-    finally { setIsSavingSummary(false); }
+      const response = await chatApi.saveConsultationSummaries(
+        chatSummary,
+        cleanMessages,
+        summaryModelUsed,
+      );
+      setSaveSummaryResult({
+        success: response.data.success,
+        message: response.data.success
+          ? t('chat.summarySaved')
+          : t('chat.summarySaveFailed'),
+      });
+ 
+      if (response.data.success) {
+        refetchSymptoms();
+      }
+    } catch (e) {
+      setSaveSummaryResult({
+        success: false,
+        message: e.response?.data?.error || e.message,
+      });
+    } finally {
+      setIsSavingSummary(false);
+    }
   };
 
   const handleOpenEndConsultationModal = async () => {
     if (!isAuthenticated && !loading) { setPendingAction('generateSummary'); openLogin(); return; }
-    setPatientEmail('patient@example.com'); setAiSummary(''); setEmailResult(null);
-    setShowEndConsultationModal(true); await generateAISummary();
+    setPatientEmail('patient@example.com'); 
+    setAiSummary(''); 
+    setEmailResult(null);
+    setShowEndConsultationModal(true); 
+    // await generateAISummary();
+    setAiSummary("Based on your description and the localized swelling I’m seeing, it appears you’ve sustained a Grade 1 calf strain, likely a minor tear in the gastrocnemius muscle. The sharpness you feel during movement is a classic sign that the muscle fibers have been overstretched and are currently inflamed. Fortunately, the circulation in your lower leg looks excellent, so we can rule out any vascular complications for now. I’m going to prescribe a regimen of rest, icing, and elevation for the next 48 hours to bring that swelling down. Once the acute pain subsides, we’ll start some gentle stretching to ensure the tissue heals without losing its flexibility.");
+    
   };
 
   const generateAISummary = async () => {
@@ -263,6 +295,8 @@ export default function HealthConsultation() {
           t={t}
           loading={loading}
           user={user}
+          previousSymptoms={previousSymptoms}
+          isSymptomsLoading={isSymptomsLoading}
         />
 
 

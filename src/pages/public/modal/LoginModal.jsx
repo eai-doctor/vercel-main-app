@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui";
 
+const validatePassword = (pw) => ({
+  length:    pw.length >= 8,
+  uppercase: /[A-Z]/.test(pw),
+  number:    /[0-9]/.test(pw),
+});
+
 export default function LoginModal({
   onClose,
   onSuccess,
@@ -27,13 +33,16 @@ export default function LoginModal({
 
   const [verificationCode, setVerificationCode] = useState("");
   const [verificationEmail, setVerificationEmail] = useState("");
-  const [resetEmail, setResetEmail] = useState("");       // ← 추가
+  const [resetEmail, setResetEmail] = useState("");       
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
   const cooldownRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const passwordRules = validatePassword(form.password);
+const isPasswordValid = Object.values(passwordRules).every(Boolean);
 
   useEffect(() => {
     setStep(requiredStep);
@@ -64,9 +73,12 @@ export default function LoginModal({
   const normalizeEmail = (email) => email.trim().toLowerCase();
 
   const safeError = (err) => {
-    const msg = err?.response?.data?.error;
-    if (msg === "Invalid email or password") return t("common:errors.invalidCredentials");
-    return t("common:errors.generic");
+    const code = err?.code;
+    if (!code) return t("common:errors.generic");
+
+    const key = `auth:errors.${code}`;
+    const translated = t(key);
+    return translated === key ? t("common:errors.generic") : translated;
   };
 
   const handleSuccess = (res) => {
@@ -84,10 +96,11 @@ export default function LoginModal({
 
     try {
       if (step === "register") {
-        if (!form.name.trim()) { setError(t("nameRequired")); return; }
-        if (form.password.length < 8) { setError(t("passwordTooShort")); return; }
+        if (!form.name.trim()) { setError(t("auth:errors.NAME_REQUIRED")); return; }
+        if (!isPasswordValid) { setError(t("auth:errors.PASSWORD_INVALID")); return; }
 
         const res = await register(email, form.password, form.name, form.role);
+        console.log("res : ",res);
         if (res?.requiresVerification) {
           setVerificationEmail(res.email);
           setStep("verify");
@@ -101,11 +114,14 @@ export default function LoginModal({
         handleSuccess(res);
       }
     } catch (err) {
+        console.log("LoginModal.error : ",err);
+
       if (err?.requiresVerification) {
         setVerificationEmail(err.email);
         setStep("verify");
         setCooldown(60);
       } else {
+        console.log("error : ", error);
         setError(safeError(err));
       }
     } finally {
@@ -314,24 +330,40 @@ export default function LoginModal({
                 required
               />
 
-              <div className="relative">
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  placeholder={t("auth:passwordPlaceholderLogin")}
-                  className="pr-12 h-12 border-gray-300"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-[#2C3B8D]"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
+             <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                placeholder={t("auth:passwordPlaceholderLogin")}
+                className="pr-12 h-12 border-gray-300"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-[#2C3B8D]"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            {/* relative div 밖으로 */}
+            {step === "register" && form.password.length > 0 && (
+              <ul className="space-y-1 text-xs px-1 mt-1">
+                {[
+                  { key: "length",    label: t("auth:passwordRule.length") },
+                  { key: "uppercase", label: t("auth:passwordRule.uppercase") },
+                  { key: "number",    label: t("auth:passwordRule.number") },
+                ].map(({ key, label }) => (
+                  <li key={key} className={`flex items-center gap-1.5 ${passwordRules[key] ? "text-green-500" : "text-gray-400"}`}>
+                    <span>{passwordRules[key] ? "✓" : "○"}</span>
+                    {label}
+                  </li>
+                ))}
+              </ul>
+            )}
 
               {/* ✅ Forgot password 링크 (login step에서만 표시) */}
               {step === "login" && (

@@ -1,6 +1,12 @@
 {
   "title": "自助分诊",
   "subtitle": "AI驱动的症状评估",
+  "labels" : {
+    "inputHints" : "按回车键手动输入，或继续输入以查看建议的症状",
+    "commonSymptoms": "常见症状",
+    "suggestedSymptoms": "建议症状",
+    "manualInputHint": "手动输入 \"{{input}}\""
+  },
   "steps": {
     "info": "基本信息",
     "symptoms": "症状",

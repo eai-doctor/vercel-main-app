@@ -1,0 +1,5 @@
+{
+  "warning": {
+    "chatSummaryTooShort": "聊天内容较短时不适合生成摘要。请继续对话后再试！"
+  }
+}
