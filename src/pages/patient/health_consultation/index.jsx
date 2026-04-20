@@ -156,8 +156,7 @@ export default function HealthConsultation() {
     setAiSummary(''); 
     setEmailResult(null);
     setShowEndConsultationModal(true); 
-    // await generateAISummary();
-    setAiSummary("Based on your description and the localized swelling I’m seeing, it appears you’ve sustained a Grade 1 calf strain, likely a minor tear in the gastrocnemius muscle. The sharpness you feel during movement is a classic sign that the muscle fibers have been overstretched and are currently inflamed. Fortunately, the circulation in your lower leg looks excellent, so we can rule out any vascular complications for now. I’m going to prescribe a regimen of rest, icing, and elevation for the next 48 hours to bring that swelling down. Once the acute pain subsides, we’ll start some gentle stretching to ensure the tissue heals without losing its flexibility.");
+    await generateAISummary();
     
   };
 
