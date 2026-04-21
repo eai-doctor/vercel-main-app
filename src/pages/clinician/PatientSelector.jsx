@@ -99,7 +99,7 @@ export default function PatientSelector() {
       setSelectingId(patient.id);
       const response = await getPatientDetails(patient.id);
       const patientDetails = response.data.patient_data;
-      navigate("/consultation", { state: { patientData: patientDetails, searchTerm } });
+      navigate("/consultation", { state: { patientData: patientDetails, searchTerm, selectingId :  patient.id }  });
     } catch (err) {
       alert(`Failed to load patient data: ${err.message}`);
     } finally {
