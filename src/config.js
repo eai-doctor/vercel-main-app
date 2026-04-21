@@ -1,10 +1,3 @@
-function getBase(path, localFallback) {
-  if (import.meta.env.DEV) {
-    return localFallback.replace(/\/$/, "");
-  }
-  return path.replace(/\/$/, "");
-}
-
 function getBase(path, envVar, localFallback) {
   if (import.meta.env.DEV) {
     return localFallback.replace(/\/$/, "");
