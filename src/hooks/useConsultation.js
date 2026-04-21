@@ -168,9 +168,9 @@ const useConsultation = ({
 
           case "transcription_complete":
             setProcessingStatus(t("clinic:consultation.transcriptionComplete", "Transcription complete ✓"));
-            if (data.transcript && !isHallucination(data.transcript)) {
-              console.log("[Whisper]", data.transcript.trim());
-            }
+            // if (data.transcript && !isHallucination(data.transcript)) {
+            //   console.log("[Whisper]", data.transcript.trim());
+            // }
             break;
 
           case "analysis_start":

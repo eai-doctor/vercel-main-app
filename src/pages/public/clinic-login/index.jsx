@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import logoImage from "/images/logo.png";
-import ClinicLogin from './ClinicLogin';
+import Fields from './fields';
 // import ClinicRegister from "@/features/clinic-login/ClinicRegister";
 
 export default function ClinicLoginPage( { mode } ) {
@@ -25,7 +25,7 @@ export default function ClinicLoginPage( { mode } ) {
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           
  
-          {mode === "login" && <ClinicLogin />}
+          {mode === "login" && <Fields />}
           {/*{mode === "register" && <ClinicRegister />} */}
 
 

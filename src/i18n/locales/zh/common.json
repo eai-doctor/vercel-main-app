@@ -111,7 +111,15 @@
     "unknown": "未知",
     "onsetDate": "发病日期",
     "startDate": "开始日期",
-    "vitalType": "生命体征类型"
+    "vitalType": "生命体征类型",
+    "medication": "药物",
+    "display": "显示",
+    "criticality": "严重性",
+    "category": "类别",
+    "type": "类型",
+    "vaccine": "疫苗",
+    "unit": "单位",
+    "system": "系统"
   },
   "language": {
     "en": "English",

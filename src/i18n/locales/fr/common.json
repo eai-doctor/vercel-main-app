@@ -111,7 +111,15 @@
     "unknown": "Inconnu",
     "onsetDate": "Date de début",
     "startDate": "Date de début",
-    "vitalType": "Type de signe vital"
+    "vitalType": "Type de signe vital",
+    "medication": "Médication",
+    "display": "Afficher",
+    "criticality": "Criticité",
+    "category": "Catégorie",
+    "type": "Type",
+    "vaccine": "Vaccin",
+    "unit": "Unité",
+    "system": "Système"
   },
   "language": {
     "en": "English",

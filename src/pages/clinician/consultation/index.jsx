@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
-import MainLeftPanel from "./consultation/left_panel/MainLeftPanel";
-import MainRightPanel from "./consultation/right_panel/MainRightPanel";
-import McgillPredictionModal from "./consultation/modal/McgillPredictionModal";
+import MainLeftPanel from "./left_panel/MainLeftPanel";
+import MainRightPanel from "./right_panel/MainRightPanel";
+import McgillPredictionModal from "./modal/McgillPredictionModal";
 
 import { blockCopy } from "@/utils/privacy";
 import { useConsultation, useLanguage } from "@/hooks";
@@ -12,7 +12,7 @@ import { useConsultation, useLanguage } from "@/hooks";
 import { generateConsultationSummary } from "@/api/consultationApi";
 import consultationApi from "@/api/consultationApi";
 
-export default function ConsultationContainer() {
+export default function Consultation() {
   const location = useLocation();
   const navigate = useNavigate();
   const { currentLanguage } = useLanguage();
@@ -27,6 +27,8 @@ export default function ConsultationContainer() {
   const [activeTab, setActiveTab] = useState("patient")
 
   const [patientData, setPatientData] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(location.state?.searchTerm || "");
+
   const [snapshot, setSnapshot] = useState("");
   const [conversationSummary, setConversationSummary] = useState("");
   const [isLoadingSoap, setIsLoadingSoap] = useState(false);
@@ -69,6 +71,10 @@ export default function ConsultationContainer() {
         if (location.state?.patientData) {
           setPatientData(location.state.patientData);
           setShowConfigPanel(false);
+
+          if (location.state.searchTerm !== undefined) {
+            setSearchTerm(location.state.searchTerm);
+          }
         } else {
         console.warn("No patient data found. Security redirect triggered.");
         
@@ -90,11 +96,11 @@ export default function ConsultationContainer() {
   }, [consulting]);
 
   const previousPatientIdRef = useRef(null);
-  // Fetch initial SOAP note when patient changes
 
-  
+  const handleBackToPatientList = () => {
+  navigate("/patients", { state: { searchTerm } });
+};
 
-  
     const fetchSoapNote = async (payload) => {
     try {
       setIsLoadingSoap(true);
@@ -162,9 +168,9 @@ export default function ConsultationContainer() {
         <div className={`w-full lg:w-2/3 overflow-y-auto space-y-6 
             ${activeTab !== "patient" ? "hidden lg:block" : ""}`}>
           <MainLeftPanel 
-            // onBackToPatientList={onBackToPatientList}
+            handleBackToPatientList={handleBackToPatientList}
             patientData={patientData}
-            etPatientData={setPatientData}
+            setPatientData={setPatientData}
             // setAiSummary={setAiSummary}
             // setShowConfigPanel={setShowConfigPanel}
             // language={language}

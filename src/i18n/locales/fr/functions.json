@@ -32,7 +32,11 @@
     },
     "triageEngine": {
       "title": "Moteur de triage",
-      "description": "Triage automatisé des patients et évaluation des priorités"
+      "description": "Triage automatisé des patients et évaluation des priorités",
+      "inputHint": "Appuyez sur Entrée pour saisir manuellement, ou continuez à taper pour voir les symptômes suggérés",
+      "commonSymptoms": "Symptômes fréquents",
+      "suggestedSymptoms": "Symptômes suggérés"
+
     },
     "merckManual": {
       "title": "Manuel Merck",

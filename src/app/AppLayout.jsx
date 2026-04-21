@@ -9,7 +9,7 @@ import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
 import { LoginModal } from "@/pages/public";
 
 function AppLayoutInner() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { changeLanguage, getLanguageCode } = useLanguage();
   const { isLocked, setIsLocked } = useSessionGuard();
   const { isLoginOpen, closeLogin,  onSuccess, message } =
@@ -50,7 +50,7 @@ function AppLayoutInner() {
             <div className="bg-white rounded-2xl p-8 text-center shadow-xl max-w-sm w-full">
               <p className="text-slate-800 font-semibold mb-4">Session Locked</p>
               <p className="text-slate-500 text-sm mb-6">You need to login again to access the portal</p>
-              <button onClick={() => window.location.replace("/clinic-login")}
+              <button onClick={logout}
                 className="w-full py-2.5 bg-[#2C3B8D] text-white rounded-xl font-semibold text-sm cursor-pointer">
                 Login Again
               </button>

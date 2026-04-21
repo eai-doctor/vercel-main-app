@@ -28,6 +28,13 @@ function FunctionSelector() {
       route: "/functions/ask-ebo-ai",
     },
     {
+      id: "transcribe-dictate",
+      title: t('functions:cards.transcribe.title'),
+      description: t('functions:cards.transcribe.description'),
+      icon: <AlertIcon className="w-8 h-8 text-blue-500" />,
+      route: "/functions/transcribe",
+    },
+    {
       id: "followups",
       title: t('functions:cards.followups.title'),
       description: t('functions:cards.followups.description'),

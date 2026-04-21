@@ -1,6 +1,12 @@
 {
   "title": "Self-Triage",
   "subtitle": "AI-Powered Symptom Assessment",
+  "labels" : {
+    "inputHints" : "Press Enter to input manually, or keep typing to see suggested symptoms",
+    "commonSymptoms": "Common Symptoms",
+    "suggestedSymptoms": "Suggested Symptoms",
+     "manualInputHint": "Enter \"{{input}}\" manually"
+  },
   "steps": {
     "info": "Info",
     "symptoms": "Symptoms",
@@ -64,6 +70,7 @@
     "redFlags": "Red Flags",
     "differentialDiagnosis": "Differential Diagnosis",
     "disclaimer": "This assessment is for informational purposes only and does not constitute medical advice.",
-    "start_over": "Start Over"
+    "start_over": "Start Over",
+    "noSuggestedSymptoms": "No suggested symptoms related to \"{{input}}\". Please enter your symptom manually."
   }
 }

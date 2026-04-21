@@ -5,6 +5,7 @@ const api = createApi(config.backendUrl);
 
 export const recordConsultationStream = (formData) =>
   api.post("/api/record-consultation-stream", formData, {
+    withCredentials: true,
     headers: { 'Content-Type': undefined }  
   });
 
@@ -89,7 +90,8 @@ const consultationApi = {
   getInferFHIR,
   extractLabPdf,
   uploadReport,
-  getSoap
+  getSoap,
+  recordConsultationStream
 };
 
 export default consultationApi;

@@ -8,7 +8,7 @@ import MerckManual from "./MerckManual";
 import PubMed from "./PubMed";
 import HealthCanadaDrugBank from "./HealthCanadaDrugBank";
 // import OpenEMR from "./OpenEMR";
-// import TranscribeDictate from "./TranscribeDictate";
+import TranscribeDictate from "./transcribe";
 // import TriageEngine from "./TriageEngine";
 
 export { 
@@ -22,6 +22,6 @@ export {
     HealthCanadaDrugBank, 
     // DrugBank,
     // OpenEMR, 
-    // TranscribeDictate, 
+    TranscribeDictate, 
     // TriageEngine
 }

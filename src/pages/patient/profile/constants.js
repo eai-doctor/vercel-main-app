@@ -16,7 +16,7 @@ export const VITAL_TYPES = [
 ];
 
 export const EMPTY_FORMS = {
-  Condition: { name: "", status: "active", onsetDate: "", notes: "" },
+  Condition: { display: "", status: "active", onsetDate: ""},
   MedicationRequest: { name: "", dosage: "", frequency: "", status: "active", startDate: "" },
   AllergyIntolerance: { substance: "", reaction: "", severity: "moderate" },
   Observation: { vitalType: "Blood Pressure", value: "", date: "" },

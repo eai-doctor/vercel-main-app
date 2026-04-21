@@ -21,15 +21,15 @@ function AskEboAI() {
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
 
-  // 1. chatContainerRef 추가
   const chatContainerRef = useRef(null);
 
-  // 2. useEffect 수정
   useEffect(() => {
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    const el = chatContainerRef.current;
+    if (el) {
+      el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
     }
   }, [chatHistory, isLoading]);
+
   useEffect(() => {
        window.scrollTo(0, 0)
      }, [])
@@ -68,9 +68,9 @@ function AskEboAI() {
 
   return (
     <div className="h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex flex-col">
-  <NavBar />
-  <main className="flex-1 flex flex-col max-w-3xl w-full mx-auto px-4 py-6 min-h-0">
-    <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-6 pb-4 min-h-0">
+    <NavBar />
+    <main className="flex-1 flex flex-col max-w-3xl w-full mx-auto px-4 py-6 min-h-0">
+        <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-6 pb-4 min-h-0">
 
           {/* Empty state */}
           {isEmpty && (
@@ -146,7 +146,8 @@ function AskEboAI() {
             </div>
           )}
 
-          <div ref={bottomRef} />
+          <div ref={bottomRef} />   
+
         </div>
 
         {/* Input bar */}
@@ -186,6 +187,7 @@ function AskEboAI() {
         </div>
 
       </main>
+
     </div>
   );
 }

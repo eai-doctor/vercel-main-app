@@ -29,6 +29,7 @@ import Imaging from "./Imaging";
 //   isGeneratingSummary
 // }
 export default function MainLeftPanel({
+    handleBackToPatientList,
     patientData,
     setPatientData,
     modelInfo,
@@ -61,7 +62,7 @@ export default function MainLeftPanel({
         {/* Header */}
         <Header 
           patientData={patientData}
-        //   onBackToPatientList={onBackToPatientList} 
+          handleBackToPatientList={handleBackToPatientList} 
         //   setShowConfigPanel={setShowConfigPanel}
           snapshot={snapshot}
           conversationSummary={conversationSummary}

@@ -8,7 +8,7 @@ export function Field({ label, value, onChange, type = "text", required, placeho
       {multiline ? (
         <textarea className={cls} value={value} onChange={(e) => onChange(e.target.value)} rows={2} placeholder={placeholder} />
       ) : (
-        <input className={cls} type={type} value={value} onChange={(e) => onChange(e.target.value)} required={required} placeholder={placeholder} />
+        <input className={cls} type={type} value={value ?? ""} onChange={(e) => onChange(e.target.value)} required={required} placeholder={placeholder} />
       )}
     </div>
   );

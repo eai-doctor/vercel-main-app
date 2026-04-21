@@ -9,13 +9,13 @@ import {
     PubMed, 
     HealthCanadaDrugBank, 
     // OpenEMR, 
-    // TranscribeDictate, 
+    TranscribeDictate, 
 } from '@/pages/clinician/functions';
-import { TriageEngine } from '@/pages/function';
+import { TriageEngine } from '@/pages/public/function';
 
 
 export const functionRoutes = [
-  // { path: "/functions/transcribe", element: <TranscribeDictate /> },
+  { path: "/functions/transcribe", element: <TranscribeDictate /> },
   { path: "/functions/ask-ebo-ai", element: <AskEboAI /> },
   { path: "/functions/followups", element: <FollowUps /> },
   { path: "/functions/patient-query", element: <PatientQuery /> },
