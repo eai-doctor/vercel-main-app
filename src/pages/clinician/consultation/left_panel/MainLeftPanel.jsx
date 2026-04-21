@@ -35,6 +35,7 @@ export default function MainLeftPanel({
     modelInfo,
     snapshot,
     conversationSummary,
+    selectingId
 }) {
   const { t } = useTranslation(['clinic', 'common']);
   const [editedPatientInfo, setEditedPatientInfo] = useState(null);
@@ -69,6 +70,7 @@ export default function MainLeftPanel({
         //   aiSummary={aiSummary}
         //   setAiSummary={setAiSummary}
           modelInfo={modelInfo}
+          selectingId={selectingId}
         />
 
         {/* 3.1 Patient Info */}

@@ -100,7 +100,6 @@ const isPasswordValid = Object.values(passwordRules).every(Boolean);
         if (!isPasswordValid) { setError(t("auth:errors.PASSWORD_INVALID")); return; }
 
         const res = await register(email, form.password, form.name, form.role);
-        console.log("res : ",res);
         if (res?.requiresVerification) {
           setVerificationEmail(res.email);
           setStep("verify");
@@ -114,8 +113,6 @@ const isPasswordValid = Object.values(passwordRules).every(Boolean);
         handleSuccess(res);
       }
     } catch (err) {
-        console.log("LoginModal.error : ",err);
-
       if (err?.requiresVerification) {
         setVerificationEmail(err.email);
         setStep("verify");

@@ -18,6 +18,7 @@ export default function Header({
   snapshot,
   conversationSummary,
   modelInfo,
+  selectingId
 }) {
   const navigate = useNavigate();
   const { t } = useTranslation(['clinic', 'common']);
@@ -35,10 +36,9 @@ export default function Header({
   const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
   const [emailResult, setEmailResult] = useState(null);
 
-  // FAB 열림 상태 (모바일 전용)
+  //for mobile
   const [fabOpen, setFabOpen] = useState(false);
 
-  // ── 핸들러들 (기존 동일) ──────────────────────────────────
   const handleGeneratePrescription = async () => {
     if (!patientData) { alert(t('clinic:consultation.noPatientData')); return; }
     try {
@@ -98,7 +98,6 @@ export default function Header({
     await generateAISummary();
   };
 
-  // FAB 클릭 시 해당 액션 실행 후 닫기
   const handleFabAction = (action) => {
     setFabOpen(false);
     action();
@@ -234,6 +233,7 @@ export default function Header({
           onClose={handleOnClostPrescriptionModal}
           isGenerating={isGeneratingPrescription}
           patientInfo={patientData}
+          selectingId={selectingId}
         />
       )}
 

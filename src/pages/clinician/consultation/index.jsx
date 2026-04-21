@@ -47,6 +47,7 @@ export default function Consultation() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStartTime, setProcessingStartTime] = useState(null);
   const [processingStatus, setProcessingStatus] = useState("");
+  const [selectingId, setSelectingId] = useState(null);
   const [nbqList, setNbqList] = useState([]);
   const [differentials, setDifferentials] = useState([]);
   const [modelInfo, setModelInfo] = useState(null);
@@ -75,6 +76,10 @@ export default function Consultation() {
           if (location.state.searchTerm !== undefined) {
             setSearchTerm(location.state.searchTerm);
           }
+
+           if (location.state.selectingId !== undefined) {
+            setSelectingId(location.state.selectingId);
+          }
         } else {
         console.warn("No patient data found. Security redirect triggered.");
         
@@ -101,7 +106,7 @@ export default function Consultation() {
   navigate("/patients", { state: { searchTerm } });
 };
 
-    const fetchSoapNote = async (payload) => {
+  const fetchSoapNote = async (payload) => {
     try {
       setIsLoadingSoap(true);
       const response = await consultationApi.getSoap(payload);
@@ -178,6 +183,7 @@ export default function Consultation() {
             conversationSummary={conversationSummary}
             // aiSummary={aiSummary}
             modelInfo={modelInfo}
+            selectingId={selectingId}
           />
         </div>
 

@@ -64,7 +64,7 @@ function RecordingPanel({
               </div>
             )}
 
-            {/* {transcriptHistory && !consulting && (
+            {transcriptHistory && !consulting && (
               <div className="flex-row gap-2 space-y-2">
                 <div className="flex items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 rounded-xl">
                   <div className="w-2 h-2 bg-green-500 rounded-full shrink-0" />
@@ -81,23 +81,7 @@ function RecordingPanel({
                   </button>
                 </div>
               </div>
-            )} */}
-            <div className="flex-row gap-2 space-y-2">
-                <div className="flex items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 rounded-xl">
-                  <div className="w-2 h-2 bg-green-500 rounded-full shrink-0" />
-                  <span className="text-[12px] font-semibold">
-                    {t('consultation.listeningFinished', 'Recording completed')}
-                  </span>
-                </div>
-                <div className="flex">
-                  <button
-                    onClick={handleOpenEndConsultationModal}
-                    className="cursor-pointer flex-1 py-2 rounded-xl text-[12px] font-semibold text-white bg-[#2C3B8D] hover:bg-[#233070] transition-colors"
-                  >
-                    {t('consultation.generateSummary', 'Generate Summary')}
-                  </button>
-                </div>
-              </div>
+            )}
 
             {!consulting && !transcriptHistory && (
               <p className="text-center text-[12px] text-slate-400">
