@@ -211,26 +211,50 @@ export default function MainRightPanel({
             )}
           </div>
           <div className="p-3 space-y-1.5">
-            {[
-              { key: 'subjective',  label: t('clinic:consultation.subjective',  'Subjective'),  letter: 'S', color: 'bg-blue-600' },
-              { key: 'objective',   label: t('clinic:consultation.objective',   'Objective'),   letter: 'O', color: 'bg-emerald-600' },
-              { key: 'assessment',  label: t('clinic:consultation.assessment',  'Assessment'),  letter: 'A', color: 'bg-violet-600' },
-              { key: 'plan',        label: t('clinic:consultation.plan',        'Plan'),        letter: 'P', color: 'bg-amber-600' },
-            ].map(({ key, label, letter, color }) => (
-              <div key={key} className="px-3 py-3 rounded-xl hover:bg-slate-50 transition-colors">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className={`${color} text-white w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0`}>
-                    {letter}
-                  </span>
-                  <span className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide">{label}</span>
+            {(() => {
+              const toBullets = (text) => {
+                const lines = text.split('\n').map(s => s.replace(/^[-•]\s*/, '').trim()).filter(Boolean);
+                if (lines.length > 1) return lines;
+                // Gemini returned inline bullets without newlines — split on " - "
+                return text.split(/\s+-\s+/).map(s => s.replace(/^[-•]\s*/, '').trim()).filter(Boolean);
+              };
+
+              return [
+                { key: 'subjective',  label: t('clinic:consultation.subjective',  'Subjective'),  letter: 'S', color: 'bg-blue-600' },
+                { key: 'objective',   label: t('clinic:consultation.objective',   'Objective'),   letter: 'O', color: 'bg-emerald-600' },
+                { key: 'assessment',  label: t('clinic:consultation.assessment',  'Assessment'),  letter: 'A', color: 'bg-violet-600' },
+                { key: 'plan',        label: t('clinic:consultation.plan',        'Plan'),        letter: 'P', color: 'bg-amber-600' },
+              ].map(({ key, label, letter, color }) => (
+                <div key={key} className="px-3 py-3 rounded-xl hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className={`${color} text-white w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0`}>
+                      {letter}
+                    </span>
+                    <span className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide">{label}</span>
+                  </div>
+                  <div className="pl-7">
+                    {isLoadingSoap ? (
+                      <span className="text-[14px] text-slate-400 italic">
+                        {t(`clinic:consultation.generating${label}`, `Generating ${label.toLowerCase()} section...`)}
+                      </span>
+                    ) : soapNote[key] ? (
+                      <ul className="space-y-1">
+                        {toBullets(soapNote[key]).map((point, i) => (
+                          <li key={i} className="flex items-start gap-2 text-[14px] text-slate-800 leading-relaxed">
+                            <span className={`mt-[7px] w-1.5 h-1.5 rounded-full ${color} shrink-0`} />
+                            {point}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span className="text-[14px] text-slate-400 italic">
+                        {t(`clinic:consultation.no${label}Data`, `No ${label.toLowerCase()} data available`)}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <p className="text-[14px] text-slate-800 leading-relaxed whitespace-pre-wrap pl-7">
-                  {isLoadingSoap
-                    ? <span className="text-slate-400 italic">{t(`clinic:consultation.generating${label}`, `Generating ${label.toLowerCase()} section...`)}</span>
-                    : soapNote[key] || <span className="text-slate-400 italic">{t(`clinic:consultation.no${label}Data`, `No ${label.toLowerCase()} data available`)}</span>}
-                </p>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </section>
       )}
