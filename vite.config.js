@@ -11,4 +11,14 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/api/auth': {
+        target: 'https://auth-service-338917524320.northamerica-northeast1.run.app',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api\/auth/, ''),
+      }
+    }
+  }
 });

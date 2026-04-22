@@ -13,7 +13,7 @@ function getBase(path, localFallback) {
 const config = {
   // Core APIs
   backendUrl: getBase("/api/backend", "http://localhost:5001"),
-  authServiceUrl: getBase("/api/auth", "http://localhost:7860"),
+  authServiceUrl: getBase("/api/auth", "http://localhost:5173"),
 
   // Microservices
   transcriptionServiceUrl: getBase("/api/transcription", "http://localhost:5004"),
