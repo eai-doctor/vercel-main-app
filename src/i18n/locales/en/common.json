@@ -111,7 +111,15 @@
     "unknown": "Unknown",
     "onsetDate": "Onset Date",
     "startDate": "Start Date",
-    "vitalType": "Vital Type"
+    "vitalType": "Vital Type",
+    "medication" : "Medication",
+    "display": "Display",
+    "criticality": "Criticality",
+    "category": "Category",
+    "type": "Type",
+    "vaccine": "Vaccine",
+    "unit" : "Unit",
+    "system": "System"
   },
   "language": {
     "en": "English",

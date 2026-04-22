@@ -2,12 +2,15 @@ import React, { useState, useRef, useCallback, useMemo, useEffect } from "react"
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 import medicalRecordApi from "@/api/medicalRecordApi";
-import { TAB_KEYS } from "./constants";
-import { buildFhirResource, formFromRecord, parseDisplayData } from "./utils";
 
-import { RecordCard, FormModal } from "./components";
 import { Button } from "@/components/ui"
 import { SystemStatus, NavBar } from "@/components";
+import { createRecord, updateRecord } from "@/api/medicalRecordApi";
+import { getTodayString } from "@/utils/DateUtils";
+
+import { RecordCard, FormModal } from "./components";
+import { buildFhirResource, formFromRecord, parseDisplayData } from "./utils";
+import { TAB_KEYS, EMPTY_FORMS } from "./constants";
 
 export default function MedicalProfile() {
   const { t } = useTranslation(['patient', 'common']);
@@ -16,9 +19,11 @@ export default function MedicalProfile() {
   const [activeTab, setActiveTab] = useState("Condition");
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingRecord, setEditingRecord] = useState(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const userId = user?.user_id || user?.id;
 
@@ -31,6 +36,7 @@ export default function MedicalProfile() {
   }), [t]);
 
   const cacheRef = useRef({});
+
 
   const fetchRecords = useCallback(async () => {
     if (!userId) return;
@@ -47,7 +53,6 @@ export default function MedicalProfile() {
 
     try {
       const res = await medicalRecordApi.getRecords(userId, activeTab);
-      console.log(res);
       const data = res.data.records || [];
 
       cacheRef.current[cacheKey] = data;
@@ -64,18 +69,26 @@ export default function MedicalProfile() {
     fetchRecords();
   }, [fetchRecords]);
 
-  const handleSave = async (formData) => {
-    try {
-      const resource = buildFhirResource(activeTab, formData);
-      if (editingRecord) {
-        await medicalRecordApi.updateRecord(userId, editingRecord._id, { resource });
-      } else {
-        await medicalRecordApi.createRecord(userId, { resource_type: activeTab, resource });
-      }
-      setShowModal(false);
-      fetchRecords();
-    } catch (err) { setError(t('common:error')); }
+  const initialData = editingRecord ? records.filter(r => r._id === editingRecord._id)[0] : null;
+
+  const getInitialForm = (tab, data = null) => {
+    const base = data || EMPTY_FORMS[tab];
+    return {
+      ...base,
+      // 날짜 필드가 onsetDate인 경우와 date인 경우 모두 대응
+      onsetDate: base.onsetDate || getTodayString(),
+      date: base.date || getTodayString()
+    };
   };
+
+  
+  const [form, setForm] = useState(() => {
+    const baseForm = initialData || EMPTY_FORMS[activeTab];
+    return {
+      ...baseForm,
+      onsetDate: baseForm.onsetDate || getTodayString()
+    };
+  });
 
   async function handleDelete(rec) {
     if (!rec?._id) {
@@ -89,9 +102,9 @@ export default function MedicalProfile() {
     try {
       const res = await medicalRecordApi.deleteRecord( userId, rec._id, activeTab );
 
-      if (res.statusText !== "OK") {
-        throw new Error(err.error || "Failed to delete record");
-      }
+      // if (res.statusText !== "OK") {
+      //   throw new Error("Failed to delete record");
+      // }
 
       window.alert("Record successfully deleted");
       setRecords(prev => prev.filter(r => r._id !== rec._id));
@@ -107,6 +120,51 @@ export default function MedicalProfile() {
       alert(error.message);
     }
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
+    if (!userId || userId === "undefined") {
+      setError("User ID is missing. Please refresh and try again.");
+      return;
+    }
+
+
+    try {
+      if (initialData) {
+        await updateRecord(userId, initialData._id, activeTab, form);
+        setRecords(prev =>
+          prev.map(record =>
+            record._id === initialData._id
+              ? { ...record, ...form }
+              : record
+          )
+        );
+        setShowModal(false);
+        setForm(getInitialForm(activeTab));
+      } else {
+        const response = await createRecord(userId, activeTab, form);
+        if(response.status === 201){
+          setRecords(prev => [{ _id: response.data.id, ... form }, ...prev]);
+          setShowModal(false);
+          setForm(getInitialForm(activeTab));
+        }
+      }
+    } catch (err) {
+      const message = err.response?.data?.error || err.message || "Unknown error";
+      setError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleTabChange = (key) => {
+    setRecords([]); 
+    setActiveTab(key);
+    setForm(getInitialForm(key));
+  };
 
   return (
     <div className="min-h-screen bg-[#f8fafc] pb-20">
@@ -125,7 +183,7 @@ export default function MedicalProfile() {
             <Button
               key={key}
               variant={activeTab === key ? "default" : "outline"}
-              onClick={() => setActiveTab(key)}
+              onClick={() => handleTabChange(key)}
               className={`rounded-full px-6 transition-all ${
                 activeTab === key ? "text-white shadow-md scale-105 bg-[#1f2a63]" : "bg-white text-slate-500"
               }`}
@@ -135,24 +193,18 @@ export default function MedicalProfile() {
           ))}
         </div>
 
-        {/* 섹션 헤더 및 추가 버튼 */}
+        {/* Buttons */}
         <div className="flex justify-between items-end mb-6 px-2">
           <h2 className="text-xl font-bold text-slate-800">{tabLabels[activeTab]}</h2>
-          {/* <Button 
+          <Button 
             onClick={() => { setEditingRecord(null); setShowModal(true); }}
               className="bg-[#2C3B8D] hover:bg-[#1f2a63] text-white"
           >
             <span className="text-lg font-bold">+</span>
             {t('common:add')}
-          </Button> */}
+          </Button>
         </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="max-w-md mx-auto mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-center text-sm border border-red-100">
-            {error}
-          </div>
-        )}
 
         {/* Contents Area */}
         {loading ? (
@@ -168,7 +220,7 @@ export default function MedicalProfile() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {records.map((rec) => (
               <RecordCard
-                key={rec._id}
+                key={`${activeTab}-${rec._id}`}
                 data={parseDisplayData(activeTab, rec)}
                 onEdit={() => { setEditingRecord(rec); setShowModal(true); }}
                 onDelete={() => handleDelete(rec)}
@@ -181,14 +233,26 @@ export default function MedicalProfile() {
 
       <SystemStatus />
 
+      
+        {/* Error Message */}
+        {error && (
+          <div className="max-w-md mx-auto mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-center text-sm border border-red-100">
+            {error}
+          </div>
+        )}
+
       {showModal && (
         <FormModal
           tab={activeTab}
-          initialData={editingRecord ? formFromRecord(activeTab, editingRecord) : null}
-          onSave={handleSave}
+          initialData={initialData}
+          isSubmitting={isSubmitting}
           onClose={() => setShowModal(false)}
-          t={t}
+          error ={error }
           labels={tabLabels}
+          handleSubmit={handleSubmit}
+          form={ form }
+          setForm={ setForm }
+          t={t}
         />
       )}
     </div>

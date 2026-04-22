@@ -29,11 +29,13 @@ import Imaging from "./Imaging";
 //   isGeneratingSummary
 // }
 export default function MainLeftPanel({
+    handleBackToPatientList,
     patientData,
     setPatientData,
     modelInfo,
     snapshot,
     conversationSummary,
+    selectingId
 }) {
   const { t } = useTranslation(['clinic', 'common']);
   const [editedPatientInfo, setEditedPatientInfo] = useState(null);
@@ -61,13 +63,14 @@ export default function MainLeftPanel({
         {/* Header */}
         <Header 
           patientData={patientData}
-        //   onBackToPatientList={onBackToPatientList} 
+          handleBackToPatientList={handleBackToPatientList} 
         //   setShowConfigPanel={setShowConfigPanel}
           snapshot={snapshot}
           conversationSummary={conversationSummary}
         //   aiSummary={aiSummary}
         //   setAiSummary={setAiSummary}
           modelInfo={modelInfo}
+          selectingId={selectingId}
         />
 
         {/* 3.1 Patient Info */}

@@ -13,7 +13,6 @@ const ModalHeader = ({ title, subtitle, badge, onClose }) => (
           <h2 className="text-[17px] font-semibold text-slate-800">{title}</h2>
           <div className="flex items-center gap-2">
             {subtitle && <p className="text-[11px] text-slate-400">{subtitle}</p>}
-            {badge && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#eef2ff] text-[#2C3B8D]">{badge}</span>}
           </div>
         </div>
       </div>

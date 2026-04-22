@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/auth/:path*",
+      "destination": "https://auth-service-dev-338917524320.northamerica-northeast1.run.app/:path*"
+    },
+    {
+      "source": "/api/backend/:path*",
+      "destination": "https://dev---main-service-git-223812018767.northamerica-northeast1.run.app/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

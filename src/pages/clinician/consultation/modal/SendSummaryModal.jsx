@@ -70,8 +70,6 @@ export default function SendSummaryModal ({
         formData.append('patient_email', patientEmail);
 
         const res = await uploadReport(formData);
-        console.log(res);
-
         // const { signedUrl, token } = res.data;
         return res;
       };

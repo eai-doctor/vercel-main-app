@@ -28,7 +28,7 @@ export function buildFhirResource(tab, form) {
   }
 }
 
-/** * FHIR Resource를 UI 폼 데이터로 변환 (수정 모드 진입용)
+/** * For editing Data
  */
 export function formFromRecord(tab, rec) {
   const res = rec.resource || {};
@@ -55,17 +55,14 @@ export function formFromRecord(tab, rec) {
   }
 }
 
-/** * FHIR Resource를 리스트 카드에 보여줄 텍스트로 추출
- */
-/**
- * FHIR + Custom DB 모두 대응
- */
 export function parseDisplayData(tab, rec) {
   const res = rec.resource || rec; // FHIR or DB fallback
+  console.log(`Parsing display data for tab ${tab}:`, res);
 
   switch (tab) {
     case "Condition":
       return {
+        _id: rec._id,
         primary:
           res.code?.text || res.display || "Unknown Condition",
 
@@ -75,23 +72,22 @@ export function parseDisplayData(tab, rec) {
           "unknown"
         }`,
 
-        date: res.onsetDateTime || res.onset_date,
+        date: res.onsetDateTime || res.onset_date || res.onsetDate
 
-        notes: res.note?.[0]?.text,
       };
 
     case "Observation":
       return {
+        _id: rec._id,
+
         primary:
           res.code?.text || res.display || "Observation",
 
         secondary: `${
-          res.valueQuantity?.value ??
-          res.value?.value ??
+          res.value ??
           ""
         } ${
-          res.valueQuantity?.unit ||
-          res.value?.unit ||
+          res.unit ||
           ""
         }`,
 
@@ -100,6 +96,8 @@ export function parseDisplayData(tab, rec) {
 
     case "Immunization":
       return {
+        _id: rec._id,
+
         primary:
           res.vaccine ||
           res.display ||
@@ -116,6 +114,8 @@ export function parseDisplayData(tab, rec) {
 
     case "MedicationRequest":
       return {
+        _id: rec._id,
+
         primary:
           res.medication ||
           "Medication",
@@ -126,16 +126,13 @@ export function parseDisplayData(tab, rec) {
 
         date:
           res.effectiveDateTime ||
-          res.date,
-
-        notes:
-          res.dosage?.[0]?.text ||
-          res.dosage ||
-          undefined,
+          res.date || res.onsetDate,
       };
 
     case "AllergyIntolerance":
   return {
+        _id: rec._id,
+
     primary:
       res.code?.text || res.display || "Unknown Allergy",
 
@@ -147,13 +144,14 @@ export function parseDisplayData(tab, rec) {
       "unknown"
     }`,
 
-    date: res.recordedDate || res.date,
+    date: res.recordedDate || res.date || res.onsetDate,
 
     notes: res.note?.[0]?.text,
   };
 
     default:
       return {
+        _id : undefined,
         primary: "Record",
         secondary: "",
       };

@@ -6,7 +6,7 @@ import { AUDIO_CONSTRAINTS, FREE_MESSAGE_LIMIT } from '../constants';
 import { getStoredMessageCount, incrementMessageCount } from '../utils';
 
 export const useHealthConsultation = (user, accessToken, isAuthenticated, loading, openLogin) => {
-  const { t } = useTranslation(['patient', 'common']);
+  const { t } = useTranslation(['patient', 'common', 'chat']);
 
   // --- 1. Chat States ---
   const [messages, setMessages] = useState([{ role: 'assistant', content: t('chat.welcomeGreeting') }]);
@@ -150,8 +150,6 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
       startWebSpeechRecognition();
 
     } catch (err) {
-      console.error("🎤 Recording failed:", err);
-
       let message = "Microphone access failed.";
 
       switch (err?.name) {
@@ -188,28 +186,30 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
 
   // --- 7. Summary Actions ---
   const generateChatSummary = async () => {
-    const cleanMessages = messages
-      .filter(m => m.role === 'user' || m.role === 'assistant')
-      .map(({ role, content }) => ({ role, content }));
-    
-    if (cleanMessages.length === 0) return;
+      const cleanMessages = messages
+        .filter(m => m.role === 'user' || m.role === 'assistant')
+        .map(({ role, content }) => ({ role, content }));
 
-    setIsGeneratingChatSummary(true);
-    try {
-      const response = await chatApi.generateConsultationSummaries(cleanMessages);
-      console.log(response);
-      if (response.data.success) {
-        setChatSummary(response.data.summary);
-        setSummaryModelUsed(response.data.model_used || '');
-        setShowChatSummaryModal(true);
-        return response.data;
+      if (cleanMessages.length === 0) return;
+      if (cleanMessages.length < 10) {
+        window.alert(t('chat:warning.chatSummaryTooShort'));
+        return;
       }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsGeneratingChatSummary(false);
-    }
-  };
+      setIsGeneratingChatSummary(true);
+
+      try {
+        const response = await chatApi.generateConsultationSummaries(cleanMessages);
+        if (response.data.success) {
+          setChatSummary(response.data.summary);
+          setShowChatSummaryModal(true);
+          return response.data;
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsGeneratingChatSummary(false);
+      }
+    };
 
   const uploadLabReport = async (e) => {
     const file = e.target.files[0]; if (!file) return;

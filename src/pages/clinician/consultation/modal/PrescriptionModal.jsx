@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { marked } from "marked";
 
 import { PillIcon, ClipboardIcon, DocumentIcon, WarningIcon, ClockIcon, UploadIcon } from "@/components/ui/icons";
 import { updatePrescription } from '@/api/consultationApi';
 
-export default function PrescriptionModal({ prescription, prescriptionId, onClose, isGenerating, patientInfo }) {
+export default function PrescriptionModal({ prescription, prescriptionId, onClose, isGenerating, patientInfo, selectingId }) {
   const { t } = useTranslation(['clinic', 'common']);
+   const location = useLocation();
+
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -162,27 +165,36 @@ export default function PrescriptionModal({ prescription, prescriptionId, onClos
     URL.revokeObjectURL(url);
   };
 
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      const data = await updatePrescription(patientInfo.patient_identification.patient_id, prescriptionId, editedPrescription);
+const handleSave = async () => {
+  const patientIdentification = patientInfo?.patient_identification;
 
-      if (data.success) {
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-          window.alert(t('common:states.successfullyUpdated'));
-        }, 3000);
-      }
-    } catch (error) {
-      // console.error('Failed to save prescription:', error);
-      // console.error('Error details:', error.response?.data);
-      const errorMessage = error.response?.data?.error || error.message || t('common:errors.unknown');
-      alert(t('prescriptions.saveFailed', { error: errorMessage }));
-    } finally {
-      setIsSaving(false);
-    }
-  };
+  if (!patientIdentification) {
+    alert("Missing patient identification");
+    return;
+  }
+
+  if (!selectingId) {
+    alert("Missing selectingId — check if it's being passed as a prop");
+    return;
+  }
+
+  setIsSaving(true);
+  
+  try {
+    const data = await updatePrescription(selectingId, prescriptionId, editedPrescription);
+
+    if (data.data.success) {
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 4000);
+    } 
+  } catch (error) {
+    console.error("Save error:", error);
+    const errorMessage = error.response?.data?.error || error.message || "Unknown error";
+    alert(`Save failed: ${errorMessage}`);
+  } finally {
+    setIsSaving(false);
+  }
+};
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -261,9 +273,24 @@ export default function PrescriptionModal({ prescription, prescriptionId, onClos
         {!isGenerating && prescription && (
           <div className="bg-[#f8fafc] border-t border-[rgba(15,23,42,0.1)] p-6">
             {saveSuccess && (
-              <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg flex items-center justify-center space-x-2">
-                <span>✓</span>
-                <span className="font-semibold">{t('prescriptions.savedSuccessfully')}</span>
+              <div className="mb-4 bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
+                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                  <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-green-800">Prescription saved successfully</p>
+                  <p className="text-xs text-green-600 mt-0.5">The prescription has been updated in the database and is now on record.</p>
+                </div>
+                <button
+                  onClick={() => setSaveSuccess(false)}
+                  className="text-green-400 hover:text-green-600 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
             )}
 

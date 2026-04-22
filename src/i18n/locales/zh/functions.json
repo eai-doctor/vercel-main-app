@@ -32,7 +32,10 @@
     },
     "triageEngine": {
       "title": "分诊引擎",
-      "description": "自动化患者分诊和优先级评估"
+      "description": "自动化患者分诊和优先级评估",
+      "inputHint": "按回车键手动输入，或继续输入以查看推荐症状",
+      "commonSymptoms" : "常见症状",
+      "suggestedSymptoms" : "推荐症状"
     },
     "merckManual": {
       "title": "默克诊疗手册",

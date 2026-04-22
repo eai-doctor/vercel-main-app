@@ -1,39 +1,27 @@
-// config.js
-
-function getBase(path, localFallback) {
-  // 개발 환경
+function getBase(path, envVar, localFallback) {
   if (import.meta.env.DEV) {
     return localFallback.replace(/\/$/, "");
   }
-
-  // 배포 환경 (Vercel rewrite 사용)
+  if (envVar) {
+    return envVar.replace(/\/$/, "");
+  }
   return path.replace(/\/$/, "");
 }
 
 const config = {
-  // Core APIs
-  backendUrl: getBase("/api/backend", "http://localhost:5001"),
-  authServiceUrl: getBase("/api/auth", "http://localhost:5173"),
+  backendUrl: getBase("/api/backend",  import.meta.env.VITE_BACK_URL, "http://localhost:5001"),
+  authServiceUrl: getBase("/api/auth", import.meta.env.VITE_AUTH_URL, "http://localhost:7860"),
+  dpdServiceUrl: getBase("/api/dpd", null, "http://localhost:8010"),
+  swintinyServiceUrl: getBase("/api/swintiny", null, "http://localhost:5030"),
+  clipVitb16ServiceUrl: getBase("/api/clip-vitb16", null, "http://localhost:5020"),
 
-  // Microservices
-  transcriptionServiceUrl: getBase("/api/transcription", "http://localhost:5004"),
-  smsServiceUrl: getBase("/api/sms", "http://localhost:5003"),
-  chatboxServiceUrl: getBase("/api/chatbox", "http://localhost:5005"),
-  swintinyServiceUrl: getBase("/api/swintiny", "http://localhost:5030"),
-  clipVitb16ServiceUrl: getBase("/api/clip-vitb16", "http://localhost:5020"),
-  dpdServiceUrl: getBase("/api/dpd", "http://localhost:8010"),
+  transcriptionServiceUrl: getBase("/api/transcription", null, "http://localhost:5004"),
+  smsServiceUrl: getBase("/api/sms", null, "http://localhost:5003"),
+  chatboxServiceUrl: getBase("/api/chatbox", null, "http://localhost:5005"),
 
-  // External services (그대로 유지)
-  merckServiceUrl:
-    import.meta.env.VITE_MERCK_SERVICE_URL ||
-    "https://jiming-chen-merck-manual.hf.space",
+  merckServiceUrl: import.meta.env.VITE_MERCK_SERVICE_URL || "https://jiming-chen-merck-manual.hf.space",
+  openEmrUrl: import.meta.env.VITE_OPENEMR_URL || "https://jiming-chen-openemr-space.hf.space",
 
-  openEmrUrl:
-    import.meta.env.VITE_OPENEMR_URL ||
-    "https://jiming-chen-openemr-space.hf.space",
-
-
-  // Feature flags
   enableTranscription: import.meta.env.VITE_ENABLE_TRANSCRIPTION !== "false",
   enableEmail: import.meta.env.VITE_ENABLE_EMAIL !== "false",
   enableSms: import.meta.env.VITE_ENABLE_SMS !== "false",

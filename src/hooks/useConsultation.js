@@ -169,7 +169,6 @@ const useConsultation = ({
           case "transcription_complete":
             setProcessingStatus(t("clinic:consultation.transcriptionComplete", "Transcription complete ✓"));
             if (data.transcript && !isHallucination(data.transcript)) {
-              // Bug 4 fix: display Gemini transcript in the transcription panel
               setTranscriptHistory(prev => prev ? prev + ' ' + data.transcript.trim() : data.transcript.trim());
             }
             break;

@@ -16,9 +16,6 @@ export const getAssignedPatients = (searchTerm = "") => {
   });
 };
 
-/**
- * 특정 환자의 상세 데이터 가져오기
- */
 export const getPatientDetails = (patientId) => 
   patientApi.get(`/api/patient/${patientId}`);
 

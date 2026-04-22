@@ -49,7 +49,7 @@ function PatientHomePage() {
       description: t("patient:home.modules.geneticConsultation.description"),
       icon: <DnaIcon className="w-8 h-8 text-blue-500" />,
       externalUrl:
-        "https://vercel-genetic-frontend.vercel.app/dashboard",
+        "https://genetic.e-ai.ca/dashboard",
       requiresAuth: false,
     },
     {
@@ -75,7 +75,7 @@ function PatientHomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-96 bg-gradient-to-br from-gray-50 to-blue-50">
       
       {/* Header */}
       <Header  />

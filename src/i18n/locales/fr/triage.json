@@ -1,6 +1,12 @@
 {
   "title": "Auto-triage",
   "subtitle": "Évaluation des symptômes par l'IA",
+  "labels" : {
+    "inputHint": "Appuyez sur Entrée pour saisir manuellement, ou continuez à taper pour voir les symptômes suggérés",
+    "commonSymptoms": "Symptômes fréquents",
+    "suggestedSymptoms": "Symptômes suggérés",
+    "manualInputHint": "Entrez \"{{input}}\" manuellement"
+  },
   "steps": {
     "info": "Infos",
     "symptoms": "Symptômes",

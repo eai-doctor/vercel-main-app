@@ -5,13 +5,9 @@ import { useAuth } from '@/context/AuthContext';
 
 import { FreeMessageLimitModal } from "@/pages/public";
 import { ProfileDropdown } from "@/components";
-import {
-  AiIcon, MicrophoneIcon, ClipboardIcon, LightbulbIcon,
-  MailIcon, CheckCircleIcon, XCircleIcon, ClockIcon, UserIcon
-} from '@/components/ui/icons';
 import chatApi from '@/api/chatApi';
 import consultationApi from '@/api/consultationApi';
-import ChatboxModal from "@/pages/public/ChatboxModal";
+import ChatboxModal from "@/pages/public/modal/ChatboxModal";
 import { useAuthModal } from '@/context/AuthModalContext';
 
 import ChatSummaryModal from './components/modals/ChatSummaryModal';
@@ -29,6 +25,7 @@ import {
 } from './utils';
 import EmailSummaryModal from './components/modals/EmailSummaryModal';
 import RecordingPanel from './components/RecordingPanel';
+import { usePreviousSymptoms } from './hooks/usePreviousSymptoms';
 
 export default function HealthConsultation() {
   const { t } = useTranslation(['patient', 'common', 'functions']);
@@ -116,21 +113,51 @@ export default function HealthConsultation() {
 
   const handleSuggestionClick = (s) => { setInput(s); sendMessage(s); };
   const handleClearChat = () => { setMessages([]); setShowSuggestions(true); };
+  const {
+    previousSymptoms,
+    isSymptomsLoading,
+    refetch: refetchSymptoms,
+  } = usePreviousSymptoms(isAuthenticated, loading);
 
   const handleSaveSummary = async () => {
-    const cleanMessages = messages.filter(m => m.role === 'user' || m.role === 'assistant').map(({ role, content }) => ({ role, content }));
+    const cleanMessages = messages
+      .filter(m => m.role === 'user' || m.role === 'assistant')
+      .map(({ role, content }) => ({ role, content }));
     try {
       setIsSavingSummary(true);
-      const response = await chatApi.saveConsultationSummaries(chatSummary, cleanMessages, summaryModelUsed);
-      setSaveSummaryResult({ success: response.data.success, message: response.data.success ? t('chat.summarySaved') : t('chat.summarySaveFailed') });
-    } catch (e) { setSaveSummaryResult({ success: false, message: e.response?.data?.error || e.message }); }
-    finally { setIsSavingSummary(false); }
+      const response = await chatApi.saveConsultationSummaries(
+        chatSummary,
+        cleanMessages,
+        summaryModelUsed,
+      );
+      setSaveSummaryResult({
+        success: response.data.success,
+        message: response.data.success
+          ? t('chat.summarySaved')
+          : t('chat.summarySaveFailed'),
+      });
+ 
+      if (response.data.success) {
+        refetchSymptoms();
+      }
+    } catch (e) {
+      setSaveSummaryResult({
+        success: false,
+        message: e.response?.data?.error || e.message,
+      });
+    } finally {
+      setIsSavingSummary(false);
+    }
   };
 
   const handleOpenEndConsultationModal = async () => {
     if (!isAuthenticated && !loading) { setPendingAction('generateSummary'); openLogin(); return; }
-    setPatientEmail('patient@example.com'); setAiSummary(''); setEmailResult(null);
-    setShowEndConsultationModal(true); await generateAISummary();
+    setPatientEmail('patient@example.com'); 
+    setAiSummary(''); 
+    setEmailResult(null);
+    setShowEndConsultationModal(true); 
+    await generateAISummary();
+    
   };
 
   const generateAISummary = async () => {
@@ -161,7 +188,6 @@ export default function HealthConsultation() {
 
       {/* ── Header ── */}
       <div className="bg-[#2C3B8D] shadow-sm mx-3 mt-3 mb-0 p-3 rounded-2xl lg:mx-6 lg:mt-6 lg:p-5">
-        {/* 데스크톱 헤더 */}
         <div className="hidden lg:flex items-center justify-between">
           <div>
             <h1 className="text-[28px] font-bold text-white tracking-tight leading-tight">
@@ -186,7 +212,6 @@ export default function HealthConsultation() {
           </div>
         </div>
 
-        {/* 모바일 헤더 */}
         <div className="flex lg:hidden items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate("/")} className="w-8 h-8 flex items-center justify-center bg-white/15 rounded-lg border border-white/20">
@@ -205,7 +230,6 @@ export default function HealthConsultation() {
           }
         </div>
 
-        {/* 모바일 탭바 — 헤더 안에 배치 */}
         <div className="flex lg:hidden bg-white/10 rounded-xl p-1 gap-1">
           {TABS.map(tab => (
             <button
@@ -270,6 +294,8 @@ export default function HealthConsultation() {
           t={t}
           loading={loading}
           user={user}
+          previousSymptoms={previousSymptoms}
+          isSymptomsLoading={isSymptomsLoading}
         />
 
 
