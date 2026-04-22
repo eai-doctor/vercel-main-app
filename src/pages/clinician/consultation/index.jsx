@@ -52,9 +52,10 @@ export default function Consultation() {
   const [differentials, setDifferentials] = useState([]);
   const [modelInfo, setModelInfo] = useState(null);
 
-  const { startConsultation, stopConsultation, isCaptionAvailable  } = useConsultation({ 
+  const { startConsultation, stopConsultation, isCaptionAvailable  } = useConsultation({
     t,
     patientData,
+    transcriptHistory,
     setTranscriptHistory,
     setInterimTranscript,
     setIsProcessing,

@@ -42,6 +42,7 @@ const MIN_AUDIO_BYTES = 30 * 1024;   //consider voice under 30 kb as mute
 const useConsultation = ({
   t,
   patientData,
+  transcriptHistory,
   setTranscriptHistory,
   setInterimTranscript,
   setIsProcessing,
@@ -66,6 +67,10 @@ const useConsultation = ({
   const animationFrameRef = useRef(null);
   const analysisIntervalRef = useRef(0);
   const analysisCounterRef = useRef(0);
+  const transcriptHistoryRef = useRef(transcriptHistory || "");
+
+  // Keep ref in sync with transcriptHistory prop so sendChunk closure always reads latest value
+  transcriptHistoryRef.current = transcriptHistory || "";
 
   const [isCaptionAvailable, setIsCaptionAvailable] = useState(false);
 
@@ -90,17 +95,12 @@ const useConsultation = ({
     recognition.lang           = LANGUAGE_MAP[lang];
 
     recognition.onresult = (event) => {
-      let interim   = "";
-      let finalText = "";
+      let interim = "";
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const text = event.results[i][0].transcript;
-        if (event.results[i].isFinal) finalText += text;
-        else interim += text;
-      }
-      if (finalText.trim()) {
-        setTranscriptHistory((prev) =>
-          prev ? prev + " " + finalText.trim() : finalText.trim()
-        );
+        if (!event.results[i].isFinal) interim += text;
+        // Final results are handled by the Gemini transcription_complete SSE event
+        // to avoid duplicating text from two sources in transcriptHistory
       }
       setInterimTranscript(interim);
     };
@@ -130,7 +130,7 @@ const useConsultation = ({
     } catch (e) {
       console.warn("Web Speech start failed:", e);
     }
-  }, [setTranscriptHistory, setInterimTranscript]);
+  }, [setInterimTranscript]);
 
   const stopWebSpeech = useCallback(() => {
     try { speechRecognitionRef.current?.stop(); } catch (e) { /*  */ }
@@ -168,9 +168,9 @@ const useConsultation = ({
 
           case "transcription_complete":
             setProcessingStatus(t("clinic:consultation.transcriptionComplete", "Transcription complete ✓"));
-            // if (data.transcript && !isHallucination(data.transcript)) {
-            //   console.log("[Whisper]", data.transcript.trim());
-            // }
+            if (data.transcript && !isHallucination(data.transcript)) {
+              setTranscriptHistory(prev => prev ? prev + ' ' + data.transcript.trim() : data.transcript.trim());
+            }
             break;
 
           case "analysis_start":
@@ -179,7 +179,17 @@ const useConsultation = ({
 
           case "analysis_complete":
             setProcessingStatus(t("clinic:consultation.analysisComplete", "Analysis complete ✓"));
-            setNbqList(data.nbq_list || []);
+            // Bug 3 fix: merge NBQ by id (keep higher info_gain), replace differentials with latest
+            setNbqList(prev => {
+              const incoming = data.nbq_list || [];
+              const merged = [...prev];
+              for (const q of incoming) {
+                const existing = merged.findIndex(e => e.id === q.id);
+                if (existing === -1) merged.push(q);
+                else if (q.info_gain > merged[existing].info_gain) merged[existing] = q;
+              }
+              return merged;
+            });
             setDifferentials(data.differential_diagnosis || []);
             if (data._model_info) setModelInfo(data._model_info);
             break;
@@ -206,13 +216,13 @@ const useConsultation = ({
   }
 }, [
   t,
+  setTranscriptHistory,
   setProcessingStatus,
   setNbqList,
   setDifferentials,
   setModelInfo,
   setIsProcessing,
   setShowSuccess,
-  isHallucination // 의존성 배열에 추가 확인 필요
 ]);
 
   const sendChunk = useCallback(async (audioBlob) => {
@@ -229,7 +239,8 @@ const useConsultation = ({
     }
 
     analysisCounterRef.current += 1;
-    const shouldAnalyze = analysisCounterRef.current % 1 === 0; //run anlyzation every 20 secs
+    // Bug 2 fix: % 2 so analysis runs every other chunk (~20s), not every chunk
+    const shouldAnalyze = analysisCounterRef.current % 2 === 0;
 
     isSendingRef.current = true;
     setIsProcessing(true);
@@ -243,6 +254,8 @@ const useConsultation = ({
       formData.append("audio", audioBlob, "clip.webm");
       formData.append("patient_data", JSON.stringify(patientData));
       formData.append("analyze", String(shouldAnalyze));
+      // Bug 1 fix: send accumulated transcript so backend has full context
+      formData.append("accumulated_transcript", transcriptHistoryRef.current);
       const response = await recordConsultationStream(formData);
 
       await handleSSEStream(response);
