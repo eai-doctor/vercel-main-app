@@ -2,23 +2,11 @@
   "rewrites": [
     {
       "source": "/api/auth/:path*",
-      "destination": "https://auth-service-338917524320.northamerica-northeast1.run.app/:path*"
+      "destination": "https://auth-service-dev-338917524320.northamerica-northeast1.run.app/:path*"
     },
     {
       "source": "/api/backend/:path*",
-      "destination": "https://main-service-git-223812018767.northamerica-northeast1.run.app/:path*"
-    },
-    {
-      "source": "/api/dpd/:path*",
-      "destination": "https://drugbank-service-338917524320.northamerica-northeast1.run.app/:path*"
-    },
-    {
-      "source": "/api/swintiny/:path*",
-      "destination": "https://swintiny-service-338917524320.northamerica-northeast1.run.app/:path*"
-    },
-    {
-      "source": "/api/clip-vitb16/:path*",
-      "destination": "https://clip-vitb16-service-338917524320.northamerica-northeast1.run.app/:path*"
+      "destination": "https://dev---main-service-git-223812018767.northamerica-northeast1.run.app/:path*"
     },
     {
       "source": "/(.*)",

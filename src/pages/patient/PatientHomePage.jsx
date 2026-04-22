@@ -49,7 +49,7 @@ function PatientHomePage() {
       description: t("patient:home.modules.geneticConsultation.description"),
       icon: <DnaIcon className="w-8 h-8 text-blue-500" />,
       externalUrl:
-        "https://vercel-genetic-frontend.vercel.app/dashboard",
+        "https://genetic.e-ai.ca/dashboard",
       requiresAuth: false,
     },
     {
