@@ -83,14 +83,17 @@ const isPasswordValid = Object.values(passwordRules).every(Boolean);
 
   const handleSuccess = (res) => {
     if (externalRedirect) {
-      const token = accessToken; 
-      if (token) {
-        sessionStorage.setItem('sso_token', token);
+      const token = accessToken || res?.access_token;
+
+      if(token){
+         const url = token
+            ? `${externalRedirect}?token=${encodeURIComponent(token)}`
+            : externalRedirect;
+          window.location.href = url;
+      }else{
+        window.alert("Login failed. Please try again few minutes later")
       }
-      const url = token
-        ? `${externalRedirect}?token=${encodeURIComponent(token)}`
-        : externalRedirect;
-      window.location.href = url;
+     
       return;
     }
 
