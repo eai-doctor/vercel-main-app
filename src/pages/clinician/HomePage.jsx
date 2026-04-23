@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { MessageSquare, Dna, ClipboardList, LogIn } from "lucide-react";
 import { FeatureCard, Header, SystemStatus } from "@/components";
 import { UserIcon, StethoscopeIcon, BooksIcon, SettingsIcon } from "@/components/ui/icons";
+import config from "@/config";
 
 /* -------------------- Main Page -------------------- */
 export default function HomePage() {
@@ -27,9 +28,7 @@ export default function HomePage() {
       title: t('clinic:home.modules.genetic.title'),
       description: t('clinic:home.modules.genetic.description'),
       icon: <StethoscopeIcon className="w-12 h-12 text-blue-500" />,
-      externalUrl: 
-      "https://genetic.e-ai.ca/dashboard" ,
-      // "http://localhost:4200/dashboard",
+      externalUrl: config.geneticConsultationUrl, 
       color: "from-blue-500 via-blue-600 to-blue-700",
     },
     {

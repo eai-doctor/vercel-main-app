@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { FeatureCard, Header, SystemStatus } from "@/components";
 import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, UserIcon } from "@/components/ui/icons";
 import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
+import config from "@/config";
 
 function PatientHomePage() {
   const navigate = useNavigate();
@@ -55,9 +56,7 @@ function PatientHomePage() {
       title: t("patient:home.modules.geneticConsultation.title"),
       description: t("patient:home.modules.geneticConsultation.description"),
       icon: <DnaIcon className="w-8 h-8 text-blue-500" />,
-      externalUrl:
-        "https://genetic.e-ai.ca/dashboard",
-        // "http://localhost:4200/dashboard",
+      externalUrl: config.geneticConsultationUrl,
       requiresAuth: false,
     },
     {
