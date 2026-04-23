@@ -15,6 +15,7 @@ function RecordingPanel({
   setConversationSummary,
   handleOpenEndConsultationModal,
   isAuthenticated,
+  isPatient,
   setPendingAction,
   SYMPTOM_SEVERITY_CLASSES,
   t,
@@ -93,7 +94,7 @@ function RecordingPanel({
       </div>
 
       {/* ── Previous Symptoms + Chat History ── */}
-      {isAuthenticated && (
+      {isAuthenticated && isPatient && (
         <div className={activeTab === 'record' ? 'hidden lg:block' : 'block'}>
           <PreviousSymptomsPanel
             previousSymptoms={previousSymptoms}
@@ -104,6 +105,7 @@ function RecordingPanel({
           <div className="mt-4">
             <ChatHistoryPanel
               isAuthenticated={isAuthenticated}
+              isPatient = {isPatient}
               userId={user?.id}
             />
           </div>

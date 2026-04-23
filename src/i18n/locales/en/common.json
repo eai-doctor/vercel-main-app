@@ -159,5 +159,11 @@
   "close": "Close",
   "unknown": "Unknown",
   "startOver": "Start Over",
-  "continue": "Continue"
+  "continue": "Continue",
+  "clinicianBanner": {
+  "title": "Clinician account detected",
+  "description": "Some features (lab report upload, chat history, symptom tracking) are available for patient accounts only. Please",
+  "cta": "create a personal account",
+  "suffix": "to access these features."
+}
 }

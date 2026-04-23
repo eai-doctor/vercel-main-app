@@ -139,17 +139,18 @@ function EmptyState({ mobile }) {
   );
 }
 
-function ChatHistoryPanel({ isAuthenticated, userId, mobile = false }) {
+function ChatHistoryPanel({ isAuthenticated, isPatient, userId, mobile = false }) {
   const [expandedDate, setExpandedDate] = useState(null);
   const { isChatHistoryLoading, groupedHistory, historyDates } = useChatHistory(
     isAuthenticated,
+    isPatient,
     false,
     userId,
   );
 
   const isMobileOpen = expandedDate === 'open' || historyDates.some(d => d === expandedDate);
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated || !isPatient) return null;
 
   const renderDates = () => {
     if (isChatHistoryLoading) return <LoadingSpinner />;

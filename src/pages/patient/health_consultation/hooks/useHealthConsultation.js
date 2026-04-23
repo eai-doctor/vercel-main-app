@@ -5,7 +5,7 @@ import consultationApi from '@/api/consultationApi';
 import { AUDIO_CONSTRAINTS, FREE_MESSAGE_LIMIT } from '../constants';
 import { getStoredMessageCount, incrementMessageCount } from '../utils';
 
-export const useHealthConsultation = (user, accessToken, isAuthenticated, loading, openLogin) => {
+export const useHealthConsultation = (user, accessToken, isAuthenticated, isPatient, loading, openLogin) => {
   const { t } = useTranslation(['patient', 'common', 'chat']);
 
   // --- 1. Chat States ---
@@ -42,7 +42,7 @@ export const useHealthConsultation = (user, accessToken, isAuthenticated, loadin
     const textToSend = messageText || input;
     if (!textToSend.trim() || isLoadingChat) return;
 
-    if (!isAuthenticated && !loading) {
+    if (!isAuthenticated &&!isPatient && !loading && !isPatient) {
       const currentCount = getStoredMessageCount();
       if (currentCount >= FREE_MESSAGE_LIMIT) {
         return { type: 'LIMIT_EXCEEDED', payload: textToSend };

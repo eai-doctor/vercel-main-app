@@ -60,6 +60,7 @@ const login = useCallback(async (email, password) => {
   try {
     const res = await authLogin({ email, password });
     const { user: userData, access_token: tokenData } = res.data;
+
     setUser(userData);
     setAccessToken(tokenData);
     setStoredToken(tokenData);

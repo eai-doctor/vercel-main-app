@@ -6,17 +6,25 @@ import { useAuth } from "@/context/AuthContext";
 import { FeatureCard, Header, SystemStatus } from "@/components";
 import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, UserIcon } from "@/components/ui/icons";
 import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
+import config from "@/config";
 
 function PatientHomePage() {
   const navigate = useNavigate();
   const { t } = useTranslation(["patient", "common", "auth"]);
-  const { isPatient, user, loading } = useAuth();
+  const { isPatient, isAuthenticated , loading, accessToken } = useAuth();
   const { openLogin } = useAuthModal();
 
   const handleFeatureClick = useCallback(
     (module) => {
       if (module.externalUrl) {
-        window.open(module.externalUrl, "_blank", "noopener,noreferrer");
+        if (isAuthenticated) {
+          const url = accessToken
+            ? `${module.externalUrl}?token=${encodeURIComponent(accessToken)}`
+            : module.externalUrl;
+          window.open(url, "_blank", "noopener,noreferrer");
+        } else {
+          window.open(module.externalUrl, "_blank", "noopener,noreferrer");
+        }
         return;
       }
 
@@ -30,7 +38,7 @@ function PatientHomePage() {
         window.location.replace("/clinic-login"); 
       }
     },
-    [isPatient, loading, navigate]
+    [isPatient, loading, navigate, accessToken]
   );
 
   const modules = [
@@ -48,8 +56,7 @@ function PatientHomePage() {
       title: t("patient:home.modules.geneticConsultation.title"),
       description: t("patient:home.modules.geneticConsultation.description"),
       icon: <DnaIcon className="w-8 h-8 text-blue-500" />,
-      externalUrl:
-        "https://genetic.e-ai.ca/dashboard",
+      externalUrl: config.geneticConsultationUrl,
       requiresAuth: false,
     },
     {

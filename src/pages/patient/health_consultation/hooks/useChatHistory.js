@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import chatApi from '@/api/chatApi';
 
-export const useChatHistory = (isAuthenticated, loading, userId) => {
+export const useChatHistory = (isAuthenticated, isPatient, loading, userId) => {
   const [chatHistory, setChatHistory] = useState([]);
   const [isChatHistoryLoading, setIsChatHistoryLoading] = useState(false);
 
   useEffect(() => {
-    if (!isAuthenticated || loading) return;
+    if (!isAuthenticated || !isPatient || loading) return;
 
     const fetchChatHistory = async () => {
       setIsChatHistoryLoading(true);
@@ -23,7 +23,7 @@ export const useChatHistory = (isAuthenticated, loading, userId) => {
     };
 
     fetchChatHistory();
-  }, [isAuthenticated, loading, userId]);
+  }, [isAuthenticated, isPatient, loading, userId]);
 
   const groupedHistory = chatHistory.reduce((acc, item) => {
     const date = new Date(item.created_at).toLocaleDateString('en-CA');
