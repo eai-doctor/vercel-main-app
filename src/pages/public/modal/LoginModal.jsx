@@ -18,8 +18,8 @@ export default function LoginModal({
   defaultRole = "patient",
   message,
 }) {
-  const { login, register, verifyEmail, resendVerification, forgotPassword } = useAuth();
-  const { pendingRoute, requiredStep } = useAuthModal();
+  const { login, register, verifyEmail, resendVerification, forgotPassword, accessToken } = useAuth();
+  const { pendingRoute, requiredStep, externalRedirect } = useAuthModal();
   const { t } = useTranslation(["auth", "patient"]);
   const navigate = useNavigate();
 
@@ -82,6 +82,18 @@ const isPasswordValid = Object.values(passwordRules).every(Boolean);
   };
 
   const handleSuccess = (res) => {
+    if (externalRedirect) {
+      const token = accessToken; 
+      if (token) {
+        sessionStorage.setItem('sso_token', token);
+      }
+      const url = token
+        ? `${externalRedirect}?token=${encodeURIComponent(token)}`
+        : externalRedirect;
+      window.location.href = url;
+      return;
+    }
+
     if (pendingRoute) navigate(pendingRoute);
     else if (onSuccess) onSuccess(res);
     onClose?.();

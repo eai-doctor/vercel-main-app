@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 const AuthModalContext = createContext(null);
 
@@ -8,6 +8,22 @@ export function AuthModalProvider({ children }) {
   const [onSuccess, setOnSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [requiredStep, setRequiredStep] = useState("login");
+  const [externalRedirect, setExternalRedirect] = useState(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("redirect");
+
+    if (redirect) {
+      setExternalRedirect(redirect);
+      setLoginOpen(true);
+
+      // URL에서 redirect 파라미터 제거
+      params.delete("redirect");
+      const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
+      window.history.replaceState({}, document.title, newUrl);
+    }
+  }, []);
 
   const openLogin = useCallback(
     ({ route = null, onSuccess = null, message = null, step = "login" } = {}) => {
@@ -26,6 +42,7 @@ export function AuthModalProvider({ children }) {
     setOnSuccess(null);
     setMessage(null);
     setRequiredStep("login");
+    setExternalRedirect(null);
   }, []);
 
   return (
@@ -37,7 +54,8 @@ export function AuthModalProvider({ children }) {
         pendingRoute,
         onSuccess,
         message,
-        requiredStep
+        requiredStep,
+        externalRedirect
       }}
     >
       {children}

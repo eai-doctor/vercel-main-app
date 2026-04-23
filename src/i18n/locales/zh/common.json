@@ -159,5 +159,11 @@
   "close": "关闭",
   "unknown": "未知",
   "startOver": "重新开始",
-  "continue": "继续"
+  "continue": "继续",
+  "clinicianBanner": {
+  "title": "检测到医疗人员账户",
+  "description": "部分功能（检验报告上传、聊天记录、症状追踪）仅限患者账户使用。请",
+  "cta": "创建个人账户",
+  "suffix": "以使用这些功能。"
+}
 }

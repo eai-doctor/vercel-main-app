@@ -25,12 +25,13 @@ import {
 } from './utils';
 import EmailSummaryModal from './components/modals/EmailSummaryModal';
 import RecordingPanel from './components/RecordingPanel';
+import ClinicianBanner from './components/ClinicianBanner';
 import { usePreviousSymptoms } from './hooks/usePreviousSymptoms';
 
 export default function HealthConsultation() {
   const { t } = useTranslation(['patient', 'common', 'functions']);
   const navigate = useNavigate();
-  const { isAuthenticated, user, loading, accessToken } = useAuth();
+  const { isAuthenticated, isPatient, user, loading, accessToken } = useAuth();
   const { openLogin } = useAuthModal();
 
 
@@ -42,6 +43,8 @@ export default function HealthConsultation() {
   const messagesContainerRef = useRef(null);
 
   const [showEndConsultationModal, setShowEndConsultationModal] = useState(false);
+  const [showClinicianBanner, setShowClinicianBanner] = useState(true);
+
   const [patientEmail, setPatientEmail] = useState('');
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailResult, setEmailResult] = useState(null);
@@ -84,7 +87,7 @@ export default function HealthConsultation() {
     stopRecording,
     generateChatSummary,
     uploadLabReport
-  } = useHealthConsultation(user, accessToken, isAuthenticated, loading, openLogin);
+  } = useHealthConsultation(user, accessToken, isAuthenticated, isPatient, loading, openLogin);
 
   const TABS = getTabs(t);
 
@@ -117,7 +120,7 @@ export default function HealthConsultation() {
     previousSymptoms,
     isSymptomsLoading,
     refetch: refetchSymptoms,
-  } = usePreviousSymptoms(isAuthenticated, loading);
+  } = usePreviousSymptoms(isAuthenticated, isPatient, loading);
 
   const handleSaveSummary = async () => {
     const cleanMessages = messages
@@ -151,7 +154,7 @@ export default function HealthConsultation() {
   };
 
   const handleOpenEndConsultationModal = async () => {
-    if (!isAuthenticated && !loading) { setPendingAction('generateSummary'); openLogin(); return; }
+    if (!isAuthenticated && !isPatient && !loading) { setPendingAction('generateSummary'); openLogin(); return; }
     setPatientEmail('patient@example.com'); 
     setAiSummary(''); 
     setEmailResult(null);
@@ -186,6 +189,12 @@ export default function HealthConsultation() {
   return (
     <div className="min-h-screen bg-slate-50">
 
+      {/* ── Clinician Warning Banner ── */}
+      {isAuthenticated && !isPatient && (
+        <ClinicianBanner onClose={() => setShowClinicianBanner(false)} show={showClinicianBanner} t={t} />
+      )}
+
+
       {/* ── Header ── */}
       <div className="bg-[#2C3B8D] shadow-sm mx-3 mt-3 mb-0 p-3 rounded-2xl lg:mx-6 lg:mt-6 lg:p-5">
         <div className="hidden lg:flex items-center justify-between">
@@ -205,7 +214,7 @@ export default function HealthConsultation() {
               </svg>
               {t('common:buttons.home', 'Home')}
             </button>
-            {isAuthenticated
+            {isAuthenticated && isPatient 
               ? <ProfileDropdown variant="dark" />
               : <button onClick={() => { setPendingMessage(null); openLogin(); }} className="px-4 py-2 bg-white/15 hover:bg-white/25 text-white text-[13px] font-semibold rounded-xl transition-colors border border-white/20">{t('common:buttons.signIn', 'Sign In')}</button>
             }
@@ -224,7 +233,7 @@ export default function HealthConsultation() {
               <p className="text-white/60 text-[11px]">{t('header.subtitle', 'AI-powered assistant')}</p>
             </div>
           </div>
-          {isAuthenticated
+          {isAuthenticated && isPatient
             ? <ProfileDropdown variant="dark" />
             : <button onClick={() => { setPendingMessage(null); openLogin(); }} className="px-3 py-1.5 bg-white/15 hover:bg-white/25 text-white text-[12px] font-semibold rounded-lg border border-white/20">{t('common:buttons.signIn', 'Sign In')}</button>
           }
@@ -269,6 +278,7 @@ export default function HealthConsultation() {
           setShowPlusMenu= {setShowPlusMenu}
           isUploadingReport= {isUploadingReport} 
           isAuthenticated= {isAuthenticated}
+          isPatient = {isPatient}
           labReportInputRef= {labReportInputRef}
           openLogin= {openLogin}
           loading= {loading}
@@ -288,6 +298,7 @@ export default function HealthConsultation() {
           setConversationSummary={setConversationSummary}
           handleOpenEndConsultationModal={handleOpenEndConsultationModal}
           isAuthenticated={isAuthenticated}
+          isPatient={isPatient}
           setSnapshot ={setSnapshot }
           setPendingAction={setPendingAction}
           SYMPTOM_SEVERITY_CLASSES={SYMPTOM_SEVERITY_CLASSES}

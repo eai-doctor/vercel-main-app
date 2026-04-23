@@ -10,7 +10,7 @@ import { UserIcon, StethoscopeIcon, BooksIcon, SettingsIcon } from "@/components
 export default function HomePage() {
   const navigate = useNavigate();
   const { t } = useTranslation(['clinic', 'common']);
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, accessToken  } = useAuth();
 
   const baseModules = [
     {
@@ -27,7 +27,9 @@ export default function HomePage() {
       title: t('clinic:home.modules.genetic.title'),
       description: t('clinic:home.modules.genetic.description'),
       icon: <StethoscopeIcon className="w-12 h-12 text-blue-500" />,
-      externalUrl: "https://genetic.e-ai.ca/dashboard",
+      externalUrl: 
+      "https://genetic.e-ai.ca/dashboard" ,
+      // "http://localhost:4200/dashboard",
       color: "from-blue-500 via-blue-600 to-blue-700",
     },
     {
@@ -45,7 +47,14 @@ export default function HomePage() {
   const handleFeatureClick = useCallback(
     (module) => {
       if (module.externalUrl) {
-        window.open(module.externalUrl, "_blank", "noopener,noreferrer");
+        if (isAuthenticated) {
+          const url = accessToken
+            ? `${module.externalUrl}?token=${encodeURIComponent(accessToken)}`
+            : module.externalUrl;
+          window.open(url, "_blank", "noopener,noreferrer");
+        } else {
+          window.open(module.externalUrl, "_blank", "noopener,noreferrer");
+        }
         return;
       }
 

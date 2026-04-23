@@ -24,6 +24,7 @@ function ChatPanel({
     setShowPlusMenu ,
     isUploadingReport, 
     isAuthenticated, 
+    isPatient,
     labReportInputRef, 
     openLogin, 
     loading,
@@ -157,13 +158,13 @@ function ChatPanel({
                   {showPlusMenu && (
                     <div className="absolute bottom-12 right-0 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 min-w-[170px] z-20">
                       <button
-                        onClick={() => isAuthenticated && labReportInputRef.current?.click()}
-                        disabled={!isAuthenticated}
+                        onClick={() => isPatient && isAuthenticated && labReportInputRef.current?.click()}
+                        disabled={!isAuthenticated || !isPatient}
                         className={`w-full flex items-center gap-2.5 px-3 py-2 text-[12px] text-left transition-colors
-                          ${isAuthenticated ? 'text-slate-700 hover:bg-[#f5f7ff]' : 'text-slate-400 cursor-not-allowed'}`}
+                          ${isAuthenticated && isPatient ? 'text-slate-700 hover:bg-[#f5f7ff]' : 'text-slate-400 cursor-not-allowed'}`}
                       >
                         <span>📋</span><span>Upload lab report</span>
-                        {!isAuthenticated && <span className="ml-auto text-[10px]">🔒</span>}
+                        {!isAuthenticated && !isPatient && <span className="ml-auto text-[10px]">🔒</span>}
                       </button>
                     </div>
                   )}
@@ -180,7 +181,7 @@ function ChatPanel({
                   }
                 </button>
               </div>
-              {!isAuthenticated && !loading && (
+              {!isAuthenticated && !isPatient && !loading && (
                 <p className="text-[10px] text-slate-400 text-center mt-1.5">
                   {t('chat.freeMessagesRemaining', { count: Math.max(0, FREE_MESSAGE_LIMIT - getStoredMessageCount()) })} —{' '}
                   <button onClick={() => openLogin()} className="text-[#2C3B8D] hover:underline font-medium">{t('common:buttons.signIn', 'sign in')}</button>{' '}

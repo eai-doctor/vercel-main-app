@@ -159,5 +159,11 @@
   "close": "Fermer",
   "unknown": "Inconnu",
   "startOver": "Recommencer",
-  "continue": "Continuer"
+  "continue": "Continuer",
+  "clinicianBanner": {
+  "title": "Compte clinicien détecté",
+  "description": "Certaines fonctionnalités (téléchargement de rapport, historique, suivi des symptômes) sont réservées aux comptes patients. Veuillez",
+  "cta": "créer un compte personnel",
+  "suffix": "pour accéder à ces fonctionnalités."
+}
 }
