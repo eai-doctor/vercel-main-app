@@ -4,6 +4,7 @@ import { ChartIcon } from "@/components/ui/icons";
 import { formatDate } from "@/utils/DateUtils";
 
 export default function VitalSigns({ vital_signs }) {
+
     const { t } = useTranslation(['clinic', 'common']);
     const [showMoreVitals, setShowMoreVitals] = useState(false);
 
@@ -14,6 +15,9 @@ export default function VitalSigns({ vital_signs }) {
     const vitalsToShow = showMoreVitals
         ? sortedVitals
         : sortedVitals.slice(0, 5);
+
+    const displayUnit = (v) => v.unit && !v.unit.startsWith('{') ? ` ${v.unit}` : '';
+
 
     return (
         <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -70,7 +74,7 @@ export default function VitalSigns({ vital_signs }) {
                                 {/* Value + unit */}
                                <span className="text-[14px] text-slate-700 font-mono whitespace-nowrap">
                                     {v.value ? v.value : '—'}
-                                    {v.value && v.unit ? ` ${v.unit}` : ''}
+                                    {v.value && v.unit ? displayUnit(v) : ''}
                                 </span>
 
                                 {/* Date */}

@@ -62,7 +62,7 @@ export default function PatientInfo({ setPatientData, patient_identification }) 
             <UserIcon className="w-[18px] h-[18px] text-[#2C3B8D]" />
           </div>
           <h2 className="text-[17px] font-semibold text-slate-800">
-            {t('clinic:consultation.patientInfo', 'Patient info')}
+            {t('clinic:consultation.profileInfo', 'Patient info')}
           </h2>
         </div>
 

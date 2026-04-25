@@ -26,7 +26,7 @@ const config = {
   enableEmail: import.meta.env.VITE_ENABLE_EMAIL !== "false",
   enableSms: import.meta.env.VITE_ENABLE_SMS !== "false",
 
-  geneticConsultationUrl : getBase(null, import.meta.env.VITE_GENE_CONSULT, "http://localhost:4200")
+  geneticConsultationUrl : getBase("http://localhost:4200", import.meta.env.VITE_GENE_CONSULT, "http://localhost:4200")
 };
 
 export default config;
