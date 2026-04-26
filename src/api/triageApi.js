@@ -5,7 +5,7 @@ const triageApi = createApi(config.backendUrl);
 
 // --- Triage ---
 export const triageAssess = (data, languageCode) =>
-  triageApi.post("/triage", {
+  triageApi.post("/triage/perform", {
     ...data,
     language : languageCode,
     include_evidence: true,
