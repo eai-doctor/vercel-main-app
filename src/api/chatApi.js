@@ -51,15 +51,15 @@ export const sendPatientMessage = (data, chatHeaders) =>
   api.post( `/api/chat`, data, { headers: chatHeaders });
       
 export const getConsultationSummaries = () => 
-  backApi.get('/api/consultation-summaries/symptoms')
+  backApi.get('/consultation-summaries/symptoms')
 
 export const generateConsultationSummaries = (cleanMessages) => 
-  backApi.post('/api/consultation-summaries/generate', {
+  backApi.post('/consultation-summaries/generate', {
         messages: cleanMessages,
       })
 
 export const saveConsultationSummaries = (chatSummary, cleanMessages, summaryModelUsed) =>
-  backApi.post('/api/consultation-summaries/save',{
+  backApi.post('/consultation-summaries/save',{
         summary: chatSummary,
         messages: cleanMessages,
         model_used: summaryModelUsed,
