@@ -5,23 +5,23 @@ import config from "@/config";
 const medicalApi = createApi(config.backendUrl);
 
 const getRecords = (userId, type) => 
-  medicalApi.get(`/api/medical-records/${userId}`, { params: { type } });
+  medicalApi.get(`/medical-records/${userId}`, { params: { type } });
 
 export const createRecord = (userId, resourceType, form) =>
-  medicalApi.post(`/api/medical-records/${userId}`, {
+  medicalApi.post(`/medical-records/${userId}`, {
     resource_type: resourceType,
     form,
   });
 
 export const updateRecord = (userId, recordId, resourceType, form) =>
-  medicalApi.put(`/api/medical-records/${userId}/${recordId}`, {
+  medicalApi.put(`/medical-records/${userId}/${recordId}`, {
     resource_type: resourceType,
     form,
   });
 
 
 const deleteRecord = (userId, recordId, type) => 
-  medicalApi.delete(`/api/medical-records/${userId}/${recordId}`, { params: { type } });
+  medicalApi.delete(`/medical-records/${userId}/${recordId}`, { params: { type } });
 
 const medicalRecordApi = {
   getRecords,
