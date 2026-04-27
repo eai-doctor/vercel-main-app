@@ -27,7 +27,7 @@ const getFHIRPatients = () =>
   medicalApi.get(`/medical-records/fhir/patients`);
 
 const getFHIRRecords = (patientId, type=null) => 
-  medicalApi.get(`/medical-records/fhir/patients/${patientId}/records?type=${type}`);
+  medicalApi.get(`/medical-records/fhir/patients/${patientId}/records`);
 
 const updateFHIRRRecord = (patient_id, resource_type, record_id, form) =>
   medicalApi.put(`/medical-records/fhir/patients/${patient_id}/records/${resource_type}/${record_id}`, {form});
