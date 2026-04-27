@@ -23,11 +23,28 @@ export const updateRecord = (userId, recordId, resourceType, form) =>
 const deleteRecord = (userId, recordId, type) => 
   medicalApi.delete(`/medical-records/${userId}/${recordId}`, { params: { type } });
 
+const getFHIRPatients = () => 
+  medicalApi.get(`/medical-records/fhir/patients`);
+
+const getFHIRRecords = (patientId, type=undefined) => 
+  medicalApi.get(`/medical-records/fhir/patients/${patientId}/records?type=${type}`);
+
+const updateFHIRRRecord = (patient_id, resource_type, record_id, form) =>
+  medicalApi.put(`/medical-records/fhir/patients/${patient_id}/records/${resource_type}/${record_id}`, {form});
+
+const deleteFHIRRRecord = (patient_id, resource_type, record_id) => 
+  medicalApi.delete(`/medical-records/fhir/patients/${patient_id}/records/${resource_type}/${record_id}`);
+
+
 const medicalRecordApi = {
   getRecords,
   createRecord,
   updateRecord,
-  deleteRecord
+  deleteRecord,
+  getFHIRPatients,
+  getFHIRRecords,
+  updateFHIRRRecord,
+  deleteFHIRRRecord
 };
 
 export default medicalRecordApi;

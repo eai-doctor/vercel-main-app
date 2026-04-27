@@ -1,9 +1,15 @@
 export const TAB_KEYS = [
-  "Condition",
-  "MedicationRequest",
-  "AllergyIntolerance",
-  "Observation",
-  "Immunization",
+    "Condition",
+    "AllergyIntolerance",
+    "MedicationStatement",
+    "MedicationRequest",
+    "Immunization",
+    "Procedure",
+    "DiagnosticReport",
+    "Observation",
+    "CarePlan",
+    "Flag",
+    "FamilyMemberHistory",
 ];
 
 export const VITAL_TYPES = [
@@ -15,10 +21,185 @@ export const VITAL_TYPES = [
   { label: "Oxygen Saturation", code: "2708-6", unit: "%" },
 ];
 
+// FHIR ValueSet shortcuts used by select inputs across new tabs
+export const STATUS_OPTIONS = {
+  MedicationStatement: [
+    "active",
+    "completed",
+    "entered-in-error",
+    "intended",
+    "stopped",
+    "on-hold",
+    "unknown",
+    "not-taken",
+  ],
+  Procedure: [
+    "preparation",
+    "in-progress",
+    "not-done",
+    "on-hold",
+    "stopped",
+    "completed",
+    "entered-in-error",
+    "unknown",
+  ],
+  DiagnosticReport: [
+    "registered",
+    "partial",
+    "preliminary",
+    "final",
+    "amended",
+    "corrected",
+    "appended",
+    "cancelled",
+    "entered-in-error",
+    "unknown",
+  ],
+  Flag: ["active", "inactive", "entered-in-error"],
+  CarePlan: [
+    "draft",
+    "active",
+    "on-hold",
+    "revoked",
+    "completed",
+    "entered-in-error",
+    "unknown",
+  ],
+  FamilyMemberHistory: [
+    "partial",
+    "completed",
+    "entered-in-error",
+    "health-unknown",
+  ],
+};
+
+export const CAREPLAN_INTENTS = [
+  "proposal",
+  "plan",
+  "order",
+  "option",
+  "directive",
+];
+
+// Common HL7 v3 RoleCode shortcuts used for FamilyMemberHistory.relationship
+export const FAMILY_RELATIONSHIPS = [
+  "MTH", // mother
+  "FTH", // father
+  "SIB", // sibling
+  "BRO", // brother
+  "SIS", // sister
+  "DAU", // daughter
+  "SON", // son
+  "GRMTH", // grandmother
+  "GRFTH", // grandfather
+  "AUNT",
+  "UNCLE",
+  "COUSN",
+  "SPS", // spouse
+];
+
+export const ADMIN_GENDER = ["male", "female", "other", "unknown"];
+
 export const EMPTY_FORMS = {
-  Condition: { display: "", status: "active", onsetDate: ""},
-  MedicationRequest: { name: "", dosage: "", frequency: "", status: "active", startDate: "" },
-  AllergyIntolerance: { substance: "", reaction: "", severity: "moderate" },
-  Observation: { vitalType: "Blood Pressure", value: "", date: "" },
+  Condition: { display: "", status: "active", onsetDate: "" },
+  MedicationRequest: {
+    medication: "",
+    dosage: "",
+    frequency: "",
+    status: "active",
+    date: "",
+  },
+  AllergyIntolerance: {
+    display: "",
+    substance: "",
+    type: "allergy",
+    category: "medication",
+    criticality: "low",
+    status: "active",
+    date: "",
+  },
+  Observation: {
+    display: "",
+    vitalType: "Blood Pressure",
+    value: "",
+    unit: "",
+    system: "",
+    date: "",
+  },
   Immunization: { vaccine: "", date: "", status: "completed" },
+
+  // ===== Newly added IPS tabs =====
+  MedicationStatement: {
+    medication: "",
+    status: "active",
+    statusReason: "",
+    category: "outpatient",
+    effectiveDate: "",
+    dateAsserted: "",
+    reasonCode: "",
+    dosage: "",
+    notes: "",
+  },
+  Procedure: {
+    display: "",
+    status: "completed",
+    statusReason: "",
+    category: "",
+    performedDate: "",
+    performer: "",
+    location: "",
+    reasonCode: "",
+    bodySite: "",
+    outcome: "",
+    notes: "",
+  },
+  DiagnosticReport: {
+    display: "",
+    status: "final",
+    category: "",
+    effectiveDate: "",
+    issued: "",
+    performer: "",
+    resultsInterpreter: "",
+    result: "",
+    conclusion: "",
+    conclusionCode: "",
+  },
+  Flag: {
+    display: "",
+    status: "active",
+    category: "",
+    periodStart: "",
+    periodEnd: "",
+    author: "",
+    encounter: "",
+    notes: "",
+  },
+  CarePlan: {
+    title: "",
+    description: "",
+    status: "active",
+    intent: "plan",
+    category: "",
+    periodStart: "",
+    periodEnd: "",
+    author: "",
+    addresses: "",
+    activity: "",
+    notes: "",
+  },
+  FamilyMemberHistory: {
+    name: "",
+    relationship: "MTH",
+    status: "completed",
+    sex: "unknown",
+    bornDate: "",
+    age: "",
+    deceasedBoolean: false,
+    deceasedDate: "",
+    condition: "",
+    reasonCode: "",
+    notes: "",
+    date: "",
+  },
 };

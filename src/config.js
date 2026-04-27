@@ -11,9 +11,9 @@ function getBase(path, envVar, localFallback) {
 const config = {
   backendUrl: getBase("/api/backend",  import.meta.env.VITE_BACK_URL, "http://localhost:5001"),
   authServiceUrl: getBase("/api/auth", import.meta.env.VITE_AUTH_URL, "http://localhost:7860"),
-  dpdServiceUrl: getBase("/api/dpd", null, "http://localhost:8010"),
-  swintinyServiceUrl: getBase("/api/swintiny", null, "http://localhost:5030"),
-  clipVitb16ServiceUrl: getBase("/api/clip-vitb16", null, "http://localhost:5020"),
+  dpdServiceUrl: getBase("/api/dpd", import.meta.env.VITE_DPD_URL, "http://localhost:8010"),
+  swintinyServiceUrl: getBase("/api/swintiny", import.meta.env.VITE_ST_URL, "http://localhost:5030"),
+  clipVitb16ServiceUrl: getBase("/api/clip-vitb16", import.meta.env.VITE_CV16_URL, "http://localhost:5020"),
 
   transcriptionServiceUrl: getBase("/api/transcription", null, "http://localhost:5004"),
   smsServiceUrl: getBase("/api/sms", null, "http://localhost:5003"),

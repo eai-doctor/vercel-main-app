@@ -27,9 +27,9 @@ function RouteGuard({
   }
 
   // 4. Consent check
-  if (requireConsent && user?.consents?.privacy_policy?.accepted !== true) {
-    return <Navigate to="/consent" replace />;
-  }
+  // if (requireConsent && user?.consents?.privacy_policy?.accepted !== true) {
+  //   return <Navigate to="/consent" replace />;
+  // }
 
   return children;
 }
@@ -56,7 +56,6 @@ function PublicOnlyGuard({ children }) {
     return <Navigate to="/" replace />;
   }
 
-  // role이 patient가 아닌 경우
   if (user?.role !== "patient") {
     return (
       <Navigate
@@ -69,8 +68,31 @@ function PublicOnlyGuard({ children }) {
   return children;
 }
 
+ function AdminOnlyGuard({ children }) {
+  const { isAuthenticated, loading, user } = useAuth();
+
+  if (loading) return null;
+
+  // If the user has no credential
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  if (user?.role !== "admin") {
+    return (
+      <Navigate
+        to="/"
+        replace
+      />
+    );
+  }
+
+  return children;
+}
+
 export {
   RouteGuard,
   PublicOnlyGuard,
-  PatientOnlyGuard
+  PatientOnlyGuard,
+  AdminOnlyGuard
 }

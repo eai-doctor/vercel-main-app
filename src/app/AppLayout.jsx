@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation  } from "react-router-dom";
 
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage, useSessionGuard } from "@/hooks";
@@ -7,6 +7,7 @@ import { useLanguage, useSessionGuard } from "@/hooks";
 import AppFooter from './AppFooter';
 import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
 import { LoginModal } from "@/pages/public";
+import medicalRecordApi from "@/api/medicalRecordApi";
 
 function AppLayoutInner() {
   const { user, loading, logout } = useAuth();
@@ -14,6 +15,8 @@ function AppLayoutInner() {
   const { isLocked, setIsLocked } = useSessionGuard();
   const { isLoginOpen, closeLogin, onSuccess, message } = useAuthModal();
 
+  const location = useLocation();
+  const { hash, pathname, search } = location;
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
@@ -42,7 +45,7 @@ function AppLayoutInner() {
         <Outlet />
       </main>
 
-      <AppFooter />
+      { !pathname.includes("dashboard") && <AppFooter /> }
 
       {isLoginOpen && (
         <LoginModal

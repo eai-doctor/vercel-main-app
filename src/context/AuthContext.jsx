@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import config from "@/config";
-import { authLogin, authMe, authLogout, authRefresh, authRegister,authVerifyEmail, authResendVerification, authForgotPassword } from "@/api/authApi";
+import { authLogin, authMe, authLogout, authRefresh, authRegister,authVerifyEmail, authResendVerification, authForgotPassword, authAdminLogin } from "@/api/authApi";
 import { setStoredToken } from "@/api/axiosBase";
 
 const AuthContext = createContext(null);
@@ -65,6 +65,37 @@ const login = useCallback(async (email, password) => {
     setAccessToken(tokenData);
     setStoredToken(tokenData);
     return userData;
+
+  } catch (err) {
+    if (err.response?.status === 403 && err.response?.data?.requires_verification) {
+      const enriched = new Error(err.response.data.error);
+      enriched.code = "REQUIRES_VERIFICATION";
+      enriched.requiresVerification = true;
+      enriched.email = err.response.data.email;
+      throw enriched;
+    }
+
+    const code = err.response?.data?.code;
+    const enrichedError = new Error(err.response?.data?.error ?? "unknown");
+    enrichedError.code = code;
+    enrichedError.status = err.response?.status;
+    throw enrichedError;
+  }
+}, []);
+
+const adminLogin = useCallback(async (email, password) => {
+  try {
+    setLoading(true);
+    const res = await authAdminLogin({ email, password });
+    const { user: userData, access_token: tokenData } = res.data;
+
+    console.log(res);
+
+    setUser(userData);
+    setAccessToken(tokenData);
+    setStoredToken(tokenData);
+    setLoading(false);
+    return res;
 
   } catch (err) {
     if (err.response?.status === 403 && err.response?.data?.requires_verification) {
@@ -175,7 +206,7 @@ const login = useCallback(async (email, password) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, isAuthenticated, isPatient, loading, login, logout, register, verifyEmail, resendVerification, accessToken, changePassword, forgotPassword }}
+      value={{ user, setUser, isAuthenticated, isPatient, loading, login, adminLogin, logout, register, verifyEmail, resendVerification, accessToken, changePassword, forgotPassword }}
     >
       {children}
     </AuthContext.Provider>

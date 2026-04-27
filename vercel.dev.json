@@ -9,6 +9,18 @@
       "destination": "https://main-service-dev-223812018767.northamerica-northeast1.run.app/:path*"
     },
     {
+      "source": "/api/dpd/:path*",
+      "destination": "https://drugbank-service-dev-338917524320.northamerica-northeast1.run.app/:path*"
+    },
+    {
+      "source": "/api/swintiny/:path*",
+      "destination": "https://swintiny-service-dev-338917524320.northamerica-northeast1.run.app/:path*"
+    },
+    {
+      "source": "/api/clip-vitb16/:path*",
+      "destination": "https://clip-vitb16-service-dev-338917524320.northamerica-northeast1.run.app/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
