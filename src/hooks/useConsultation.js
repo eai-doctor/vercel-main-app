@@ -31,7 +31,7 @@ const AUDIO_CONSTRAINTS = {
 };
 
 const RECORDING_INTERVAL_MS = 10000;
-const MIN_AUDIO_BYTES = 30 * 1024;   //consider voice under 30 kb as mute
+const MIN_AUDIO_BYTES = 5 * 1024;   // guard against empty/corrupt blobs only; silence detected server-side
 
 // ─────────────────────────────────────────
 // useConsultation
@@ -51,6 +51,7 @@ const useConsultation = ({
   setNbqList,
   setDifferentials,
   setModelInfo,
+  setNewFindings,
   setShowSuccess,
   setConsulting,
   lang = "en",
@@ -62,6 +63,7 @@ const useConsultation = ({
   const streamRef            = useRef(null);
   const speechRecognitionRef = useRef(null);
   const isSendingRef         = useRef(false);
+  const pendingChunkRef      = useRef(null);
   const silenceTimerRef  = useRef(null);
   const analyserRef      = useRef(null);
   const animationFrameRef = useRef(null);
@@ -106,15 +108,16 @@ const useConsultation = ({
     };
 
     recognition.onerror = (event) => {
-        console.warn("Web Speech error:", event.error);
+        if (event.error === "no-speech" || event.error === "audio-capture") return;
         if (
-        event.error === "not-allowed" ||
-        event.error === "service-not-allowed"
+          event.error === "not-allowed" ||
+          event.error === "service-not-allowed"
         ) {
             setIsCaptionAvailable(false);
             speechRecognitionRef.current = null;
-            return;  
+            return;
         }
+        console.warn("Web Speech error:", event.error);
     };
 
     recognition.onend = () => {
@@ -179,19 +182,23 @@ const useConsultation = ({
 
           case "analysis_complete":
             setProcessingStatus(t("clinic:consultation.analysisComplete", "Analysis complete ✓"));
-            // Bug 3 fix: merge NBQ by id (keep higher info_gain), replace differentials with latest
-            setNbqList(prev => {
-              const incoming = data.nbq_list || [];
-              const merged = [...prev];
-              for (const q of incoming) {
-                const existing = merged.findIndex(e => e.id === q.id);
-                if (existing === -1) merged.push(q);
-                else if (q.info_gain > merged[existing].info_gain) merged[existing] = q;
-              }
-              return merged;
-            });
-            setDifferentials(data.differential_diagnosis || []);
+            if (data.nbq_list?.length > 0) setNbqList(data.nbq_list);
+            if (data.differential_diagnosis?.length > 0) setDifferentials(data.differential_diagnosis);
             if (data._model_info) setModelInfo(data._model_info);
+            if (setNewFindings) {
+              const hasDx   = data.new_diagnoses?.length > 0;
+              const hasMed  = data.new_medications?.length > 0;
+              const hasVS   = data.new_vital_signs?.length > 0;
+              const hasLabs = data.lab_tests_requested?.length > 0;
+              if (hasDx || hasMed || hasVS || hasLabs) {
+                setNewFindings({
+                  new_diagnoses:       data.new_diagnoses       || [],
+                  new_medications:     data.new_medications     || [],
+                  new_vital_signs:     data.new_vital_signs     || [],
+                  lab_tests_requested: data.lab_tests_requested || [],
+                });
+              }
+            }
             break;
 
           case "complete":
@@ -225,22 +232,18 @@ const useConsultation = ({
   setShowSuccess,
 ]);
 
-  const sendChunk = useCallback(async (audioBlob) => {
+  const sendChunk = useCallback(async (audioBlob, analyze = true) => {
     if (!patientData || !audioBlob || audioBlob.size < MIN_AUDIO_BYTES) {
       console.log(`Skipped Chunk: ${audioBlob?.size ?? 0} bytes`);
       return;
     }
 
-    // 이전 전송이 끝나지 않았으면 스킵 (race condition 방지)
     if (isSendingRef.current) {
-      console.warn("Sending previous chunking - skip");
-      analysisCounterRef.current -= 1; 
+      pendingChunkRef.current = audioBlob;   // keep most-recent; old pending is overwritten
       return;
     }
 
-    analysisCounterRef.current += 1;
-    // Bug 2 fix: % 2 so analysis runs every other chunk (~20s), not every chunk
-    const shouldAnalyze = analysisCounterRef.current % 2 === 0;
+    const shouldAnalyze = analyze;
 
     isSendingRef.current = true;
     setIsProcessing(true);
@@ -267,6 +270,11 @@ const useConsultation = ({
       setTimeout(() => setProcessingStatus(""), 4000);
     } finally {
       isSendingRef.current = false;
+      if (pendingChunkRef.current) {
+        const pending = pendingChunkRef.current;
+        pendingChunkRef.current = null;
+        sendChunk(pending, false);  // transcribe only — analysis runs on the next regular chunk
+      }
     }
   }, [
     patientData,
@@ -319,7 +327,7 @@ const useConsultation = ({
       const stream = await navigator.mediaDevices.getUserMedia(AUDIO_CONSTRAINTS);
       streamRef.current    = stream;
       consultingRef.current = true;
-      analysisCounterRef.current = 0;
+      analysisCounterRef.current = 1;
 
       const mimeType = [
         "audio/webm;codecs=opus",

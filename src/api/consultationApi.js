@@ -6,7 +6,8 @@ const api = createApi(config.backendUrl);
 export const recordConsultationStream = (formData) =>
   api.post("/api/record-consultation-stream", formData, {
     withCredentials: true,
-    headers: { 'Content-Type': undefined }  
+    headers: { 'Content-Type': undefined },
+    responseType: 'text'
   });
 
 // --- Consultation Summary ---
@@ -77,8 +78,11 @@ export const uploadReport = (formData) =>
     headers: { 'Content-Type': undefined }  
   });
 
-export const getSoap = (payload) =>
-  api.post(`/api/soap`, { patient_data: payload });
+export const getSoap = (payload, forceRegenerate = false) =>
+  api.post(`/api/soap`, { patient_data: payload, force_regenerate: forceRegenerate });
+
+export const saveConsultationToRecord = (mrn, findings) =>
+  api.post(`/api/patients/${mrn}/update-from-consultation`, findings);
 
 const consultationApi = {
   generateConsultationSummary,
@@ -91,6 +95,7 @@ const consultationApi = {
   extractLabPdf,
   uploadReport,
   getSoap,
+  saveConsultationToRecord,
   recordConsultationStream
 };
 

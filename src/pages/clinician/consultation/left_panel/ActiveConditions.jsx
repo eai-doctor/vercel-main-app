@@ -13,7 +13,13 @@ export default function ActiveConditions({ diagnoses }) {
 
   const activeConditions = useMemo(() => {
     if (!Array.isArray(diagnoses)) return [];
-    return diagnoses.filter((d) => d.status === "active");
+    return diagnoses
+      .filter((d) => d.status === "active")
+      .sort((a, b) => {
+        const da = a.date_diagnosed || "";
+        const db = b.date_diagnosed || "";
+        return db.localeCompare(da);
+      });
   }, [diagnoses]);
 
   return (
