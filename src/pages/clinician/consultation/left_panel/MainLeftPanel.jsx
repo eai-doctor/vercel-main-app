@@ -56,6 +56,7 @@ export default function MainLeftPanel({
   const immunizations = patientData.immunizations;
   const medications = patientData.medications;
   const labs = patientData.labs;
+  const requestedLabs = patientData.requested_labs || [];
   const imaging = patientData.imaging;
 
   return(
@@ -115,7 +116,7 @@ export default function MainLeftPanel({
         <Medications medications={medications} />
 
         {/* 3.9 Lab Results – most recent first, show 3 by default */}
-        <Lab labs={labs} patientId={patient_identification.patient_id} setPatientData={setPatientData} />
+        <Lab labs={labs} requestedLabs={requestedLabs} patientId={patient_identification.patient_id} setPatientData={setPatientData} />
 
         {/* 3.10 Images – placeholder section */}
         {/* 040826 saebyeok blocked - delayed function */}
