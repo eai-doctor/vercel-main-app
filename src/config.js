@@ -10,7 +10,7 @@ function getBase(path, envVar, localFallback) {
 
 const config = {
   backendUrl: getBase("/api/backend",  import.meta.env.VITE_BACK_URL, "http://localhost:5001"),
-  authServiceUrl: getBase("/api/auth", import.meta.env.VITE_AUTH_URL, "http://localhost:7860"),
+  authServiceUrl: getBase("/api/auth", import.meta.env.VITE_AUTH_URL, "http://localhost:5173/api/auth"),
   dpdServiceUrl: getBase("/api/dpd", null, "http://localhost:8010"),
   swintinyServiceUrl: getBase("/api/swintiny", null, "http://localhost:5030"),
   clipVitb16ServiceUrl: getBase("/api/clip-vitb16", null, "http://localhost:5020"),
