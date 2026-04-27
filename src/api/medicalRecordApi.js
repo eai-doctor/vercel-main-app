@@ -26,7 +26,7 @@ const deleteRecord = (userId, recordId, type) =>
 const getFHIRPatients = () => 
   medicalApi.get(`/medical-records/fhir/patients`);
 
-const getFHIRRecords = (patientId, type=undefined) => 
+const getFHIRRecords = (patientId, type=null) => 
   medicalApi.get(`/medical-records/fhir/patients/${patientId}/records?type=${type}`);
 
 const updateFHIRRRecord = (patient_id, resource_type, record_id, form) =>
