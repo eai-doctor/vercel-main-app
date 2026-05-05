@@ -2,6 +2,7 @@ import { useState } from "react";
 import AdminDoctorRegister from "./doctor-register";
 import DashboardContent from "./dashboard-content";
 import PatientResetPassword from "./patient-reset-password";
+import { useAuth } from "@/context/AuthContext";
 
 // ── Icons (inline SVG components) ──────────────────────────────────────────
 const Icon = ({ d, size = 16 }) => (
@@ -39,10 +40,16 @@ const navItems = [
 
 export default function AdminDashboard() {
   const [active, setActive] = useState("dashboard");
+  const { logout } = useAuth();
 
   const now = new Date().toLocaleDateString("en-US", {
     weekday: "short", year: "numeric", month: "short", day: "numeric",
   });
+
+  const handleLogoutClicked = () => {
+    logout();
+    window.location.reload="/";
+  }
 
   return (
     <div style={{ display: "flex", fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "#f0f4fa", color: "#1a2340" }}>
@@ -57,6 +64,7 @@ export default function AdminDashboard() {
         <div style={{ padding: "28px 24px 20px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
           <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", letterSpacing: -0.3 }}>E-AI Doctor</div>
           <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 2, letterSpacing: 1, fontFamily: "monospace" }}>ADMIN PORTAL</div>
+          <div onClick={handleLogoutClicked} className="cursor-pointer hover:underline" style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 2, letterSpacing: 1, fontFamily: "monospace" }}>LOGOUT</div>
         </div>
 
         {/* Nav */}

@@ -37,189 +37,15 @@ const refText = (ref) => {
 /** Pick first present date out of a list of candidates */
 const firstDate = (...candidates) => candidates.find((d) => d) || "";
 
-/**
- * UI 폼 데이터를 FHIR Resource 구조로 변환 (POST/PUT용)
- */
-export function buildFhirResource(tab, form) {
-  switch (tab) {
-    case "Condition":
-      return {
-        resourceType: "Condition",
-        clinicalStatus: {
-          coding: [{ system: "http://terminology.hl7.org/CodeSystem/condition-clinical", code: form.status }],
-        },
-        code: { coding: [{ display: form.display || form.name }], text: form.display || form.name },
-        onsetDateTime: form.onsetDate || undefined,
-        note: form.notes ? [{ text: form.notes }] : [],
-      };
-    case "Observation":
-      const vt = VITAL_TYPES.find((v) => v.label === form.vitalType) || VITAL_TYPES[0];
-      return {
-        resourceType: "Observation",
-        category: [{ coding: [{ system: "http://terminology.hl7.org/CodeSystem/observation-category", code: "vital-signs", display: "Vital Signs" }] }],
-        code: { coding: [{ system: "http://loinc.org", code: vt.code, display: vt.label }], text: vt.label },
-        valueQuantity: { value: parseFloat(form.value) || form.value, unit: form.unit || vt.unit },
-        effectiveDateTime: form.date || undefined,
-      };
-
-    case "MedicationStatement":
-      return omitEmpty({
-        resourceType: "MedicationStatement",
-        status: form.status,
-        statusReason: form.statusReason ? [textCC(form.statusReason)] : undefined,
-        category: form.category
-          ? {
-              coding: [
-                {
-                  system:
-                    "http://terminology.hl7.org/CodeSystem/medication-statement-category",
-                  code: form.category,
-                },
-              ],
-            }
-          : undefined,
-        medicationCodeableConcept: textCC(form.medication),
-        effectiveDateTime: form.effectiveDate || undefined,
-        dateAsserted: form.dateAsserted || undefined,
-        reasonCode: form.reasonCode ? [textCC(form.reasonCode)] : undefined,
-        dosage: form.dosage ? [{ text: form.dosage }] : undefined,
-        note: form.notes ? [{ text: form.notes }] : undefined,
-      });
-
-    case "Procedure":
-      return omitEmpty({
-        resourceType: "Procedure",
-        status: form.status,
-        statusReason: textCC(form.statusReason),
-        category: textCC(form.category),
-        code: textCC(form.display),
-        performedDateTime: form.performedDate || undefined,
-        performer: form.performer
-          ? [{ actor: { display: form.performer } }]
-          : undefined,
-        location: form.location ? { display: form.location } : undefined,
-        reasonCode: form.reasonCode ? [textCC(form.reasonCode)] : undefined,
-        bodySite: form.bodySite ? [textCC(form.bodySite)] : undefined,
-        outcome: textCC(form.outcome),
-        note: form.notes ? [{ text: form.notes }] : undefined,
-      });
-
-    case "DiagnosticReport":
-      return omitEmpty({
-        resourceType: "DiagnosticReport",
-        status: form.status,
-        category: form.category ? [textCC(form.category)] : undefined,
-        code: textCC(form.display),
-        effectiveDateTime: form.effectiveDate || undefined,
-        issued: form.issued || undefined,
-        performer: form.performer
-          ? [{ display: form.performer }]
-          : undefined,
-        resultsInterpreter: form.resultsInterpreter
-          ? [{ display: form.resultsInterpreter }]
-          : undefined,
-        result: form.result
-          ? form.result
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean)
-              .map((display) => ({ display }))
-          : undefined,
-        conclusion: form.conclusion || undefined,
-        conclusionCode: form.conclusionCode
-          ? [textCC(form.conclusionCode)]
-          : undefined,
-      });
-
-    case "Flag":
-      return omitEmpty({
-        resourceType: "Flag",
-        status: form.status,
-        category: form.category ? [textCC(form.category)] : undefined,
-        code: textCC(form.display),
-        period:
-          form.periodStart || form.periodEnd
-            ? omitEmpty({ start: form.periodStart, end: form.periodEnd })
-            : undefined,
-        author: form.author ? { display: form.author } : undefined,
-        encounter: form.encounter ? { display: form.encounter } : undefined,
-        // Flag has no .note in R4; keep as extension-style note for app display
-        _note: form.notes ? [{ text: form.notes }] : undefined,
-      });
-
-    case "CarePlan":
-      return omitEmpty({
-        resourceType: "CarePlan",
-        status: form.status,
-        intent: form.intent,
-        category: form.category ? [textCC(form.category)] : undefined,
-        title: form.title || undefined,
-        description: form.description || undefined,
-        period:
-          form.periodStart || form.periodEnd
-            ? omitEmpty({ start: form.periodStart, end: form.periodEnd })
-            : undefined,
-        author: form.author ? { display: form.author } : undefined,
-        addresses: form.addresses
-          ? form.addresses
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean)
-              .map((display) => ({ display }))
-          : undefined,
-        activity: form.activity
-          ? [{ detail: { description: form.activity } }]
-          : undefined,
-        note: form.notes ? [{ text: form.notes }] : undefined,
-      });
-
-    case "FamilyMemberHistory":
-      return omitEmpty({
-        resourceType: "FamilyMemberHistory",
-        status: form.status,
-        date: form.date || undefined,
-        name: form.name || undefined,
-        relationship: form.relationship
-          ? {
-              coding: [
-                { system: HL7_FAMILY_SYSTEM, code: form.relationship },
-              ],
-              text: form.relationship,
-            }
-          : undefined,
-        sex: form.sex
-          ? {
-              coding: [
-                {
-                  system:
-                    "http://hl7.org/fhir/administrative-gender",
-                  code: form.sex,
-                },
-              ],
-              text: form.sex,
-            }
-          : undefined,
-        bornDate: form.bornDate || undefined,
-        ageString: form.age ? String(form.age) : undefined,
-        deceasedBoolean:
-          form.deceasedBoolean && !form.deceasedDate ? true : undefined,
-        deceasedDate: form.deceasedDate || undefined,
-        reasonCode: form.reasonCode ? [textCC(form.reasonCode)] : undefined,
-        condition: form.condition
-          ? [{ code: textCC(form.condition) }]
-          : undefined,
-        note: form.notes ? [{ text: form.notes }] : undefined,
-      });
-
-    default: return {};
-  }
-}
-
 /** * For editing Data
  */
 export function formFromRecord(tab, rec) {
   const res = rec.resource || rec || {};
   if (!res) return EMPTY_FORMS[tab];
+
+  console.log("==============formFromRecord============");
+  console.log("rec : ", rec);
+  console.log("===================================")
 
   switch (tab) {
     case "Condition":
@@ -229,14 +55,94 @@ export function formFromRecord(tab, rec) {
         onsetDate: res?.onsetDateTime?.slice(0, 10) || "",
         notes: res.note?.[0]?.text || "",
       };
-    case "Observation":
-      const display = res.code?.coding?.[0]?.display || "";
-      const match = VITAL_TYPES.find((v) => v.label === display);
+
+    case "AllergyIntolerance":
       return {
-        vitalType: match ? match.label : VITAL_TYPES[0].label,
-        value: res.valueQuantity?.value != null ? String(res.valueQuantity.value) : "",
-        unit: res.valueQuantity?.unit || "",
-        date: res.effectiveDateTime || "",
+        display:
+          res.code?.text ||
+          res.code?.coding?.[0]?.display ||
+          "",
+        allergy:
+          res.code?.text ||
+          res.code?.coding?.[0]?.display ||
+          "",
+        substance:
+          res.code?.text ||
+          res.code?.coding?.[0]?.display ||
+          "",
+        status:
+          res.clinicalStatus?.coding?.[0]?.code ||
+          "active",
+        verificationStatus:
+          res.verificationStatus?.coding?.[0]?.code ||
+          "confirmed",
+        type: res.type || "allergy",
+        category: Array.isArray(res.category)
+          ? res.category[0] || ""
+          : res.category || "",
+        criticality: res.criticality || "",
+        onsetDate:
+          res.onsetDateTime?.slice(0, 10) ||
+          "",
+        recordedDate:
+          res.recordedDate?.slice(0, 10) ||
+          "",
+        reaction:
+          res.reaction?.[0]?.manifestation?.[0]?.text ||
+          res.reaction?.[0]?.manifestation?.[0]?.coding?.[0]?.display ||
+          "",
+        severity:
+          res.reaction?.[0]?.severity ||
+          "",
+        notes: res.note?.[0]?.text || "",
+      };
+    
+    case "MedicationRequest":
+    return {
+      medication:
+        res.medicationCodeableConcept?.text ||
+        res.medicationCodeableConcept?.coding?.[0]?.display ||
+        "",
+      status: res.status || "active",
+      intent: res.intent || "order",
+      authoredOn: res.authoredOn || "",
+      requester: res.requester?.display || "",
+      dosage: res.dosageInstruction?.[0]?.text || "",
+      notes: res.note?.[0]?.text || "",
+    };
+    
+    case "Immunization":
+      return {
+        vaccine:
+          res.vaccineCode?.text ||
+          res.vaccineCode?.coding?.[0]?.display ||
+          res.vaccineCode?.coding?.[0]?.code ||
+          "",
+        status: res.status || "completed",
+        occurrenceDate:
+          res.occurrenceDateTime ||
+          res.occurrenceString ||
+          "",
+        lotNumber: res.lotNumber || "",
+        manufacturer:
+          res.manufacturer?.display ||
+          res.manufacturer?.reference ||
+          "",
+        site:
+          res.site?.text ||
+          res.site?.coding?.[0]?.display ||
+          res.site?.coding?.[0]?.code ||
+          "",
+        route:
+          res.route?.text ||
+          res.route?.coding?.[0]?.display ||
+          res.route?.coding?.[0]?.code ||
+          "",
+        doseQuantity:
+          res.doseQuantity?.value !== undefined
+            ? String(res.doseQuantity.value)
+            : "",
+        notes: res.note?.[0]?.text || "",
       };
 
     case "MedicationStatement":
@@ -261,53 +167,158 @@ export function formFromRecord(tab, rec) {
 
     case "Procedure":
       return {
-        display: res.code?.text || res.code?.coding?.[0]?.display || "",
+        display:
+          res.code?.text ||
+          res.code?.coding?.[0]?.display ||
+          res.code?.coding?.[0]?.code ||
+          "",
         status: res.status || "completed",
         statusReason:
           res.statusReason?.text ||
-          res.statusReason?.coding?.[0]?.display || "",
+          res.statusReason?.coding?.[0]?.display ||
+          "",
         category:
-          res.category?.text || res.category?.coding?.[0]?.display || "",
+          res.category?.text ||
+          res.category?.coding?.[0]?.display ||
+          "",
         performedDate:
-          res.performedDateTime || res.performedPeriod?.start || "",
+          res.performedDateTime?.slice(0, 10) ||
+          res.performedPeriod?.start?.slice(0, 10) ||
+          "",
         performer:
           res.performer?.[0]?.actor?.display ||
-          res.performer?.[0]?.actor?.reference || "",
-        location: res.location?.display || res.location?.reference || "",
+          res.performer?.[0]?.actor?.reference ||
+          "",
+        location:
+          res.location?.display ||
+          res.location?.reference ||
+          "",
         reasonCode:
           res.reasonCode?.[0]?.text ||
-          res.reasonCode?.[0]?.coding?.[0]?.display || "",
+          res.reasonCode?.[0]?.coding?.[0]?.display ||
+          res.reasonReference?.[0]?.display ||
+          res.reasonReference?.[0]?.reference ||
+          "",
         bodySite:
           res.bodySite?.[0]?.text ||
-          res.bodySite?.[0]?.coding?.[0]?.display || "",
+          res.bodySite?.[0]?.coding?.[0]?.display ||
+          "",
         outcome:
-          res.outcome?.text || res.outcome?.coding?.[0]?.display || "",
+          res.outcome?.text ||
+          res.outcome?.coding?.[0]?.display ||
+          "",
         notes: res.note?.[0]?.text || "",
       };
 
     case "DiagnosticReport":
       return {
-        display: res.code?.text || res.code?.coding?.[0]?.display || "",
+        display:
+          res.code?.text ||
+          res.code?.coding?.[0]?.display ||
+          res.code?.coding?.[0]?.code ||
+          "",
         status: res.status || "final",
         category:
           res.category?.[0]?.text ||
-          res.category?.[0]?.coding?.[0]?.display || "",
+          res.category?.[0]?.coding?.[0]?.display ||
+          res.category?.[0]?.coding?.[0]?.code ||
+          "",
         effectiveDate:
-          res.effectiveDateTime || res.effectivePeriod?.start || "",
-        issued: res.issued || "",
+          res.effectiveDateTime?.slice(0, 10) ||
+          res.effectivePeriod?.start?.slice(0, 10) ||
+          "",
+        issued:
+          res.issued?.slice(0, 10) ||
+          "",
         performer:
-          res.performer?.[0]?.display || res.performer?.[0]?.reference || "",
+          res.performer?.[0]?.display ||
+          res.performer?.[0]?.reference ||
+          "",
         resultsInterpreter:
           res.resultsInterpreter?.[0]?.display ||
-          res.resultsInterpreter?.[0]?.reference || "",
+          res.resultsInterpreter?.[0]?.reference ||
+          "",
         result: Array.isArray(res.result)
-          ? res.result.map((r) => r.display || r.reference).filter(Boolean).join(", ")
+          ? res.result
+              .map((r) => r.display || r.reference)
+              .filter(Boolean)
+              .join(", ")
           : "",
         conclusion: res.conclusion || "",
         conclusionCode:
           res.conclusionCode?.[0]?.text ||
-          res.conclusionCode?.[0]?.coding?.[0]?.display || "",
+          res.conclusionCode?.[0]?.coding?.[0]?.display ||
+          res.conclusionCode?.[0]?.coding?.[0]?.code ||
+          "",
       };
+
+    case "Observation": {
+      const display =
+        res.code?.text ||
+        res.code?.coding?.[0]?.display ||
+        "";
+
+      const systolic = Array.isArray(res.component)
+        ? res.component.find((c) => {
+            const code = c.code?.coding?.[0]?.code;
+            const label =
+              c.code?.text ||
+              c.code?.coding?.[0]?.display ||
+              "";
+            return code === "8480-6" || label.includes("Systolic");
+          })
+        : null;
+
+      const diastolic = Array.isArray(res.component)
+        ? res.component.find((c) => {
+            const code = c.code?.coding?.[0]?.code;
+            const label =
+              c.code?.text ||
+              c.code?.coding?.[0]?.display ||
+              "";
+            return code === "8462-4" || label.includes("Diastolic");
+          })
+        : null;
+
+      const match = VITAL_TYPES.find((v) => {
+        const code = res.code?.coding?.[0]?.code;
+        return v.label === display || v.code === code;
+      });
+
+      const vitalType = systolic || diastolic
+        ? "Blood Pressure"
+        : match
+          ? match.label
+          : VITAL_TYPES[0].label;
+
+      return {
+        display,
+        vitalType,
+        value:
+          res.valueQuantity?.value != null
+            ? String(res.valueQuantity.value)
+            : "",
+        systolic:
+          systolic?.valueQuantity?.value != null
+            ? String(systolic.valueQuantity.value)
+            : "",
+        diastolic:
+          diastolic?.valueQuantity?.value != null
+            ? String(diastolic.valueQuantity.value)
+            : "",
+        unit:
+          res.valueQuantity?.unit ||
+          systolic?.valueQuantity?.unit ||
+          diastolic?.valueQuantity?.unit ||
+          match?.unit ||
+          "",
+        date:
+          res.effectiveDateTime?.slice(0, 10) ||
+          res.effectivePeriod?.start?.slice(0, 10) ||
+          "",
+        notes: res.note?.[0]?.text || "",
+      };
+    }
 
     case "Flag":
       return {
@@ -340,7 +351,14 @@ export function formFromRecord(tab, rec) {
           ? res.addresses.map((a) => a.display || a.reference).filter(Boolean).join(", ")
           : "",
         activity: Array.isArray(res.activity)
-          ? res.activity.map((a) => a.detail?.description).filter(Boolean).join("\n")
+          ? res.activity
+              .map((a) =>
+                a.detail?.description ||
+                a.detail?.code?.text ||
+                a.detail?.code?.coding?.[0]?.display
+              )
+              .filter(Boolean)
+              .join("\n")
           : "",
         notes: res.note?.[0]?.text || "",
       };
@@ -398,44 +416,6 @@ export function parseDisplayData(tab, rec) {
       };
     }
 
-    // ========================= Observation =========================
-    case "Observation": {
-      const label = ccText(res.code) || "Observation";
-
-      // Build a value string. Cover: valueQuantity, valueCodeableConcept,
-      // valueString, valueBoolean, and component[] (e.g. systolic/diastolic BP)
-      let valueStr = "";
-      if (res.valueQuantity?.value != null) {
-        valueStr = `${res.valueQuantity.value}${
-          res.valueQuantity.unit ? ` ${res.valueQuantity.unit}` : ""
-        }`;
-      } else if (res.valueCodeableConcept) {
-        valueStr = ccText(res.valueCodeableConcept);
-      } else if (res.valueString) {
-        valueStr = String(res.valueString);
-      } else if (res.valueBoolean != null) {
-        valueStr = String(res.valueBoolean);
-      } else if (Array.isArray(res.component) && res.component.length) {
-        // e.g. BP: systolic / diastolic
-        valueStr = res.component
-          .map((c) => {
-            const v = c.valueQuantity?.value;
-            const u = c.valueQuantity?.unit || "";
-            return v != null ? `${v}${u ? ` ${u}` : ""}` : "";
-          })
-          .filter(Boolean)
-          .join(" / ");
-      }
-
-      return {
-        _id,
-        primary: label,
-        secondary: valueStr || `Status: ${res.status || "unknown"}`,
-        date: firstDate(res.effectiveDateTime, res.effectivePeriod?.start, res.issued, res.date),
-        notes: res.note?.[0]?.text,
-      };
-    }
-
     // ========================= Immunization =========================
     case "Immunization": {
       return {
@@ -443,25 +423,6 @@ export function parseDisplayData(tab, rec) {
         primary: ccText(res.vaccineCode) || res.vaccine || "Immunization",
         secondary: `Status: ${res.status || "completed"}`,
         date: firstDate(res.occurrenceDateTime, res.occurrenceString, res.recorded, res.date),
-        notes: res.note?.[0]?.text,
-      };
-    }
-
-    // ========================= MedicationRequest =========================
-    case "MedicationRequest": {
-      const med =
-        ccText(res.medicationCodeableConcept) ||
-        refText(res.medicationReference) ||
-        res.medication ||
-        "Medication";
-      const dosage = res.dosageInstruction?.[0]?.text || "";
-      return {
-        _id,
-        primary: med,
-        secondary: dosage
-          ? `${dosage} · Status: ${res.status || "unknown"}`
-          : `Status: ${res.status || "unknown"}`,
-        date: firstDate(res.authoredOn, res.dosageInstruction?.[0]?.timing?.event?.[0], res.date),
         notes: res.note?.[0]?.text,
       };
     }
@@ -496,12 +457,40 @@ export function parseDisplayData(tab, rec) {
         refText(res.medicationReference) ||
         res.medication ||
         "Medication Statement";
+
       const dosage = res.dosage?.[0]?.text || "";
+
       return {
         _id,
         primary: med,
-        secondary: `Status: ${res.status || "unknown"}${dosage ? ` · ${dosage}` : ""}`,
-        date: firstDate(res.effectiveDateTime, res.effectivePeriod?.start, res.dateAsserted, res.date),
+        secondary: `Status: ${res.status || "unknown"}${
+          dosage ? ` · ${dosage}` : ""
+        }`,
+        date: firstDate(
+          res.effectiveDateTime,
+          res.effectivePeriod?.start,
+          res.dateAsserted,
+          res.date
+        ),
+        notes: res.note?.[0]?.text,
+      };
+    }
+
+    // ========================= MedicationRequest =========================
+    case "MedicationRequest": {
+      const med =
+        ccText(res.medicationCodeableConcept) ||
+        refText(res.medicationReference) ||
+        res.medication ||
+        "Medication";
+      const dosage = res.dosageInstruction?.[0]?.text || "";
+      return {
+        _id,
+        primary: med,
+        secondary: dosage
+          ? `${dosage} · Status: ${res.status || "unknown"}`
+          : `Status: ${res.status || "unknown"}`,
+        date: firstDate(res.authoredOn, res.dosageInstruction?.[0]?.timing?.event?.[0], res.date),
         notes: res.note?.[0]?.text,
       };
     }
@@ -511,32 +500,152 @@ export function parseDisplayData(tab, rec) {
       const reason =
         ccText(res.reasonCode?.[0]) ||
         refText(res.reasonReference?.[0]) ||
+        res.reasonReference?.[0]?.display ||
         "";
+
       const bodySite = ccText(res.bodySite?.[0]);
+
       return {
         _id,
-        primary: ccText(res.code) || res.display || "Procedure",
+        primary:
+          ccText(res.code) ||
+          res.code?.coding?.[0]?.display ||
+          res.display ||
+          "Procedure",
         secondary: `Status: ${res.status || "unknown"}${
           bodySite ? ` · Site: ${bodySite}` : ""
         }${reason ? ` · ${reason}` : ""}`,
-        date: firstDate(res.performedDateTime, res.performedPeriod?.start, res.date),
+        date: firstDate(
+          res.performedDateTime,
+          res.performedPeriod?.start,
+          res.performedPeriod?.end,
+          res.meta?.lastUpdated,
+          res.date
+        ),
         notes: res.note?.[0]?.text,
       };
     }
 
     // ========================= DiagnosticReport =========================
     case "DiagnosticReport": {
-      const cat = ccText(res.category?.[0]);
-      const resultCount = Array.isArray(res.result) ? res.result.length : 0;
-      const secondaryParts = [`Status: ${res.status || "unknown"}`];
-      if (cat) secondaryParts.push(cat);
-      if (resultCount) secondaryParts.push(`${resultCount} result${resultCount > 1 ? "s" : ""}`);
+  const cat =
+    ccText(res.category?.[0]) ||
+    res.category?.[0]?.coding?.[0]?.display ||
+    res.category?.[0]?.coding?.[0]?.code ||
+    "";
+
+  const results = Array.isArray(res.result)
+    ? res.result.map((r) => r.display || r.reference).filter(Boolean)
+    : [];
+
+  const secondaryParts = [`Status: ${res.status || "unknown"}`];
+
+  if (cat) secondaryParts.push(cat);
+
+  if (results.length) {
+    secondaryParts.push(
+      `${results.length} result${results.length > 1 ? "s" : ""}`
+    );
+  }
+
+  return {
+    _id,
+    primary:
+      ccText(res.code) ||
+      res.code?.coding?.[0]?.display ||
+      res.display ||
+      "Diagnostic Report",
+    secondary: secondaryParts.join(" · "),
+    date: firstDate(
+      res.effectiveDateTime,
+      res.effectivePeriod?.start,
+      res.issued,
+      res.meta?.lastUpdated,
+      res.date
+    ),
+    notes:
+      res.conclusion ||
+      results.slice(0, 3).join(", ") ||
+      res.note?.[0]?.text,
+  };
+}
+
+    // ========================= Observation(Vital Signs) =========================
+    case "Observation": {
+      const label = ccText(res.code) || "Observation";
+
+      let valueStr = "";
+
+      if (Array.isArray(res.component) && res.component.length) {
+        const systolic = res.component.find((c) => {
+          const code = c.code?.coding?.[0]?.code;
+          const text = ccText(c.code);
+          return code === "8480-6" || text.includes("Systolic");
+        });
+
+        const diastolic = res.component.find((c) => {
+          const code = c.code?.coding?.[0]?.code;
+          const text = ccText(c.code);
+          return code === "8462-4" || text.includes("Diastolic");
+        });
+
+        if (
+          systolic?.valueQuantity?.value != null ||
+          diastolic?.valueQuantity?.value != null
+        ) {
+          const unit =
+            systolic?.valueQuantity?.unit ||
+            diastolic?.valueQuantity?.unit ||
+            "mm[Hg]";
+
+          valueStr = [
+            systolic?.valueQuantity?.value != null
+              ? `${systolic.valueQuantity.value}`
+              : "",
+            diastolic?.valueQuantity?.value != null
+              ? `${diastolic.valueQuantity.value}`
+              : "",
+          ]
+            .filter(Boolean)
+            .join(" / ");
+
+          if (valueStr) {
+            valueStr = `${valueStr} ${unit}`;
+          }
+        } else {
+          valueStr = res.component
+            .map((c) => {
+              const v = c.valueQuantity?.value;
+              const u = c.valueQuantity?.unit || "";
+              return v != null ? `${v}${u ? ` ${u}` : ""}` : "";
+            })
+            .filter(Boolean)
+            .join(" / ");
+        }
+      } else if (res.valueQuantity?.value != null) {
+        valueStr = `${res.valueQuantity.value}${
+          res.valueQuantity.unit ? ` ${res.valueQuantity.unit}` : ""
+        }`;
+      } else if (res.valueCodeableConcept) {
+        valueStr = ccText(res.valueCodeableConcept);
+      } else if (res.valueString) {
+        valueStr = String(res.valueString);
+      } else if (res.valueBoolean != null) {
+        valueStr = String(res.valueBoolean);
+      }
+
       return {
         _id,
-        primary: ccText(res.code) || res.display || "Diagnostic Report",
-        secondary: secondaryParts.join(" · "),
-        date: firstDate(res.effectiveDateTime, res.effectivePeriod?.start, res.issued, res.date),
-        notes: res.conclusion || res.note?.[0]?.text,
+        primary: label,
+        secondary: valueStr || `Status: ${res.status || "unknown"}`,
+        date: firstDate(
+          res.effectiveDateTime,
+          res.effectivePeriod?.start,
+          res.issued,
+          res.meta?.lastUpdated,
+          res.date
+        ),
+        notes: res.note?.[0]?.text,
       };
     }
 

@@ -1,5 +1,8 @@
-import React from "react";
+// SectionCard.jsx
+import React, { useState } from "react";
 import RecordCard from "./RecordCard";
+
+const COLLAPSE_LIMIT = 10;
 
 export default function SectionCard({
   icon,
@@ -12,6 +15,14 @@ export default function SectionCard({
   emptyText,
   t,
 }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const isCollapsible = records.length > COLLAPSE_LIMIT;
+  const visibleRecords = isCollapsible && !expanded
+    ? records.slice(0, COLLAPSE_LIMIT)
+    : records;
+  const hiddenCount = records.length - COLLAPSE_LIMIT;
+
   return (
     <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       {/* Header */}
@@ -52,17 +63,45 @@ export default function SectionCard({
           </p>
         </div>
       ) : (
-        <div className="divide-y divide-slate-100">
-          {records.map((rec) => (
-            <RecordCard
-              key={rec._id}
-              data={rec}
-              onEdit={() => onEdit(rec)}
-              onDelete={() => onDelete(rec)}
-              t={t}
-            />
-          ))}
-        </div>
+        <>
+          <div className="divide-y divide-slate-100">
+            {visibleRecords.map((rec) => (
+              <RecordCard
+                key={rec._id}
+                data={rec}
+                onEdit={() => onEdit(rec)}
+                onDelete={() => onDelete(rec)}
+                t={t}
+              />
+            ))}
+          </div>
+
+          {isCollapsible && (
+            <button
+              onClick={() => setExpanded((prev) => !prev)}
+              className="w-full flex items-center justify-center gap-1.5 py-2.5 text-[13px] font-medium text-[#2C3B8D] bg-[#f5f7ff] border-t border-[#e6ecff] hover:bg-[#eef1ff] transition-colors"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+              >
+                <path
+                  d="M3 5L7 9L11 5"
+                  stroke="#2C3B8D"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {expanded
+                ? t('common:collapse', 'collapse')
+                : t('common:showMore', `View ${hiddenCount} records`)}
+            </button>
+          )}
+        </>
       )}
     </section>
   );

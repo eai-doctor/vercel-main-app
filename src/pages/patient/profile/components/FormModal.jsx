@@ -14,29 +14,24 @@ import { getTodayString } from "@/utils/DateUtils";
 export default function FormModal({
   tab,
   initialData,
+  originalRecord,
   isSubmitting,
   onClose,
   error,
   t,
   labels,
-  handleSubmit,
+  handleUpateProfileClicked,
+  handleCreateProfileClicked,
   form,
   setForm,
 }) {
 
-  useEffect(() => {
-    if (!initialData) return;
-
-    setForm(initialData);
-
-    if (process.env.NODE_ENV === "development") {
-      console.debug("[check edit function]", {
-        initialData,
-      });
-    }
-  }, [initialData.id]);
-
   const updateForm = (key, val) => setForm((prev) => ({ ...prev, [key]: val }));
+
+  console.log("==============FormModal============");
+  console.log("originalRecord: ", originalRecord);
+  console.log("form: ", form);
+  console.log("===================================")
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4 backdrop-blur-sm">
@@ -65,7 +60,8 @@ export default function FormModal({
 
         {/* Body */}
         <div className="overflow-y-auto p-5">
-          <form onSubmit={handleSubmit} className="space-y-3.5" id="record-form">
+          <form  className="space-y-3.5" id="record-form">
+            {/* Condition */}
             {tab === "Condition" && (
               <>
                 <Field label={t('common:labels.display')} value={form.display} onChange={(v) => updateForm("display", v)} required />
@@ -74,15 +70,7 @@ export default function FormModal({
               </>
             )}
 
-            {tab === "MedicationRequest" && (
-              <>
-                <Field label={t('common:labels.medication')} value={form.medication} onChange={(v) => updateForm("medication", v)} required placeholder="e.g. Ibuprofen 100 MG Oral Tablet" />
-                <Field label={t('common:labels.dosage')} value={form.dosage} onChange={(v) => updateForm("dosage", v)} placeholder="e.g. Take as needed." />
-                <SelectField label={t('common:status')} value={form.status} options={["active", "stopped", "cancelled", "completed"]} onChange={(v) => updateForm("status", v)} />
-                <Field label={t('common:date')} value={form.date || getTodayString()} onChange={(v) => updateForm("date", v)} type="date" />
-              </>
-            )}
-
+            {/* Allergy */}
             {tab === "AllergyIntolerance" && (
               <>
                 <Field label={t('common:labels.display')} value={form.display} onChange={(v) => updateForm("display", v)} required placeholder="e.g. Allergy to Penicillin (disorder)" />
@@ -91,11 +79,41 @@ export default function FormModal({
                 <SelectField label={t('common:labels.category')} value={form.category} options={["medication", "food", "environment", "biologic"]} onChange={(v) => updateForm("category", v)} />
                 <SelectField label={t('common:labels.criticality')} value={form.criticality} options={["low", "high", "unable-to-assess"]} onChange={(v) => updateForm("criticality", v)} />
                 <SelectField label={t('common:status')} value={form.status} options={["active", "inactive", "resolved"]} onChange={(v) => updateForm("status", v)} />
-                <Field label={t('common:date')} value={form.date || getTodayString()} onChange={(v) => updateForm("date", v)} type="date" />
+                <Field label={t('common:date')} value={form.onsetDate || getTodayString()} onChange={(v) => updateForm("onsetDate", v)} type="date" />
               </>
             )}
 
-            {tab === "Observation" && (
+            {/* Body */}
+            {tab === "MedicationRequest" && (
+              <>
+                <Field label={t('common:labels.medication')} value={form.medication} onChange={(v) => updateForm("medication", v)} required placeholder="e.g. Ibuprofen 100 MG Oral Tablet" />
+                <Field label={t('common:labels.dosage')} value={form.dosage} onChange={(v) => updateForm("dosage", v)} placeholder="e.g. Take as needed." />
+                <SelectField label={t('common:status')} value={form.status} options={["active", "stopped", "draft", "cancelled", "on-hold", "completed", "ended", "entered-in-error", "unknown"]} onChange={(v) => updateForm("status", v)} />
+                <Field
+                  label={t('common:date')}
+                  value={form.authoredOn || getTodayString()}
+                  onChange={(v) => updateForm("authoredOn", v)}
+                  type="date"
+                />
+              </>
+            )}
+
+            {/* Medical Statement */}
+            {tab === "MedicationStatement" && (
+              <>
+                <Field label={t('common:labels.medication', 'Medication')} value={form.medication} onChange={(v) => updateForm("medication", v)} required placeholder="e.g. Atorvastatin 20 MG Oral Tablet" />
+                <SelectField label={t('common:status')} value={form.status} options={STATUS_OPTIONS.MedicationStatement} onChange={(v) => updateForm("status", v)} />
+                <Field label={t('common:labels.statusReason', 'Status Reason')} value={form.statusReason} onChange={(v) => updateForm("statusReason", v)} placeholder="Reason for status change" />
+                <SelectField label={t('common:labels.category', 'Category')} value={form.category} options={["inpatient", "outpatient", "community", "patientspecified"]} onChange={(v) => updateForm("category", v)} />
+                <Field label={t('common:labels.dosage', 'Dosage')} value={form.dosage} onChange={(v) => updateForm("dosage", v)} placeholder="e.g. 1 tablet daily" />
+                <Field label={t('common:labels.effectiveDate', 'Effective Date')} value={form.effectiveDate || getTodayString()} onChange={(v) => updateForm("effectiveDate", v)} type="date" />
+                <Field label={t('common:labels.dateAsserted', 'Date Asserted')} value={form.dateAsserted || getTodayString()} onChange={(v) => updateForm("dateAsserted", v)} type="date" />
+                <Field label={t('common:labels.reasonCode', 'Reason')} value={form.reasonCode} onChange={(v) => updateForm("reasonCode", v)} placeholder="Indication / reason" />
+                <Field label={t('common:labels.notes', 'Notes')} value={form.notes} onChange={(v) => updateForm("notes", v)} multiline />
+              </>
+            )}
+
+            {tab === "Observation" && ( //check later
               <>
                 <Field label={t('common:labels.display')} value={form.display} onChange={(v) => updateForm("display", v)} required />
                 <SelectField label={t('patient:medicalProfile.tabs.vitalSigns')} value={form.vitalType} options={VITAL_TYPES.map((v) => v.label)} onChange={(v) => updateForm("vitalType", v)} />
@@ -109,8 +127,15 @@ export default function FormModal({
             {tab === "Immunization" && (
               <>
                 <Field label={t('common:labels.vaccine')} value={form.vaccine} onChange={(v) => updateForm("vaccine", v)} required placeholder="e.g. IPV" />
-                <SelectField label={t('common:status')} value={form.status} options={["completed", "not-done"]} onChange={(v) => updateForm("status", v)} />
-                <Field label={t('common:date')} value={form.date || getTodayString()} onChange={(v) => updateForm("date", v)} type="date" />
+                <SelectField label={t('common:status')} value={form.status} options={["completed", "entered-in-error", "not-done"]} onChange={(v) => updateForm("status", v)} />
+                <Field label={t('common:date')} value={form.occurrenceDate || form.occurrenceDateTime || getTodayString()} onChange={(v) => updateForm("occurrenceDate", v)} type="date" />
+                <Field label={t('common:labels.lotNumber', 'Lot Number')} value={form.lotNumber} onChange={(v) => updateForm("lotNumber", v)} />
+                <Field label={t('common:labels.manufacturer', 'Manufacturer')} value={form.manufacturer} onChange={(v) => updateForm("manufacturer", v)} />
+                <Field label={t('common:labels.site', 'Site')} value={form.site} onChange={(v) => updateForm("site", v)} />
+                <Field label={t('common:labels.route', 'Route')} value={form.route} onChange={(v) => updateForm("route", v)} />
+                <Field label={t('common:labels.doseQuantity', 'Dose Quantity')} value={form.doseQuantity} onChange={(v) => updateForm("doseQuantity", v)} type="number" />
+                <Field label={t('common:labels.notes', 'Notes')} value={form.notes} onChange={(v) => updateForm("notes", v)} multiline />
+
               </>
             )}
 
@@ -227,7 +252,8 @@ export default function FormModal({
             {t('common:cancel')}
           </button>
           <button
-            type="submit"
+            type="button"
+            onClick={() => originalRecord ? handleUpateProfileClicked(originalRecord, form, tab) : handleCreateProfileClicked(form, tab)}
             form="record-form"
             disabled={isSubmitting}
             className="cursor-pointer px-4 py-2 rounded-lg text-sm font-medium bg-[#2C3B8D] hover:bg-[#233070] text-white transition-colors disabled:opacity-70 flex items-center gap-2 min-w-[130px] justify-center"

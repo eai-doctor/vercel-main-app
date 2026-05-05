@@ -1,9 +1,9 @@
-import PatientHomePage from "./PatientHomePage";
+import PersonalHome from "./home";
 import HealthConsultation from "./health_consultation";
 import MedicalProfile from "./profile";
 
 export {
-    PatientHomePage,
+    PersonalHome,
     HealthConsultation,
     MedicalProfile
 }

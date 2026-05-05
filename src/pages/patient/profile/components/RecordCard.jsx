@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function RecordCard({ data, onEdit, onDelete, t }) {
-  // secondary 문자열 형태 ("Status: active", "Criticality: high · Substance: ...") 에서 status 추출
   const statusMatch = data.secondary?.match(/Status:\s*([^\s·]+)/i);
   const status = statusMatch ? statusMatch[1] : null;
   const isPositive =

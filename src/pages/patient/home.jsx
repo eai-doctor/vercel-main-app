@@ -8,7 +8,7 @@ import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, UserIcon } from "@/com
 import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
 import config from "@/config";
 
-function PatientHomePage() {
+function PersonalHome() {
   const navigate = useNavigate();
   const { t } = useTranslation(["patient", "common", "auth"]);
   const { isPatient, isAuthenticated , loading, accessToken } = useAuth();
@@ -123,4 +123,4 @@ function PatientHomePage() {
   );
 }
 
-export default PatientHomePage;
+export default PersonalHome;

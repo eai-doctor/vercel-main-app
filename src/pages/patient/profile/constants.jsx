@@ -1,3 +1,20 @@
+import {
+  Stethoscope,
+  Pill,
+  ShieldAlert,
+  Activity,
+  Syringe,
+  PillBottle,
+  Scissors,
+  FileText,
+  Flag as FlagIcon,
+  ClipboardList,
+  Users,
+} from "lucide-react";
+
+const ICON_CLS = "w-[18px] h-[18px] text-[#2C3B8D]";
+
+// TAB
 export const TAB_KEYS = [
     "Condition",
     "AllergyIntolerance",
@@ -12,14 +29,32 @@ export const TAB_KEYS = [
     "FamilyMemberHistory",
 ];
 
+export const TAB_ICONS = {
+  Condition: <Stethoscope className={ICON_CLS} />,
+  MedicationRequest: <Pill className={ICON_CLS} />,
+  AllergyIntolerance: <ShieldAlert className={ICON_CLS} />,
+  Observation: <Activity className={ICON_CLS} />,
+  Immunization: <Syringe className={ICON_CLS} />,
+  MedicationStatement: <PillBottle className={ICON_CLS} />,
+  Procedure: <Scissors className={ICON_CLS} />,
+  DiagnosticReport: <FileText className={ICON_CLS} />,
+  Flag: <FlagIcon className={ICON_CLS} />,
+  CarePlan: <ClipboardList className={ICON_CLS} />,
+  FamilyMemberHistory: <Users className={ICON_CLS} />,
+};
+
 export const VITAL_TYPES = [
-  { label: "Blood Pressure", code: "85354-9", unit: "mmHg" },
-  { label: "Heart Rate", code: "8867-4", unit: "bpm" },
-  { label: "Body Weight", code: "29463-7", unit: "kg" },
-  { label: "Body Height", code: "8302-2", unit: "cm" },
-  { label: "Body Temperature", code: "8310-5", unit: "°C" },
+  { label: "Heart Rate", code: "8867-4", unit: "/min" },
+  { label: "Respiratory Rate", code: "9279-1", unit: "/min" },
   { label: "Oxygen Saturation", code: "2708-6", unit: "%" },
+  { label: "Body Temperature", code: "8310-5", unit: "Cel" },
+  { label: "Body Height", code: "8302-2", unit: "cm" },
+  { label: "Body Weight", code: "29463-7", unit: "kg" },
+  { label: "Body Mass Index", code: "39156-5", unit: "kg/m2" },
+  { label: "Head Circumference", code: "9843-4", unit: "cm" },
+  { label: "Blood Pressure", code: "85354-9", unit: "mm[Hg]" },
 ];
+
 
 // FHIR ValueSet shortcuts used by select inputs across new tabs
 export const STATUS_OPTIONS = {
@@ -127,8 +162,6 @@ export const EMPTY_FORMS = {
     date: "",
   },
   Immunization: { vaccine: "", date: "", status: "completed" },
-
-  // ===== Newly added IPS tabs =====
   MedicationStatement: {
     medication: "",
     status: "active",

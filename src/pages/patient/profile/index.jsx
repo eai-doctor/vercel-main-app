@@ -1,56 +1,25 @@
 import React, { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import {
-  Stethoscope,
-  Pill,
-  ShieldAlert,
-  Activity,
-  Syringe,
-  PillBottle,
-  Scissors,
-  FileText,
-  Flag as FlagIcon,
-  ClipboardList,
-  Users,
-} from "lucide-react";
 import { useAuth } from '@/context/AuthContext';
 import medicalRecordApi from "@/api/medicalRecordApi";
 
 import { SystemStatus, NavBar } from "@/components";
-import { createRecord, updateRecord } from "@/api/medicalRecordApi";
 import { getTodayString } from "@/utils/DateUtils";
 
 import { SectionCard, FormModal } from "./components";
-import { parseDisplayData, formFromRecord, buildFhirResource } from "./utils";
-import { TAB_KEYS, EMPTY_FORMS } from "./constants";
-
-const ICON_CLS = "w-[18px] h-[18px] text-[#2C3B8D]";
-
-const TAB_ICONS = {
-  Condition: <Stethoscope className={ICON_CLS} />,
-  MedicationRequest: <Pill className={ICON_CLS} />,
-  AllergyIntolerance: <ShieldAlert className={ICON_CLS} />,
-  Observation: <Activity className={ICON_CLS} />,
-  Immunization: <Syringe className={ICON_CLS} />,
-  MedicationStatement: <PillBottle className={ICON_CLS} />,
-  Procedure: <Scissors className={ICON_CLS} />,
-  DiagnosticReport: <FileText className={ICON_CLS} />,
-  Flag: <FlagIcon className={ICON_CLS} />,
-  CarePlan: <ClipboardList className={ICON_CLS} />,
-  FamilyMemberHistory: <Users className={ICON_CLS} />,
-};
+import { parseDisplayData, formFromRecord } from "./utils";
+import { TAB_KEYS, TAB_ICONS, EMPTY_FORMS } from "./constants";
+import { useHealthRecords } from "./hooks/useHealthRecords";
 
 export default function MedicalProfile() {
   const { t } = useTranslation(['patient', 'common']);
   const { user } = useAuth();
 
-  const [recordsByTab, setRecordsByTab] = useState({});
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editingRecord, setEditingRecord] = useState(null);
   const [editingTab, setEditingTab] = useState(TAB_KEYS[0]);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
   const userId = user?.user_id || user?.id;
@@ -83,49 +52,25 @@ export default function MedicalProfile() {
 
   const [form, setForm] = useState(() => getInitialForm(TAB_KEYS[0]));
 
-  const fetchAllRecords = useCallback(async () => {
-    if (!fhirPatientId) return;
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingRecord(null);
     setError(null);
-    setLoading(true);
+  };
 
-    try {
-      const cacheKey = `${fhirPatientId}-FHIR_ALL`;
-      let byTab;
+  const {
+      recordsByTab,
+      handleUpateProfileClicked,
+      handleCreateProfileClicked,
+      handleDeleteProfileClicked,
+      isSubmitting
+    } = useHealthRecords(t, fhirPatientId, userId, setError, setLoading, cacheRef, medicalRecordApi, handleCloseModal);
 
-
-      if (cacheRef.current[cacheKey]) {
-        byTab = cacheRef.current[cacheKey];
-      } else {
-        const res = await medicalRecordApi.getFHIRRecords(fhirPatientId);
-        const records = res?.data?.records || {};
-
-        byTab = {};
-        TAB_KEYS.forEach((tab) => {
-          const list = Array.isArray(records[tab]) ? records[tab] : [];
-          // Normalize FHIR `id` -> `_id` so existing edit/delete code keeps working
-          byTab[tab] = list.map((r) => ({ ...r, _id: r._id || r.id }));
-        });
-
-        cacheRef.current[cacheKey] = byTab;
-      }
-
-      setRecordsByTab(byTab);
-    } catch (err) {
-      setError(t('common:errors.failToLoad'));
-    } finally {
-      setLoading(false);
-    }
-  }, [fhirPatientId, t]);
-
-  useEffect(() => {
-    fetchAllRecords();
-  }, [fetchAllRecords]);
-
-  const initialData = editingRecord
-    ? (recordsByTab[editingTab] || []).find((r) => r._id === editingRecord._id)
-    : null;
 
   const handleOpenAdd = (tab) => {
+    console.log("======================handleOpenEdit=====================")
+    console.log(tab);
+    console.log("===================================")
     setEditingTab(tab);
     setEditingRecord(null);
     setForm(getInitialForm(tab));
@@ -134,187 +79,17 @@ export default function MedicalProfile() {
   };
 
   const handleOpenEdit = (tab, rec) => {
+    console.log("======================handleOpenEdit=====================")
+    console.log(rec);
+    console.log("===================================")
+
     setEditingTab(tab);
     setEditingRecord(rec);
+    setForm(rec.form);
     setError(null);
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setEditingRecord(null);
-    setError(null);
-  };
-
-  async function handleDelete(tab, rec) {
-    if (!rec?._id) {
-      console.error("Invalid record");
-      return;
-    }
-    const confirmed = window.confirm(
-      t('common:confirmDelete', 'Are you sure you want to delete this record?')
-    );
-    if (!confirmed) return;
-
-    try { 
-      await medicalRecordApi.deleteFHIRRRecord(fhirPatientId, editingTab, rec._id);
-      window.alert(t('common:deletedSuccessfully', 'Record successfully deleted'));
-
-      setRecordsByTab((prev) => ({
-        ...prev,
-        [tab]: (prev[tab] || []).filter((r) => r._id !== rec._id),
-      }));
-
-      const cacheKey = `${fhirPatientId}-FHIR_ALL`;
-      const bucket = cacheRef.current[cacheKey];
-      if (bucket && Array.isArray(bucket[tab])) {
-        bucket[tab] = bucket[tab].filter((r) => r._id !== rec._id);
-      }
-    } catch (error) {
-      console.error("Delete failed:", error.message);
-      alert(error.message);
-    }
-  }
-
-
-  // async function handleDelete(tab, rec) {
-  //   if (!rec?._id) {
-  //     console.error("Invalid record");
-  //     return;
-  //   }
-  //   const confirmed = window.confirm(
-  //     t('common:confirmDelete', 'Are you sure you want to delete this record?')
-  //   );
-  //   if (!confirmed) return;
-
-  //   try {
-  //     await medicalRecordApi.deleteRecord(fhirPatientId, rec._id, tab);
-  //     window.alert(t('common:deletedSuccessfully', 'Record successfully deleted'));
-
-  //     setRecordsByTab((prev) => ({
-  //       ...prev,
-  //       [tab]: (prev[tab] || []).filter((r) => r._id !== rec._id),
-  //     }));
-
-  //     const cacheKey = `${fhirPatientId}-FHIR_ALL`;
-  //     const bucket = cacheRef.current[cacheKey];
-  //     if (bucket && Array.isArray(bucket[tab])) {
-  //       bucket[tab] = bucket[tab].filter((r) => r._id !== rec._id);
-  //     }
-  //   } catch (error) {
-  //     console.error("Delete failed:", error.message);
-  //     alert(error.message);
-  //   }
-  // }
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setError(null);
-      setIsSubmitting(true);
-
-      if (!fhirPatientId || fhirPatientId === "undefined") {
-        setError("User ID is missing. Please refresh and try again.");
-        setIsSubmitting(false);
-        return;
-      }
-
-      try {
-        const cacheKey = `${fhirPatientId}-FHIR_ALL`;
-
-        if (initialData) {
-          await medicalRecordApi.updateFHIRRRecord(fhirPatientId , editingTab, initialData.id, form);
-          console.log(initialData, form);
-          setRecordsByTab((prev) => ({
-            ...prev,
-            [editingTab]: (prev[editingTab] || []).map((record) => record._id === initialData._id ? { ...record, ...buildFhirResource(editingTab,form) } : record),
-          }));
-
-          const bucket = cacheRef.current[cacheKey];
-          if (bucket && Array.isArray(bucket[editingTab])) {
-            bucket[editingTab] = bucket[editingTab].map((record) =>
-              record._id === initialData._id ? { ...record, ...form } : record
-            );
-          }
-          handleCloseModal();
-          setForm(getInitialForm(editingTab));
-          console.log(recordsByTab);
-        } else {
-          const response = await createRecord(userId, editingTab, form);
-          if (response.status === 201) {
-            const newRecord = { _id: response.data.id, ...form };
-            setRecordsByTab((prev) => ({
-              ...prev,
-              [editingTab]: [newRecord, ...(prev[editingTab] || [])],
-            }));
-            const bucket = cacheRef.current[cacheKey];
-            if (bucket) {
-              bucket[editingTab] = [newRecord, ...(bucket[editingTab] || [])];
-            }
-            handleCloseModal();
-            setForm(getInitialForm(editingTab));
-          }
-        }
-      } catch (err) {
-        const message = err.response?.data?.error || err.message || "Unknown error";
-        setError(message);
-      } finally {
-        setIsSubmitting(false);
-      }
-    };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setError(null);
-  //   setIsSubmitting(true);
-
-  //   if (!userId || userId === "undefined") {
-  //     setError("User ID is missing. Please refresh and try again.");
-  //     setIsSubmitting(false);
-  //     return;
-  //   }
-
-  //   try {
-  //     const cacheKey = `${userId}-FHIR_ALL`;
-
-  //     if (initialData) {
-  //       await updateRecord(userId, initialData._id, editingTab, form);
-  //       setRecordsByTab((prev) => ({
-  //         ...prev,
-  //         [editingTab]: (prev[editingTab] || []).map((record) =>
-  //           record._id === initialData._id ? { ...record, ...form } : record
-  //         ),
-  //       }));
-  //       const bucket = cacheRef.current[cacheKey];
-  //       if (bucket && Array.isArray(bucket[editingTab])) {
-  //         bucket[editingTab] = bucket[editingTab].map((record) =>
-  //           record._id === initialData._id ? { ...record, ...form } : record
-  //         );
-  //       }
-  //       handleCloseModal();
-  //       setForm(getInitialForm(editingTab));
-  //     } else {
-  //       const response = await createRecord(userId, editingTab, form);
-  //       if (response.status === 201) {
-  //         const newRecord = { _id: response.data.id, ...form };
-  //         setRecordsByTab((prev) => ({
-  //           ...prev,
-  //           [editingTab]: [newRecord, ...(prev[editingTab] || [])],
-  //         }));
-  //         const bucket = cacheRef.current[cacheKey];
-  //         if (bucket) {
-  //           bucket[editingTab] = [newRecord, ...(bucket[editingTab] || [])];
-  //         }
-  //         handleCloseModal();
-  //         setForm(getInitialForm(editingTab));
-  //       }
-  //     }
-  //   } catch (err) {
-  //     const message = err.response?.data?.error || err.message || "Unknown error";
-  //     setError(message);
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
 
   const isInitialLoading = loading && Object.keys(recordsByTab).length === 0;
 
@@ -342,7 +117,15 @@ export default function MedicalProfile() {
           <div className="space-y-5">
             {TAB_KEYS.map((tab) => {
               const rawRecords = recordsByTab[tab] || [];
-              const parsed = rawRecords.map((rec) => parseDisplayData(tab, rec));
+              const parsed = rawRecords.map((rec) => {
+                const original = rec?.resource || rec;
+
+                return {
+                  ...parseDisplayData(tab, original),
+                  original,
+                  form: formFromRecord(tab, original),
+                }
+              });
               return (
                 <SectionCard
                   key={tab}
@@ -351,7 +134,7 @@ export default function MedicalProfile() {
                   records={parsed}
                   onAdd={() => handleOpenAdd(tab)}
                   onEdit={(rec) => handleOpenEdit(tab, rec)}
-                  onDelete={(rec) => handleDelete(tab, rec)}
+                  onDelete={(rec) => handleDeleteProfileClicked(tab, rec)}
                   t={t}
                 />
               );
@@ -372,12 +155,14 @@ export default function MedicalProfile() {
       {showModal && (
         <FormModal
           tab={editingTab}
-          initialData={formFromRecord(editingTab, initialData)}
+          initialData={editingRecord ? editingRecord.form : null}
+          originalRecord={editingRecord ? editingRecord.original : null}
           isSubmitting={isSubmitting}
           onClose={handleCloseModal}
           error={error}
           labels={tabLabels}
-          handleSubmit={handleSubmit}
+          handleUpateProfileClicked={handleUpateProfileClicked}
+          handleCreateProfileClicked={handleCreateProfileClicked}
           form={form}
           setForm={setForm}
           t={t}

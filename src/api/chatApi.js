@@ -13,7 +13,7 @@ export const getSuggestions =(patientSummary) =>
       )
 
 export const getChatHistory =(userId) =>
-  backApi.get(`/api/chat/${userId}`);
+  backApi.get(`/chat/${userId}`);
       
 export const askAboAi = (userMessage, chatHistory ) =>
   api.post("/api/chat", {
@@ -39,7 +39,7 @@ export const sendMessage = (textToSend, patientSummary, messages) =>
         });
 
 export const saveMessage = (message, response, user_id) =>
-  backApi.post( `/api/chat/save`,
+  backApi.post( `/chat/save`,
         {
           message: message,
           response: response,
@@ -51,22 +51,22 @@ export const sendPatientMessage = (data, chatHeaders) =>
   api.post( `/api/chat`, data, { headers: chatHeaders });
       
 export const getConsultationSummaries = () => 
-  backApi.get('/consultation-summaries/symptoms')
+  backApi.get('/consultation-summarie/symptoms')
 
 export const generateConsultationSummaries = (cleanMessages) => 
-  backApi.post('/consultation-summaries/generate', {
+  backApi.post('/consultation-summarie/generate', {
         messages: cleanMessages,
       })
 
 export const saveConsultationSummaries = (chatSummary, cleanMessages, summaryModelUsed) =>
-  backApi.post('/consultation-summaries/save',{
+  backApi.post('/consultation-summarie/save',{
         summary: chatSummary,
         messages: cleanMessages,
         model_used: summaryModelUsed,
       })
   
 export const uploadLabReport = (formData, uploadHeaders) =>
-  api.post(`/api/lab-report/upload`,formData,{ headers: uploadHeaders })
+  api.post(`/lab-report/upload`,formData,{ headers: uploadHeaders })
 
 
 const chatApi = {
