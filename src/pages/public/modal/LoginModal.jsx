@@ -361,7 +361,6 @@ const isPasswordValid = Object.values(passwordRules).every(Boolean);
               </button>
             </div>
 
-            {/* relative div 밖으로 */}
             {step === "register" && form.password.length > 0 && (
               <ul className="space-y-1 text-xs px-1 mt-1">
                 {[
@@ -401,6 +400,7 @@ const isPasswordValid = Object.values(passwordRules).every(Boolean);
            
 
               <button
+                data-testid="login-btn"
                 disabled={loading}
                 className="w-full bg-[#2C3B8D] hover:bg-[#1f2a63] text-white py-3 rounded-xl font-semibold disabled:opacity-50"
               >
