@@ -28,11 +28,6 @@ export default function FormModal({
 
   const updateForm = (key, val) => setForm((prev) => ({ ...prev, [key]: val }));
 
-  console.log("==============FormModal============");
-  console.log("originalRecord: ", originalRecord);
-  console.log("form: ", form);
-  console.log("===================================")
-
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4 backdrop-blur-sm">
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-md w-full max-h-[90vh] overflow-hidden flex flex-col">

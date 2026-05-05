@@ -68,9 +68,6 @@ export default function MedicalProfile() {
 
 
   const handleOpenAdd = (tab) => {
-    console.log("======================handleOpenEdit=====================")
-    console.log(tab);
-    console.log("===================================")
     setEditingTab(tab);
     setEditingRecord(null);
     setForm(getInitialForm(tab));
@@ -79,9 +76,6 @@ export default function MedicalProfile() {
   };
 
   const handleOpenEdit = (tab, rec) => {
-    console.log("======================handleOpenEdit=====================")
-    console.log(rec);
-    console.log("===================================")
 
     setEditingTab(tab);
     setEditingRecord(rec);

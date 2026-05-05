@@ -19,8 +19,6 @@ export default function AdminLoginFields() {
     try {
       const res = await adminLogin(formData.email, formData.password);
 
-      console.log(res);
-
       if (res.status != 200) {
         if (data.requires_verification) {
           window.location.href = `/verify-email?email=${encodeURIComponent(formData.email)}`;

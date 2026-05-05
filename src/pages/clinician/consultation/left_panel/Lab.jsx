@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { formatDate } from "@/utils/DateUtils";
 import { PlusCircleIcon } from "@/components/ui/icons";
 
-export default function Lab({ labs, patientId, setPatientData }) {
+export default function Lab({ labs, requestedLabs = [], patientId, setPatientData }) {
     const { t } = useTranslation(['clinic', 'common']);
     const [showMoreLabs, setShowMoreLabs] = useState(false);
 
@@ -85,6 +85,32 @@ export default function Lab({ labs, patientId, setPatientData }) {
                                 <span className="text-[12px] text-slate-500 font-mono whitespace-nowrap">
                                     {lab.date ? formatDate(lab.date) : '—'}
                                 </span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {requestedLabs.length > 0 && (
+                    <div className={sorted.length > 0 ? "mt-3 border-t border-slate-100 pt-3" : ""}>
+                        <p className="text-[11px] font-semibold text-amber-600 uppercase tracking-wide px-2.5 mb-1.5">
+                            Requested
+                        </p>
+                        {requestedLabs.map((lab, i) => (
+                            <div
+                                key={`requested-${lab.test_name}-${i}`}
+                                className="flex items-center gap-3 px-2.5 py-2.5 rounded-xl [&+&]:border-t [&+&]:border-slate-100"
+                            >
+                                <span className="flex-1 text-[14px] font-medium text-slate-800">
+                                    {lab.test_name}
+                                </span>
+                                <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 font-semibold border border-amber-200 whitespace-nowrap">
+                                    Pending
+                                </span>
+                                {lab.date && (
+                                    <span className="text-[12px] text-slate-400 font-mono whitespace-nowrap">
+                                        {formatDate(lab.date)}
+                                    </span>
+                                )}
                             </div>
                         ))}
                     </div>

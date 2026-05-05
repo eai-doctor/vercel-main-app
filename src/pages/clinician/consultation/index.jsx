@@ -11,6 +11,7 @@ import { useConsultation, useLanguage } from "@/hooks";
 
 import { generateConsultationSummary } from "@/api/consultationApi";
 import consultationApi from "@/api/consultationApi";
+import { getPatientDetails } from "@/api/patientApi";
 
 export default function Consultation() {
   const location = useLocation();
@@ -51,6 +52,8 @@ export default function Consultation() {
   const [nbqList, setNbqList] = useState([]);
   const [differentials, setDifferentials] = useState([]);
   const [modelInfo, setModelInfo] = useState(null);
+  const [newFindings, setNewFindings] = useState(null);
+  const [isSavingRecord, setIsSavingRecord] = useState(false);
 
   const { startConsultation, stopConsultation, isCaptionAvailable  } = useConsultation({
     t,
@@ -64,6 +67,7 @@ export default function Consultation() {
     setNbqList,
     setDifferentials,
     setModelInfo,
+    setNewFindings,
     setShowSuccess,
     setConsulting,
     lang : currentLanguage.code });
@@ -102,6 +106,58 @@ export default function Consultation() {
   }, [consulting]);
 
   const previousPatientIdRef = useRef(null);
+
+  const handleSaveToRecord = async () => {
+    if (!newFindings || !patientData) return;
+    const mrn = patientData.patient_identification?.mrn;
+    if (!mrn) return;
+    try {
+      setIsSavingRecord(true);
+      await consultationApi.saveConsultationToRecord(mrn, newFindings);
+      setNewFindings(null);
+      // Refresh patient data in the left panel so new entries are visible immediately
+      const res = await getPatientDetails(mrn);
+      if (res.data?.patient_data) {
+        const freshData = res.data.patient_data;
+        setPatientData(freshData);
+        // Sync browser history so F5 reloads fresh data instead of the pre-save snapshot
+        navigate(location.pathname, {
+          replace: true,
+          state: { ...location.state, patientData: freshData },
+        });
+      }
+    } catch (err) {
+      console.error("Failed to save to record:", err);
+    } finally {
+      setIsSavingRecord(false);
+    }
+  };
+
+  const handleUpdateSoap = async () => {
+    if (!patientData || !transcriptHistory) return;
+    const enrichedPatientData = {
+      ...patientData,
+      consultation: {
+        chief_complaint: differentials[0]?.name || "",
+        transcript: transcriptHistory,
+        differential_diagnosis: differentials,
+      }
+    };
+    try {
+      setIsLoadingSoap(true);
+      const response = await consultationApi.getSoap(enrichedPatientData, true);
+      setSoapNote({
+        subjective: response.data?.subjective || "",
+        objective: response.data?.objective || "",
+        assessment: response.data?.assessment || "",
+        plan: response.data?.plan || ""
+      });
+    } catch (error) {
+      console.error("Error updating SOAP note:", error);
+    } finally {
+      setIsLoadingSoap(false);
+    }
+  };
 
   const handleBackToPatientList = () => {
   navigate("/patients", { state: { searchTerm } });
@@ -212,6 +268,11 @@ export default function Consultation() {
             nbqList={nbqList}
             differentials={differentials}
             setShowMcGillModal={setShowMcGillModal}
+            onUpdateSoap={handleUpdateSoap}
+            hasConsultationData={transcriptHistory.length > 0}
+            newFindings={newFindings}
+            onSaveToRecord={handleSaveToRecord}
+            isSavingRecord={isSavingRecord}
           />
         </div>
 

@@ -43,10 +43,6 @@ export function formFromRecord(tab, rec) {
   const res = rec.resource || rec || {};
   if (!res) return EMPTY_FORMS[tab];
 
-  console.log("==============formFromRecord============");
-  console.log("rec : ", rec);
-  console.log("===================================")
-
   switch (tab) {
     case "Condition":
       return {

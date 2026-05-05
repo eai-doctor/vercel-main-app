@@ -18,7 +18,9 @@ export default function MainRightPanel({
   consulting, setConsulting, showSuccess,
   transcriptHistory, interimTranscript, isCaptionAvailable,
   latestSummaryRef, conversationSummary, setConversationSummary,
-  soapNote, isLoadingSoap, nbqList, differentials, setShowMcGillModal
+  soapNote, isLoadingSoap, nbqList, differentials, setShowMcGillModal,
+  onUpdateSoap, hasConsultationData,
+  newFindings, onSaveToRecord, isSavingRecord
 }) {
   const { t } = useTranslation(['clinic', 'common']);
 
@@ -54,7 +56,7 @@ export default function MainRightPanel({
       </section>
 
       {/* Live Transcription */}
-      {(consulting || transcriptHistory) && (
+      {consulting && (
         <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="flex items-center gap-2.5 px-5 py-[18px] border-b border-slate-100 bg-amber-50">
             <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${consulting ? 'bg-amber-500 animate-pulse' : 'bg-amber-300'}`} />
@@ -67,28 +69,12 @@ export default function MainRightPanel({
                 : t('clinic:consultation.transcription', 'Transcription')}
             </h2>
           </div>
-          <div className="p-4 max-h-48 overflow-y-auto">
-            <p className="text-[14px] text-slate-400 italic text-center py-2">
-                {t('clinic:consultation.audioRecording', 'We are listening ...')}
-              </p>
-            {/* {!isCaptionAvailable ? (
+          <div className="p-4">
+            {consulting ? (
               <p className="text-[14px] text-slate-400 italic text-center py-2">
                 {t('clinic:consultation.audioRecording', 'We are listening ...')}
               </p>
-            ) : (transcriptHistory || interimTranscript) ? (
-              <div className="text-[14px] whitespace-pre-wrap leading-relaxed text-slate-800 bg-amber-50 p-3 rounded-xl border border-amber-100">
-                {transcriptHistory}
-                {interimTranscript && (
-                  <span className="text-slate-400 italic">
-                    {transcriptHistory ? ' ' : ''}{interimTranscript}
-                  </span>
-                )}
-              </div>
-            ) : (
-              <p className="text-[14px] text-slate-400 italic text-center py-2">
-                {t('clinic:consultation.listeningSpeakHere', 'Listening... speak to see transcription here')}
-              </p>
-            )} */}
+            ) : null}
           </div>
         </section>
       )}
@@ -194,6 +180,83 @@ export default function MainRightPanel({
         </div>
       </section>
 
+      {/* New Findings from Consultation */}
+      {newFindings && (newFindings.new_diagnoses?.length > 0 || newFindings.new_medications?.length > 0 || newFindings.new_vital_signs?.length > 0 || newFindings.lab_tests_requested?.length > 0) && (
+        <section className="bg-white rounded-2xl border border-amber-200 shadow-sm overflow-hidden">
+          <div className="flex items-center gap-3 px-5 py-[18px] border-b border-amber-100 bg-amber-50">
+            <div className="w-[38px] h-[38px] rounded-[10px] bg-amber-100 flex items-center justify-center shrink-0">
+              <ClipboardIcon className="w-[18px] h-[18px] text-amber-700" />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-[17px] font-semibold text-slate-800">New Findings</h2>
+              <p className="text-[12px] text-amber-700">AI detected — review and save to patient record</p>
+            </div>
+          </div>
+          <div className="p-4 space-y-3">
+            {newFindings.new_diagnoses?.length > 0 && (
+              <div>
+                <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Diagnoses</p>
+                <ul className="space-y-1">
+                  {newFindings.new_diagnoses.map((dx, i) => (
+                    <li key={i} className="flex items-start gap-2 text-[13px] text-slate-700">
+                      <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-violet-500 shrink-0" />
+                      <span>{dx.condition}</span>
+                      {dx.icd_code && <span className="ml-auto text-[11px] font-mono text-slate-400">{dx.icd_code}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {newFindings.new_medications?.length > 0 && (
+              <div>
+                <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Medications</p>
+                <ul className="space-y-1">
+                  {newFindings.new_medications.map((med, i) => (
+                    <li key={i} className="flex items-start gap-2 text-[13px] text-slate-700">
+                      <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                      <span>{med.name}{med.dose ? ` — ${med.dose}` : ''}{med.frequency ? ` ${med.frequency}` : ''}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {newFindings.new_vital_signs?.length > 0 && (
+              <div>
+                <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Vital Signs</p>
+                <ul className="space-y-1">
+                  {newFindings.new_vital_signs.map((vs, i) => (
+                    <li key={i} className="flex items-start gap-2 text-[13px] text-slate-700">
+                      <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                      <span>{vs.measurement}: {vs.value} {vs.unit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {newFindings.lab_tests_requested?.length > 0 && (
+              <div>
+                <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Labs Requested</p>
+                <ul className="space-y-1">
+                  {newFindings.lab_tests_requested.map((lab, i) => (
+                    <li key={i} className="flex items-start gap-2 text-[13px] text-slate-700">
+                      <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
+                      <span>{lab}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <button
+              onClick={onSaveToRecord}
+              disabled={isSavingRecord}
+              className="w-full mt-2 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 disabled:opacity-60 text-white text-[14px] font-semibold transition-colors"
+            >
+              {isSavingRecord ? 'Saving...' : 'Save to Patient Record'}
+            </button>
+          </div>
+        </section>
+      )}
+
       {/* SOAP Note */}
       {(soapNote.subjective || soapNote.objective || soapNote.assessment || soapNote.plan || isLoadingSoap) && (
         <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -204,10 +267,17 @@ export default function MainRightPanel({
             <h2 className="text-[17px] font-semibold text-slate-800">
               {t('clinic:consultation.soapNoteTitle', 'SOAP Note')}
             </h2>
-            {isLoadingSoap && (
+            {isLoadingSoap ? (
               <span className="ml-auto text-[12px] text-slate-400 animate-pulse">
                 {t('common:states.generating', 'Generating...')}
               </span>
+            ) : hasConsultationData && (
+              <button
+                onClick={onUpdateSoap}
+                className="ml-auto text-xs px-3 py-1 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200 font-medium transition-colors"
+              >
+                Update with Consultation
+              </button>
             )}
           </div>
           <div className="p-3 space-y-1.5">

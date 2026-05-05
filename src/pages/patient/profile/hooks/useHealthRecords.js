@@ -105,15 +105,11 @@ export const useHealthRecords = (t, fhirPatientId, userId, setError, setLoading,
     setError(null);
     setIsSubmitting(true);
 
-    console.log("======================handleCreateProfileClicked=====================")
-
     try {
       const cacheKey = `${fhirPatientId}-FHIR_ALL`;
       const response = await medicalRecordApi.createFHIRRRecord(fhirPatientId, tab, form);
       if (response.status === 200) {
         const newRecord = response.data.resource || response.data;
-        console.log("newRecord ==============> ", newRecord);
-
         setRecordsByTab((prev) => {
           const next = {
             ...prev,
@@ -124,7 +120,6 @@ export const useHealthRecords = (t, fhirPatientId, userId, setError, setLoading,
 
           return next;
         });
-        console.log("=====================================================================")
 
         handleCloseModal();
       }

@@ -153,8 +153,6 @@ export default function AdminDoctorRegister({ onSuccess }) {
 
     try {
       const res = await authDoctorRegister(form);
-
-      console.log(res);
       
       if (!res.ok) {
         setResult({ type: "error", message: data.error || "Registration failed." });
