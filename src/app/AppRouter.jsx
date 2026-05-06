@@ -5,6 +5,7 @@ import { RouteGuard } from "./RouteGuard"
 import { clinicianRoutes } from "./routes.clinician";
 import { publicRoutes } from "./routes.public";
 import { patientRoutes } from "@/app/routes.patient";
+import { adminRoutes } from "@/app/routes.admin";
 import { functionRoutes } from "./routes.clinician.functions";
 
 
@@ -41,6 +42,14 @@ export default function AppRouter() {
         ))}
 
         {patientRoutes.map(r => (
+          <Route
+            key={r.path}
+            path={r.path}
+            element={r.element}
+          />
+        ))}
+
+        {adminRoutes.map(r => (
           <Route
             key={r.path}
             path={r.path}

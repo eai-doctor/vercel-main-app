@@ -20,3 +20,10 @@ export const authUpdateProfile = (data) => authApi.put("/me", data);
 
 export const authForgotPassword = (data) => authApi.post("/pw/forgot-password", data);
 export const authResetPassword  = (data) => authApi.post("/pw/reset-password", data);
+export const authPatientResetPassword  = (data) => authApi.post("/patient/reset-password", data);
+
+export const authAdminLogin  = (data) => authApi.post("/admin/login", data);
+export const authAdminReigster  = (data) => authApi.post("/admin/register", data);
+
+export const authDoctorRegister  = (data) => authApi.post("/doctor/register", data);
+

@@ -68,6 +68,7 @@
     "generic": "Une erreur est survenue. Veuillez réessayer.",
     "failedToLoad": "Échec du chargement de {{resource}}.",
     "failedToDelete": "Échec de la suppression de {{resource}}.",
+    "failedToUpdate": "Échec de la mise à jour de {{resource}}.",
     "enterSearchTerm": "Veuillez entrer un terme de recherche.",
     "searchFailed": "La recherche a échoué. Veuillez réessayer.",
     "uploadPdfOnly": "Veuillez télécharger un fichier PDF.",

@@ -4,7 +4,7 @@ import createApi from "./axiosBase";
 const api = createApi(config.backendUrl);
 
 export const recordConsultationStream = (formData) =>
-  api.post("/api/record-consultation-stream", formData, {
+  api.post("/consultation/record-consultation-stream", formData, {
     withCredentials: true,
     headers: { 'Content-Type': undefined },
     responseType: 'text'
@@ -12,19 +12,19 @@ export const recordConsultationStream = (formData) =>
 
 // --- Consultation Summary ---
 export const generateConsultationSummary = (patient_info, consultation_data) =>
-  api.post("/api/generate-consultation-summary", {
+  api.post("/consultation/generate-consultation-summary", {
     patient_info,
     consultation_data,
   });
 
 // --- Prescription Management ---
 export const generatePrescription = (patientData, patientMedicalData) =>
-  api.post("/api/generate-prescription", { 
+  api.post("/prescription/generate", { 
     patient_data: patientData
   });
 
 export const savePrescription = (patientId, prescriptionId, editedPrescription) =>
-  api.post("/api/save-prescription", {
+  api.post("/prescription/save", {
     patient_id: patientId,
     prescription_id : prescriptionId,
     prescription: editedPrescription,
@@ -34,7 +34,7 @@ export const savePrescription = (patientId, prescriptionId, editedPrescription) 
   });
 
 export const updatePrescription = (patientId, prescriptionId, editedPrescription) =>
-  api.post("/api/update-prescription", {
+  api.post("/prescription/update", {
     patient_id: patientId,
     prescription_id : prescriptionId,
     prescription: editedPrescription,
@@ -45,7 +45,7 @@ export const updatePrescription = (patientId, prescriptionId, editedPrescription
 
 // --- Consultation Lifecycle ---
 export const endConsultation = (patientEmail, aiSummary, patient_identification) =>
-  api.post("/api/end-consultation", {
+  api.post("/consultation/end-consultation", {
     patient_email: patientEmail,
     consultation_summary: aiSummary,
     patient_info: patient_identification
@@ -53,7 +53,7 @@ export const endConsultation = (patientEmail, aiSummary, patient_identification)
 
 // --- Preferences & Settings ---
 export const updatePreferences = (patientId, language, reportComponents, practiceApproach) =>
-  api.patch("/api/update-preferences", {
+  api.patch("/update-preferences", {
     patientId,
     language,
     report_components: reportComponents,
@@ -62,19 +62,19 @@ export const updatePreferences = (patientId, language, reportComponents, practic
 
 // --- Advanced Analysis (FHIR & PDF) ---
 export const getInferFHIR = (patientData) =>
-  api.post("/api/infer-fhir", {
+  api.post("/mixehr/infer-fhir", {
     patient_data: patientData,
     iterations: 10,
     top_k: 5
   });
 
 export const extractLabPdf = (base64) =>
-  api.post("/api/analyze-lab-pdf", {
+  api.post("/analyze-lab-pdf", {
     pdf_data: base64,
   });
 
 export const uploadReport = (formData) =>
-  api.post("/api/upload-report", formData, {
+  api.post("/upload-report", formData, {
     headers: { 'Content-Type': undefined }  
   });
 

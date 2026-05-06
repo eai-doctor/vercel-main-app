@@ -68,6 +68,7 @@
     "generic": "出了点问题，请重试。",
     "failedToLoad": "加载{{resource}}失败。",
     "failedToDelete": "删除{{resource}}失败。",
+    "failedToUpdate": "更新{{resource}}失败。",
     "enterSearchTerm": "请输入搜索关键词。",
     "searchFailed": "搜索失败，请重试。",
     "uploadPdfOnly": "请上传PDF文件。",

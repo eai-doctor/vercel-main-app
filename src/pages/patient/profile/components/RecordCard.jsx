@@ -1,23 +1,63 @@
 import React from "react";
 
 export default function RecordCard({ data, onEdit, onDelete, t }) {
+  const statusMatch = data.secondary?.match(/Status:\s*([^\s·]+)/i);
+  const status = statusMatch ? statusMatch[1] : null;
+  const isPositive =
+    status === "active" ||
+    status === "completed" ||
+    status === "resolved";
 
-  console.log("Rendering RecordCard with data:", data);
+  const detail = data.secondary
+    ? data.secondary.replace(/^Status:\s*[^\s·]+\s*·?\s*/i, "").trim()
+    : "";
   
   return (
-    <div className="bg-white rounded-xl shadow-[0_4px_12px_rgba(15,23,42,0.1)] border border-[rgba(15,23,42,0.1)] p-4 hover:shadow-[0_8px_24px_rgba(15,23,42,0.12)] hover:border-[rgba(59,130,246,0.4)] transition-all">
-      <div className="flex items-start justify-between">
-        <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-[#1e293b] truncate">{data.primary}</h4>
-          {data.secondary && <p className="text-sm text-[#475569] mt-1">{data.secondary}</p>}
-          {data.date && <p className="text-xs text-[#94a3b8] mt-1">{data.date}</p>}
-          {data.notes && <p className="text-xs text-[#475569] mt-1 italic line-clamp-2">{data.notes}</p>}
-        </div>
-        <div className="flex items-center space-x-3 ml-3 shrink-0">
-          <button onClick={onEdit} className="text-[#3b82f6] hover:text-[#2563eb] text-sm font-medium transition-colors">
+    <div className="group flex items-center justify-between gap-3 px-5 py-3.5 hover:bg-[#f8faff] transition-colors">
+      <div className="flex-1 min-w-0">
+        <h4 className="text-[14px] font-semibold text-slate-900 truncate">
+          {data.primary}
+        </h4>
+        {detail && (
+          <p className="text-[12px] text-slate-500 mt-0.5 truncate">
+            {detail}
+          </p>
+        )}
+        {data.notes && (
+          <p className="text-[12px] text-slate-500 mt-0.5 italic line-clamp-1">
+            {data.notes}
+          </p>
+        )}
+      </div>
+
+      <div className="flex items-center gap-2 shrink-0">
+        {status && (
+          <span
+            className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium whitespace-nowrap ${
+              isPositive
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "bg-slate-100 text-slate-600 border border-slate-200"
+            }`}
+          >
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </span>
+        )}
+        {data.date && (
+          <span className="hidden sm:inline text-[12px] text-slate-500 whitespace-nowrap">
+            {data.date}
+          </span>
+        )}
+        <div className="flex items-center gap-1">
+          <button
+            onClick={onEdit}
+            className="cursor-pointer inline-flex items-center px-2.5 py-1 rounded-md text-[12px] font-medium bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors"
+          >
             {t('common:edit', 'Edit')}
           </button>
-          <button onClick={onDelete} className="cursor-pointer text-red-400 hover:text-red-600 text-sm font-medium transition-colors">
+          <button
+            onClick={onDelete}
+            className="cursor-pointer inline-flex items-center px-2.5 py-1 rounded-md text-[12px] font-medium bg-rose-50 text-rose-600 border border-rose-100 hover:bg-rose-100 transition-colors"
+          >
             {t('common:delete', 'Delete')}
           </button>
         </div>

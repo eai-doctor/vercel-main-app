@@ -8,27 +8,27 @@ const clipVitb16Api = createApi(config.clipVitb16ServiceUrl);
 
 // --- FollowUps ---
 export const getMessageTemplates = () =>
-  api.get("/api/message-templates");
+  api.get("/function/message-templates");
 
 export const sendFollowup = (selectedMethod, recipients ) =>
-  api.post("/api/send-followup", {
+  api.post("/function/send-followup", {
         method: selectedMethod,
         recipients: recipients
   });
 
 
 export const getMerk = (searchTerm) => 
-  api.get(`/api/merck`, { params: { searchTerm : searchTerm }});
+  api.get(`/function/merck`, { params: { searchTerm : searchTerm }});
 
 export const getPubMed = (keywords, filters) => 
-  api.post(`/api/pubmed/search`, {
+  api.post(`/pubmed/search`, {
         keywords,
         filters,
         max_results: 50,
       });
 
 export const fetchPubMed = ( pmids ) =>
-   api.post(`/api/pubmed/fetch`, { pmids });
+   api.post(`/pubmed/fetch`, { pmids });
 
 export const getDrugBank = ( body ) =>
   durgbankApi.post(`/dpd/lookup`, body);

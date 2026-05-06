@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
-import MainLeftPanel from "./left_panel/MainLeftPanel";
+import MainLeftPanel from "./left_panel";
 import MainRightPanel from "./right_panel/MainRightPanel";
 import McgillPredictionModal from "./modal/McgillPredictionModal";
 

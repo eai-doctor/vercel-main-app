@@ -5,7 +5,7 @@ const triageApi = createApi(config.backendUrl);
 
 // --- Triage ---
 export const triageAssess = (data, languageCode) =>
-  triageApi.post("/api/triage", {
+  triageApi.post("/triage/perform", {
     ...data,
     language : languageCode,
     include_evidence: true,
@@ -13,7 +13,7 @@ export const triageAssess = (data, languageCode) =>
 
 // --- Symptoms autocomplete ---
 export const triageGetSymptoms = (query, lang ) =>
-  triageApi.get("/api/triage/symptoms", {
+  triageApi.get("/triage/symptoms", {
     params: { q: query, lang : lang  }, 
   });
 

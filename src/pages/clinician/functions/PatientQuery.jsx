@@ -92,8 +92,6 @@ function PatientDetailsCard({ details }) {
     [info?.first_name, info?.last_name].filter(Boolean).join(' ') || '—';
   const initial = fullName.charAt(0).toUpperCase();
 
-  console.log(details.patient_identification)
-
   return (
     <div className="p-5 space-y-5">
       {/* Identity row */}
