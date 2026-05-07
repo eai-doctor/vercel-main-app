@@ -32,6 +32,7 @@ export default function Encounters({ consultations, admissions }) {
       ? consultations.map(c => ({
           type: t('clinic:consultation.consultationType', 'Consultation'),
           date: c.date,
+          // description: `${c.specialty}${c.reason ? ` – ${c.reason}` : ''}`,
           description: `${c.specialty}${c.reason ? ` – ${c.reason}` : ''}`,
           details: formatEncounterDetails(c, t),
         }))

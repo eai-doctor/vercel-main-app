@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback  } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -8,9 +8,12 @@ import McgillPredictionModal from "./modal/McgillPredictionModal";
 
 import { blockCopy } from "@/utils/privacy";
 import { useConsultation, useLanguage } from "@/hooks";
+import { TAB_KEYS } from "@/constants/fhir";
+import { fhirRecordsToPatientData } from "@/utils/fhir";
 
 import { generateConsultationSummary } from "@/api/consultationApi";
 import consultationApi from "@/api/consultationApi";
+import medicalRecordApi from "@/api/medicalRecordApi";
 import { getPatientDetails } from "@/api/patientApi";
 
 export default function Consultation() {
@@ -18,6 +21,9 @@ export default function Consultation() {
   const navigate = useNavigate();
   const { currentLanguage } = useLanguage();
   const { t } = useTranslation(['clinic', 'common']);
+
+  const cacheRef = useRef({});
+  const [recordsByTab, setRecordsByTab] = useState({});
 
   // Refs to store latest analysis results (updated every 10s but NOT rendered until user clicks)
   const latestSnapshotRef = useRef("");
@@ -73,30 +79,75 @@ export default function Consultation() {
     lang : currentLanguage.code });
 
   // Get patient data from location state or start with empty data
-  useEffect(() => {
-        if (location.state?.patientData) {
-          setPatientData(location.state.patientData);
-          setShowConfigPanel(false);
+useEffect(() => {
+  const fetchFHIRRecords = async (userFhirMrn) => {
+    if (!userFhirMrn) return null;
 
-          if (location.state.searchTerm !== undefined) {
-            setSearchTerm(location.state.searchTerm);
-          }
+    const cacheKey = `${userFhirMrn}-FHIR_ALL`;
+    let byTab;
 
-           if (location.state.selectingId !== undefined) {
-            setSelectingId(location.state.selectingId);
-          }
-        } else {
-        console.warn("No patient data found. Security redirect triggered.");
-        
-        alert(
-            "Security Alert: Patient data session has expired or is missing. " +
-            "For safety reasons, you must re-select the patient from the list."
-        );
+    if (cacheRef.current[cacheKey]) {
+      byTab = cacheRef.current[cacheKey];
+    } else {
+      const res = await medicalRecordApi.getFHIRRecordsByMrn(userFhirMrn);
+      const records = res?.data?.records || {};
 
-        // 환자 리스트 페이지로 강제 이동
-        navigate("/patients", { replace: true });
+      // byTab = {};
+      // TAB_KEYS.forEach((tab) => {
+      //   const list = Array.isArray(records[tab]) ? records[tab] : [];
+      //   byTab[tab] = list;
+      // });
+
+      cacheRef.current[cacheKey] = records;
+      byTab = records;
+    }
+
+    setRecordsByTab(byTab);
+    return byTab;
+  };
+
+  const initializePatientData = async () => {
+    if (location.state?.patientData) {
+      setPatientData(location.state.patientData);
+      setShowConfigPanel(false);
+
+      if (location.state.searchTerm !== undefined) {
+        setSearchTerm(location.state.searchTerm);
       }
-  }, [location.state, navigate]);
+
+      if (location.state.selectingId !== undefined) {
+        setSelectingId(location.state.selectingId);
+      }
+
+
+      const mrn =
+        location.state.patientData.patient_identification?.mrn || null;
+
+      if (mrn) {
+        const fhirRecords = await fetchFHIRRecords(mrn);
+        console.log("[original] fhirRecords : ", fhirRecords);
+
+        if (fhirRecords) {
+          const testPatientData = fhirRecordsToPatientData(fhirRecords);
+          console.log("[original] fhirRecordsToPatientData : ", testPatientData);
+
+          setPatientData(testPatientData);
+        }
+      }
+    } else {
+      console.warn("No patient data found. Security redirect triggered.");
+
+      alert(
+        "Security Alert: Patient data session has expired or is missing. " +
+          "For safety reasons, you must re-select the patient from the list."
+      );
+
+      navigate("/patients", { replace: true });
+    }
+  };
+
+  initializePatientData();
+}, [location.state, navigate]);
 
   // Voice action start and stop
   useEffect(() => {

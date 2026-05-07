@@ -5,6 +5,7 @@ import Header from "./Header";
 import PateintInfo from "./PatientInfo";
 import ActiveConditions from "./ActiveConditions";
 import Encounters from "./Encounters";
+import Allergies from "./Allergies";
 import VitalSigns from "./VitalSigns";
 import Immunizations from "./Immunizations";
 // import InsuranceBilling from "./InsuranceBilling";
@@ -14,6 +15,7 @@ import Lab from "./Lab";
 // import Admissions from "./Admissions";
 // import Images from "./Images";
 import Imaging from "./Imaging";
+import Procedures from "./Procedures";
 
 // {
 //   onBackToPatientList,
@@ -56,8 +58,14 @@ export default function MainLeftPanel({
   const immunizations = patientData.immunizations;
   const medications = patientData.medications;
   const labs = patientData.labs;
+  const allergies = patientData.allergies;
+  const procedures = patientData.procedures;
   const requestedLabs = patientData.requested_labs || [];
   const imaging = patientData.imaging;
+
+  console.log("allergeis", allergies);
+  console.log("procedures", procedures);
+
 
   return(
       <>
@@ -82,13 +90,18 @@ export default function MainLeftPanel({
 
         {/* 3.2 Active Conditions */}
         <ActiveConditions 
-          diagnoses={diagnoses}
+          activeConditions={diagnoses}
         />
 
         {/* 3.3 Encounters (recent + more) - Accordion */}
         <Encounters 
           consultations ={consultations}
           admissions ={admissions}
+        />
+
+        {/* 3.3 Encounters (recent + more) - Accordion */}
+        <Allergies 
+          allergies ={allergies}
         />
 
         {/* 3.4 Vital Signs (most recent first, show 3 by default) */}
@@ -118,12 +131,13 @@ export default function MainLeftPanel({
         {/* 3.9 Lab Results – most recent first, show 3 by default */}
         <Lab labs={labs} requestedLabs={requestedLabs} patientId={patient_identification.patient_id} setPatientData={setPatientData} />
 
+        <Procedures procedures={patientData?.procedures || []} />
         {/* 3.10 Images – placeholder section */}
         {/* 040826 saebyeok blocked - delayed function */}
         {/* <Images /> */}
 
         {/* Imaging */}
-        <Imaging imaging={imaging} />
+        {/* <Imaging imaging={imaging} /> */}
 
 
   </>

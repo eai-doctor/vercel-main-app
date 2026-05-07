@@ -44,7 +44,9 @@
     "add": "添加",
     "back": "返回",
     "privacyConsent": "隐私与同意",
-    "next": "下一步"
+    "next": "下一步",
+    "clinicPortal": "临床门户",
+    "patientPortal": "患者门户"
   },
   "states": {
     "loading": "加载中...",

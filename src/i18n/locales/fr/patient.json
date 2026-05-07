@@ -113,7 +113,8 @@
     "emailSentFailed": "Échec de l'envoi du courriel. Veuillez réessayer.",
     "sendEmail": "Envoyer le courriel",
     "enterEmail": "Veuillez entrer une adresse courriel",
-    "enterSummary": "Veuillez d'abord générer ou entrer un résumé"
+    "enterSummary": "Veuillez d'abord générer ou entrer un résumé",
+    "previousSymptoms": "Symptômes précédents"
   },
   "auth": {
     "signInForSummaries": "Connectez-vous pour enregistrer les résumés de consultation",

@@ -33,7 +33,7 @@ function writeCache(key, data) {
   try {
     sessionStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
   } catch {
-    // sessionStorage 용량 초과 시 캐싱 스킵
+    // sessionStorage skip cash over capacity
   }
 }
 

@@ -1,14 +1,14 @@
 import React from 'react';
 import { ClipboardIcon } from '@/components/ui/icons';
 
-function PreviousSymptomsPanel({ previousSymptoms, isSymptomsLoading, SYMPTOM_SEVERITY_CLASSES }) {
+function PreviousSymptomsPanel({ previousSymptoms, isSymptomsLoading, SYMPTOM_SEVERITY_CLASSES, t }) {
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 bg-[#f5f7ff]">
         <div className="w-[34px] h-[34px] rounded-[9px] bg-[#e6ecff] flex items-center justify-center shrink-0">
           <ClipboardIcon className="w-[16px] h-[16px] text-[#2C3B8D]" />
         </div>
-        <h3 className="text-[14px] font-semibold text-slate-800">Previous Symptoms</h3>
+        <h3 className="text-[14px] font-semibold text-slate-800"> {t('consultation.previousSymptoms', 'Previous Symptoms')}</h3>
         {previousSymptoms.length > 0 && (
           <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#eef2ff] text-[#2C3B8D]">
             {previousSymptoms.length}

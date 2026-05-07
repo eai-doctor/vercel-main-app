@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 
 import { FreeMessageLimitModal } from "@/pages/public";
-import { ProfileDropdown } from "@/components";
+import { NavBar, ProfileDropdown } from "@/components";
 import chatApi from '@/api/chatApi';
 import consultationApi from '@/api/consultationApi';
 import ChatboxModal from "@/pages/public/modal/ChatboxModal";
 import { useAuthModal } from '@/context/AuthModalContext';
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 
 import ChatSummaryModal from './components/modals/ChatSummaryModal';
 import { useHealthConsultation } from './hooks/useHealthConsultation';
@@ -29,7 +31,7 @@ import ClinicianBanner from './components/ClinicianBanner';
 import { usePreviousSymptoms } from './hooks/usePreviousSymptoms';
 
 export default function HealthConsultation() {
-  const { t } = useTranslation(['patient', 'common', 'functions']);
+  const { t } = useTranslation(['patient', 'common', 'functions', 'clinic']);
   const navigate = useNavigate();
   const { isAuthenticated, isPatient, user, loading, accessToken } = useAuth();
   const { openLogin } = useAuthModal();
@@ -99,8 +101,6 @@ export default function HealthConsultation() {
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  
-
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (plusMenuRef.current && !plusMenuRef.current.contains(e.target)) setShowPlusMenu(false);
@@ -123,13 +123,61 @@ export default function HealthConsultation() {
   } = usePreviousSymptoms(isAuthenticated, isPatient, loading);
 
   const handleSaveSummary = async () => {
-    const cleanMessages = messages
-      .filter(m => m.role === 'user' || m.role === 'assistant')
-      .map(({ role, content }) => ({ role, content }));
+    // const cleanMessages = messages
+    //   .filter(m => m.role === 'user' || m.role === 'assistant')
+    //   .map(({ role, content }) => ({ role, content }));
+          const cleanMessages = [
+  {
+    "role": "assistant",
+    "content": "Hello! I'm your personal health assistant. How can I help you today?"
+  },
+  {
+    "role": "user",
+    "content": "hi how are you"
+  },
+  {
+    "role": "assistant",
+    "content": "I'm doing well, thank you! How about yourself? Are you consulting for yourself or someone else today?"
+  },
+  {
+    "role": "user",
+    "content": "I used to cross my leg when i am seated. I don't know it is comming from that. i feel numb on my leg"
+  },
+  {
+    "role": "assistant",
+    "content": "I understand that must be concerning for you. Are you consulting for yourself or someone else regarding this issue?"
+  },
+  {
+    "role": "user",
+    "content": "myself, saebyeok, montreal, 20, female"
+  },
+  {
+    "role": "assistant",
+    "content": "Thank you for sharing that information, Saebyeok. I understand numbness can be worrying. Could you tell me more about the numbness on your leg — **how long it lasts** and if there are any **specific areas** where you feel it the most?"
+  },
+  {
+    "role": "user",
+    "content": "right upper side of knee and it lasts for 3 weeks now"
+  },
+  {
+    "role": "assistant",
+    "content": "Thank you for those details, Saebyeok. It's important to address numbness that has persisted for several weeks. Being a 20-year-old female in Montreal, one possibility could be **nerve compression**, perhaps from crossed legs, which may affect circulation or nerves. Have you experienced any other symptoms, such as **pain, tingling, or weakness** in that leg?"
+  },
+  {
+    "role": "user",
+    "content": "i feel i lose my tense on my right leg"
+  },
+  {
+    "role": "assistant",
+    "content": "I understand, Saebyeok. Losing tension in your leg might feel unsettling. Considering you are in Montreal, it's unlikely related to climate or region-specific conditions. However, given your age and gender, one possibility could be minor nerve or circulation issues from posture or habits such as crossing your legs. Another possibility could be **nerve entrapment** like meralgia paresthetica, which can occur in that area.\n\nTo be more certain, it would be helpful to know if you've noticed any **changes in physical activities** or if there were any **injuries** recently."
+  }
+      ];
+      
     try {
       setIsSavingSummary(true);
       const response = await chatApi.saveConsultationSummaries(
         chatSummary,
+        user?.fhir_patient_id || null,
         cleanMessages,
         summaryModelUsed,
       );
@@ -214,6 +262,7 @@ export default function HealthConsultation() {
               </svg>
               {t('common:buttons.home', 'Home')}
             </button>
+            <LanguageSwitcher />
             {isAuthenticated && isPatient 
               ? <ProfileDropdown variant="dark" />
               : <button onClick={() => { setPendingMessage(null); openLogin(); }} className="px-4 py-2 bg-white/15 hover:bg-white/25 text-white text-[13px] font-semibold rounded-xl transition-colors border border-white/20">{t('common:buttons.signIn', 'Sign In')}</button>

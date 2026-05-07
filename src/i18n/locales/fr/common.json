@@ -44,7 +44,9 @@
     "add": "Ajouter",
     "back": "Retour",
     "privacyConsent": "Confidentialité et consentement",
-    "next": "Suivant"
+    "next": "Suivant",
+    "patientPortal": "Portail patient",
+    "clinicPortal": "Portail clinique"
   },
   "states": {
     "loading": "Chargement...",

@@ -113,7 +113,8 @@
     "emailSentFailed": "Failed to send email. Please try again.",
     "sendEmail": "Send Email",
     "enterEmail": "Please enter an email address",
-    "enterSummary": "Please generate or enter a summary first"
+    "enterSummary": "Please generate or enter a summary first",
+    "previousSymptoms": "Previous Symptoms"
   },
   "auth": {
     "signInForSummaries": "Sign in to save consultation summaries",

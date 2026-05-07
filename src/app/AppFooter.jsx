@@ -1,10 +1,12 @@
 import { Stethoscope, User, ArrowRight } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 import { useAuth } from "@/context/AuthContext";
 import { useLocation } from "react-router-dom";
 
 export default function AppFooter() {
   const { user } = useAuth();
   const location = useLocation();
+  const { t } = useTranslation(['privacy']);
 
   const isClinicRoute = location.pathname.includes("clinic");
 
@@ -14,11 +16,18 @@ export default function AppFooter() {
     ? "/clinics"
     : "/clinic-login";
 
-  const portalTitle = isClinicRoute ? "For Patients" : "For Clinicians";
+  const portalTitle = isClinicRoute
+    ? t('footer.portalTitle.patient')
+    : t('footer.portalTitle.clinician');
+
   const portalDescription = isClinicRoute
-    ? "Access health consultations, your medical profile, and self-triage tools."
-    : "Access patient records, SOAP notes, and AI-powered consultation tools.";
-  const portalCta = isClinicRoute ? "Visit Patient Portal" : "Visit Clinic Portal";
+    ? t('footer.portalDesc.patient')
+    : t('footer.portalDesc.clinician');
+
+  const portalCta = isClinicRoute
+    ? t('footer.portalCta.patient')
+    : t('footer.portalCta.clinician');
+
   const PortalIcon = isClinicRoute ? User : Stethoscope;
 
   return (
@@ -27,13 +36,11 @@ export default function AppFooter() {
 
         {/* Company Info + Portal Switch Card */}
         <div>
-          <h3 className="text-gray-800 font-semibold mb-3">E-AI Doctor</h3>
-          <p>
-            AI-Powered Medical Intelligence Platform providing secure and
-            compliant healthcare data solutions.
-          </p>
+          <h3 className="text-gray-800 font-semibold mb-3">
+            {t('footer.companyName')}
+          </h3>
+          <p>{t('footer.companyDesc')}</p>
 
-          {/* Portal Switch CTA Card */}
           <a
             href={portalSwitchHref}
             className="mt-6 group block bg-white border border-blue-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-[#2C3B8D] transition-all"
@@ -60,27 +67,50 @@ export default function AppFooter() {
 
         {/* Privacy Officer */}
         <div>
-          <h3 className="text-gray-800 font-semibold mb-3">Privacy Officer</h3>
-          <p>Dr. Zhenlong Liu</p>
-          <p>Email: support@e-ai.ca</p>
-          <p>Phone: +1 (450) 688-8377</p>
+          <h3 className="text-gray-800 font-semibold mb-3">
+            {t('footer.privacyOfficer.title')}
+          </h3>
+          <p>{t('footer.privacyOfficer.name')}</p>
+          <p>{t('footer.privacyOfficer.email')}</p>
+          <p>{t('footer.privacyOfficer.phone')}</p>
         </div>
 
         {/* Legal */}
         <div>
-          <h3 className="text-gray-800 font-semibold mb-3">Legal</h3>
-          <ul className="space-y-2">
-            <li>
-              <a href="/privacy-policy" className="hover:text-blue-600 transition">
-                Privacy Policy
-              </a>
-            </li>
-          </ul>
+          <div>
+            <h3 className="text-gray-800 font-semibold mb-3">
+              {t('footer.legal.title')}
+            </h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="/privacy-policy" className="hover:text-blue-600 transition">
+                  {t('title')}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="mt-6 group block">
+            <h3 className="text-gray-800 font-semibold mb-3">
+              {t('footer.about.title')}
+            </h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="https://tech.e-ai.ca" className="hover:text-blue-600 transition">
+                  {t('footer.about.blog')}
+                </a>
+              </li>
+              <li>
+                <a href="/admin/login" className="hover:text-blue-600 transition">
+                  {t('footer.about.businessHelp')}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
       <div className="border-t border-gray-200 py-4 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} E-AI Doctor. All rights reserved.
+        © {new Date().getFullYear()} E-AI Doctor. {t('footer.copyright')}
       </div>
     </footer>
   );

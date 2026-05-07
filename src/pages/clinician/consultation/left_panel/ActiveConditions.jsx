@@ -8,19 +8,23 @@ import {
   StethoscopeIcon,
 } from "@/components/ui/icons";
 
-export default function ActiveConditions({ diagnoses }) {
+export default function ActiveConditions({ activeConditions }) {
   const { t } = useTranslation(['clinic', 'common']);
 
-  const activeConditions = useMemo(() => {
-    if (!Array.isArray(diagnoses)) return [];
-    return diagnoses
-      .filter((d) => d.status === "active")
-      .sort((a, b) => {
-        const da = a.date_diagnosed || "";
-        const db = b.date_diagnosed || "";
-        return db.localeCompare(da);
-      });
-  }, [diagnoses]);
+  // console.log("diagnoses : ", diagnoses);
+
+  // const activeConditions = useMemo(() => {
+  //   if (!Array.isArray(diagnoses)) return [];
+  //   return diagnoses
+  //     .filter((d) => d.status === "active")
+  //     .sort((a, b) => {
+  //       const da = a.date_diagnosed || "";
+  //       const db = b.date_diagnosed || "";
+  //       return db.localeCompare(da);
+  //     });
+  // }, [diagnoses]);
+
+  console.log("activeConditions : ", activeConditions);
 
   return (
   <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -37,7 +41,7 @@ export default function ActiveConditions({ diagnoses }) {
 
     {/* Body */}
     <div className="p-3">
-      {activeConditions.length === 0 ? (
+      {!activeConditions || activeConditions.length === 0 ? (
         <div className="px-2.5 py-3">
           <span className="text-[14px] text-slate-400 italic">
             {t('clinic:consultation.noDataFound', 'No data found')}

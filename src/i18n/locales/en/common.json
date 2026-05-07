@@ -44,7 +44,9 @@
     "add": "Add",
     "back": "Back",
     "privacyConsent": "Privacy & Consent",
-    "next" : "Next"
+    "next" : "Next",
+    "patientPortal" : "Patient Portal",
+    "clinicPortal" : "Clinic Portal"
   },
   "states": {  
     "loading": "Loading...",

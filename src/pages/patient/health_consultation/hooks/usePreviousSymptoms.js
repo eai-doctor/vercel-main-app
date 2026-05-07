@@ -11,8 +11,8 @@ export const usePreviousSymptoms = (isAuthenticated, isPatient, loading) => {
     setIsSymptomsLoading(true);
     try {
       const response = await chatApi.getConsultationSummaries();
-      if (response.data.success) {
-        setPreviousSymptoms(response.data.symptoms || []);
+      if (response.status == 200) {
+        setPreviousSymptoms(response.data.symptoms.symptoms || []);
       }
     } catch (e) {
       console.error(e);

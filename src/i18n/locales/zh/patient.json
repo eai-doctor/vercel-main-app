@@ -113,7 +113,8 @@
     "emailSentFailed": "发送邮件失败，请重试。",
     "sendEmail": "发送邮件",
     "enterEmail": "请输入电子邮箱地址",
-    "enterSummary": "请先生成或输入摘要"
+    "enterSummary": "请先生成或输入摘要",
+    "previousSymptoms": "既往症状"
   },
   "auth": {
     "signInForSummaries": "登录以保存问诊摘要",
