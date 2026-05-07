@@ -125,8 +125,8 @@ const adminLogin = useCallback(async (email, password) => {
     }
 
     setUser(null);
-    setAccessToken(null);   // ← 이게 빠져있음
-    setStoredToken(null);   // ← localStorage/sessionStorage도 지워야 함
+    setAccessToken(null);   
+    setStoredToken(null);   
 
     window.location.replace(
       role === "clinician" ? "/clinic-login" : "/"
