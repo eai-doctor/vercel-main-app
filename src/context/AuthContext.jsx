@@ -126,9 +126,9 @@ const adminLogin = useCallback(async (email, password) => {
 
     setUser(null);
 
-    window.location.replace(
-      role === "clinician" ? "/clinic-login" : "/"
-    );
+    // window.location.replace(
+    //   role === "clinician" ? "/clinic-login" : "/"
+    // );
   }, [user]);
 
  const register = useCallback(async (email, password, name, role) => {  // t 제거
