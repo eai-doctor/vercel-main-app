@@ -125,10 +125,12 @@ const adminLogin = useCallback(async (email, password) => {
     }
 
     setUser(null);
+    setAccessToken(null);   // ← 이게 빠져있음
+    setStoredToken(null);   // ← localStorage/sessionStorage도 지워야 함
 
-    // window.location.replace(
-    //   role === "clinician" ? "/clinic-login" : "/"
-    // );
+    window.location.replace(
+      role === "clinician" ? "/clinic-login" : "/"
+    );
   }, [user]);
 
  const register = useCallback(async (email, password, name, role) => {  // t 제거
