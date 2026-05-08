@@ -1,5 +1,4 @@
 // src/pages/health_consultation/constants.js
-
 export const AUDIO_CONSTRAINTS = {
   audio: {
     echoCancellation: true,

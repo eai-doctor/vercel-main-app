@@ -42,10 +42,17 @@
     "subtitle": "Manage Your Health Information",
     "tabs": {
       "conditions": "Conditions",
-      "medications": "Medications",
-      "allergies": "Allergies",
+      "encounters": "Encounters",
       "vitalSigns": "Vital Signs",
-      "immunizations": "Immunizations"
+      "allergies": "Allergies",
+      "medicationStatements": "Medication Statements",
+      "medications": "Medications",
+      "immunizations": "Immunizations",
+      "procedures": "Procedures",
+      "diagnosticReports": "Diagnostic Reports",
+      "carePlans": "Care Plans",
+      "flags": "Flags",
+      "familyHistory": "Family History"
     },
     "vitals": {
       "bloodPressure": "Blood Pressure",

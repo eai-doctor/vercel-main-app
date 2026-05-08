@@ -119,7 +119,6 @@ useEffect(() => {
         setSelectingId(location.state.selectingId);
       }
 
-
       const mrn =
         location.state.patientData.patient_identification?.mrn || null;
 

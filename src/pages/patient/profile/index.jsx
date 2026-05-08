@@ -8,8 +8,9 @@ import { getTodayString } from "@/utils/DateUtils";
 
 import { SectionCard, FormModal } from "./components";
 import { parseDisplayData, formFromRecord } from "./utils";
-import { TAB_KEYS, TAB_ICONS, EMPTY_FORMS } from "./constants";
+import { TAB_ICONS, EMPTY_FORMS } from "./constants";
 import { useHealthRecords } from "./hooks/useHealthRecords";
+import { TAB_KEYS } from "@/constants/fhir";
 
 export default function MedicalProfile() {
   const { t } = useTranslation(['patient', 'common']);
@@ -27,15 +28,16 @@ export default function MedicalProfile() {
 
   const tabLabels = useMemo(() => ({
     Condition: t('patient:medicalProfile.tabs.conditions'),
-    MedicationRequest: t('patient:medicalProfile.tabs.medications'),
-    AllergyIntolerance: t('patient:medicalProfile.tabs.allergies'),
+    Encounter: t('patient:medicalProfile.tabs.encounters'),
     Observation: t('patient:medicalProfile.tabs.vitalSigns'),
-    Immunization: t('patient:medicalProfile.tabs.immunizations'),
+    AllergyIntolerance: t('patient:medicalProfile.tabs.allergies'),
     MedicationStatement: t('patient:medicalProfile.tabs.medicationStatements', 'Medication Statements'),
+    MedicationRequest: t('patient:medicalProfile.tabs.medications'),
+    Immunization: t('patient:medicalProfile.tabs.immunizations'),
     Procedure: t('patient:medicalProfile.tabs.procedures', 'Procedures'),
     DiagnosticReport: t('patient:medicalProfile.tabs.diagnosticReports', 'Diagnostic Reports'),
-    Flag: t('patient:medicalProfile.tabs.flags', 'Flags'),
     CarePlan: t('patient:medicalProfile.tabs.carePlans', 'Care Plans'),
+    Flag: t('patient:medicalProfile.tabs.flags', 'Flags'),
     FamilyMemberHistory: t('patient:medicalProfile.tabs.familyHistory', 'Family History'),
   }), [t]);
 

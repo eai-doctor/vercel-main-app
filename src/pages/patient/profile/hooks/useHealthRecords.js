@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import chatApi from '@/api/chatApi';
-import { TAB_KEYS } from "../constants";
+import { TAB_KEYS } from '@/constants/fhir';
 
 export const useHealthRecords = (t, fhirPatientId, userId, setError, setLoading,  cacheRef, medicalRecordApi, handleCloseModal) => {
   const [recordsByTab, setRecordsByTab] = useState({});

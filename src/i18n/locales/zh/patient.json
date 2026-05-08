@@ -41,11 +41,18 @@
     "title": "我的医疗档案",
     "subtitle": "管理您的健康信息",
     "tabs": {
-      "conditions": "病症",
-      "medications": "用药",
-      "allergies": "过敏",
+      "conditions": "疾病状况",
+      "encounters": "就诊记录",
       "vitalSigns": "生命体征",
-      "immunizations": "免疫接种"
+      "allergies": "过敏",
+      "medicationStatements": "用药记录",
+      "medications": "药物",
+      "immunizations": "疫苗接种",
+      "procedures": "医疗程序",
+      "diagnosticReports": "诊断报告",
+      "carePlans": "护理计划",
+      "flags": "警示",
+      "familyHistory": "家族病史"
     },
     "vitals": {
       "bloodPressure": "血压",

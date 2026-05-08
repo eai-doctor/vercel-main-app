@@ -41,11 +41,18 @@
     "title": "Mon profil médical",
     "subtitle": "Gérer vos informations de santé",
     "tabs": {
-      "conditions": "Pathologies",
-      "medications": "Médicaments",
-      "allergies": "Allergies",
+      "conditions": "Conditions",
+      "encounters": "Rencontres médicales",
       "vitalSigns": "Signes vitaux",
-      "immunizations": "Vaccinations"
+      "allergies": "Allergies",
+      "medicationStatements": "Déclarations de médicaments",
+      "medications": "Médicaments",
+      "immunizations": "Vaccinations",
+      "procedures": "Procédures",
+      "diagnosticReports": "Rapports diagnostiques",
+      "carePlans": "Plans de soins",
+      "flags": "Alertes",
+      "familyHistory": "Antécédents familiaux"
     },
     "vitals": {
       "bloodPressure": "Pression artérielle",

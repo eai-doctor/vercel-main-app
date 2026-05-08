@@ -7,6 +7,8 @@ function mapCondition(res) {
   const code = coding.code || '';
   const condition = res.code?.text || coding.display || '';
 
+  console.log("saebyeok",system, code, condition);
+
   const isSnomed = system.includes('snomed');
   const isIcd10 = system.includes('icd-10') || system.includes('icd10');
   const isLoinc = system.includes('loinc');
@@ -16,6 +18,22 @@ function mapCondition(res) {
     isIcd10 ? 'ICD-10' :
     isLoinc ? 'LOINC' :
     system.split('/').pop() || '';
+  console.log("saebyeok.codeSystem",code_system);
+  console.log("saebyeok.condition.last",{
+    ...parseDisplayData('Condition', res),
+    original: res,
+
+    condition,
+    code,
+    code_system,
+    status: res.clinicalStatus?.coding?.[0]?.code || 'unknown',
+    date_diagnosed: res.onsetDateTime || res.onsetPeriod?.start || res.recordedDate || '',
+
+    relevance_to_focus: 'moderate',
+    snomed_code: isSnomed ? code : undefined,
+    icd_code: isIcd10 ? code : undefined,
+  });
+    
 
   return {
     ...parseDisplayData('Condition', res),
@@ -26,6 +44,8 @@ function mapCondition(res) {
     code_system,
     status: res.clinicalStatus?.coding?.[0]?.code || 'unknown',
     date_diagnosed: res.onsetDateTime || res.onsetPeriod?.start || res.recordedDate || '',
+
+    chat_logs : res._symptom_meta?.chat_logs || [],
 
     relevance_to_focus: 'moderate',
     snomed_code: isSnomed ? code : undefined,
@@ -137,11 +157,13 @@ export function fhirRecordsToPatientData(fhirRecords) {
 
     const allEncounters = r.Encounter || [];
 
+    console.log("saebyeok.r.condition", r.Condition);
+
     return {
         patient_identification,
 
         // Condition
-        diagnoses: (r.Condition || []).map(mapCondition),
+        diagnoses: (r.Condition || []).map(mapCondition).sort((a, b) => (b.date_diagnosed || '').localeCompare(a.date_diagnosed || '')),
 
         // 나머지는 parseDisplayData 재사용
         immunizations: parse('Immunization',       r.Immunization)
@@ -201,7 +223,8 @@ function mapEncounter(e) {
         original: e,
         relevance_to_focus: 'moderate',
         specialty : e.specialty || '',
-        summary: e.specialty || reason || e.class?.code || '',
+        // summary: e.specialty || reason || e.class?.code || '',
+        summary: e.specialty || e.class?.code || '',
 
     };
 }

@@ -29,8 +29,9 @@ function ChatSummaryModal({ t, setShowChatSummaryModal, setSaveSummaryResult, ch
                 </div>
                 )}
                 <div className="flex gap-3 pt-2">
-                {/* <button onClick={handleSaveSummary} disabled={isSavingSummary || saveSummaryResult?.success} */}
-                <button onClick={handleSaveSummary} 
+                {/* <button onClick={handleSaveSummary}  */}
+
+                <button onClick={handleSaveSummary} disabled={isSavingSummary || saveSummaryResult?.success}
                     className="flex-1 py-3 rounded-xl bg-[#2C3B8D] hover:bg-[#233070] text-white text-[14px] font-semibold transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
                     {isSavingSummary ? <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />{t('common:states.saving')}</> : saveSummaryResult?.success ? <><CheckCircleIcon className="w-4 h-4" />{t('common:states.saved')}</> : <><ClipboardIcon className="w-4 h-4" />{t('chat.saveToMyRecords', 'Save to My Records')}</>}
                 </button>
