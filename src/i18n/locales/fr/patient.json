@@ -41,11 +41,19 @@
     "title": "Mon profil médical",
     "subtitle": "Gérer vos informations de santé",
     "tabs": {
-      "conditions": "Pathologies",
-      "medications": "Médicaments",
-      "allergies": "Allergies",
+      "conditions": "Conditions",
+      "encounters": "Rencontres médicales",
       "vitalSigns": "Signes vitaux",
-      "immunizations": "Vaccinations"
+      "allergies": "Allergies",
+      "medicationStatements": "Déclarations de médicaments",
+      "medications": "Médicaments",
+      "immunizations": "Vaccinations",
+      "procedures": "Procédures",
+      "diagnosticReports": "Rapports diagnostiques",
+      "carePlans": "Plans de soins",
+      "flags": "Alertes",
+      "familyHistory": "Antécédents familiaux",
+      "observations": "Observations"
     },
     "vitals": {
       "bloodPressure": "Pression artérielle",
@@ -113,7 +121,8 @@
     "emailSentFailed": "Échec de l'envoi du courriel. Veuillez réessayer.",
     "sendEmail": "Envoyer le courriel",
     "enterEmail": "Veuillez entrer une adresse courriel",
-    "enterSummary": "Veuillez d'abord générer ou entrer un résumé"
+    "enterSummary": "Veuillez d'abord générer ou entrer un résumé",
+    "previousSymptoms": "Symptômes précédents"
   },
   "auth": {
     "signInForSummaries": "Connectez-vous pour enregistrer les résumés de consultation",

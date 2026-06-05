@@ -155,7 +155,7 @@ export default function PatientInfo({ setPatientData, patient_identification }) 
               />
             }
           />
-          <Field
+          {/* <Field
             label={t('clinic:consultation.email', 'Email')}
             viewValue={patient_identification?.email}
             editNode={
@@ -165,7 +165,7 @@ export default function PatientInfo({ setPatientData, patient_identification }) 
                 placeholder={t('clinic:consultation.enterEmail', 'Enter email')}
               />
             }
-          />
+          /> */}
           <Field
             label={t('clinic:consultation.status', 'Status')}
             viewValue={patient_identification?.status}

@@ -1,4 +1,4 @@
-import HomePage from "./HomePage";
+import HomePage from "./Home";
 import PatientSelector from "./PatientSelector";
 import Consultation from "./consultation";
 // import InitialConsultationUI from "./InitialConsultationUI";

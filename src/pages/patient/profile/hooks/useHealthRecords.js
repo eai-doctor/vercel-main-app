@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import chatApi from '@/api/chatApi';
-import { TAB_KEYS } from "../constants";
+import { TAB_KEYS } from '@/constants/fhir';
 
 export const useHealthRecords = (t, fhirPatientId, userId, setError, setLoading,  cacheRef, medicalRecordApi, handleCloseModal) => {
   const [recordsByTab, setRecordsByTab] = useState({});
@@ -24,7 +23,6 @@ export const useHealthRecords = (t, fhirPatientId, userId, setError, setLoading,
     try {
       const cacheKey = `${fhirPatientId}-FHIR_ALL`;
       let byTab;
-
 
       if (cacheRef.current[cacheKey]) {
         byTab = cacheRef.current[cacheKey];

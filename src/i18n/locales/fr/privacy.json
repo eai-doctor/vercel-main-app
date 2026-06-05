@@ -6,29 +6,29 @@
 
   "summary": {
     "title": "Résumé",
-    "body": "Ebovir Biotech (« Ebovir », « nous », « notre ») s'engage à protéger les renseignements personnels conformément à la Loi 25 du Québec et aux autres lois canadiennes applicables."
+    "body": "Ebovir Biotech (« Ebovir », « nous » ou « notre ») s'engage à protéger les renseignements personnels conformément à la Loi 25 du Québec et aux autres lois canadiennes applicables en matière de protection de la vie privée."
   },
 
   "scope": {
     "title": "Portée",
     "items": [
-      "Visiteurs du site web",
+      "Visiteurs du site Web",
       "Utilisateurs de la plateforme (patients et clients)",
       "Nom, date de naissance, coordonnées",
       "Données médicales et génétiques (avec consentement explicite)",
-      "Détails des consultations et documents téléchargés",
+      "Détails des consultations et documents téléversés",
       "Enregistrements audio (avec consentement)",
       "Résultats générés par l'IA",
-      "Journaux d'utilisation et d'audit"
+      "Journaux d'utilisation et registres d'audit"
     ]
   },
 
   "purpose": {
-    "title": "Objectif et base légale",
+    "title": "Finalité et base juridique",
     "items": [
       "Fournir des services médicaux/génétiques assistés par IA",
       "Générer des rapports analytiques structurés",
-      "Maintenir la sécurité des comptes",
+      "Assurer la sécurité des comptes",
       "Respecter les obligations légales",
       "Mener des recherches avec consentement"
     ]
@@ -36,11 +36,11 @@
 
   "ai": {
     "title": "Utilisation de l'IA",
-    "body": "Nos services utilisent des systèmes d'intelligence artificielle pour analyser les données médicales et génétiques. Les résultats générés par l'IA ne constituent pas un diagnostic médical et ne remplacent pas les professionnels de santé."
+    "body": "Nos services utilisent des systèmes d'intelligence artificielle pour analyser des informations médicales et génétiques et produire des résultats structurés. Les résultats de l'IA ne constituent pas des diagnostics médicaux et ne remplacent pas les professionnels de santé agréés."
   },
 
   "thirdParty": {
-    "title": "Fournisseurs tiers",
+    "title": "Fournisseurs de services tiers",
     "items": [
       "Google Cloud Platform",
       "MongoDB Atlas",
@@ -49,21 +49,71 @@
   },
 
   "rights": {
-    "title": "Droits des individus",
+    "title": "Droits individuels",
     "items": [
       "Accéder à vos informations",
       "Demander une correction",
       "Demander la suppression",
       "Retirer votre consentement",
-      "Demander la portabilité des données"
+      "Demander la portabilité"
     ]
   },
 
   "officer": {
-    "title": "Responsable de la protection des données",
+    "title": "Responsable de la protection des renseignements personnels",
     "nameLabel": "Nom",
-    "emailLabel": "Email",
+    "emailLabel": "Courriel",
     "name": "Zhenlong Liu",
     "email": "support@e-ai.ca"
+  },
+
+  "documents": {
+    "title": "Documents liés à la sécurité",
+    "subtitle": "Cliquez sur les documents ci-dessous pour les télécharger.",
+    "downloadBtn": "Télécharger",
+    "pia": {
+      "title": "Évaluation des facteurs relatifs à la vie privée (ÉFVP)",
+      "desc": "Évaluation des facteurs relatifs à la vie privée — PIA.pdf"
+    },
+    "breach": {
+      "title": "Politique de gestion des incidents et des violations de données",
+      "desc": "Politique de gestion des incidents et des violations de données"
+    },
+    "policy": {
+      "title": "Politique de confidentialité",
+      "desc": "Politique de confidentialité — PRIVACY_POLICY.pdf"
+    }
+  },
+
+  "footer": {
+    "companyName": "E-AI Doctor",
+    "companyDesc": "Plateforme d'intelligence médicale alimentée par l'IA, offrant des solutions de données de santé sécurisées et conformes.",
+    "portalTitle": {
+      "patient": "Pour les patients",
+      "clinician": "Pour les cliniciens"
+    },
+    "portalDesc": {
+      "patient": "Accédez aux consultations de santé, à votre profil médical et aux outils de triage autonome.",
+      "clinician": "Accédez aux dossiers patients, aux notes SOAP et aux outils de consultation assistés par IA."
+    },
+    "portalCta": {
+      "patient": "Accéder au portail patient",
+      "clinician": "Accéder au portail clinique"
+    },
+    "privacyOfficer": {
+      "title": "Responsable de la protection des renseignements personnels",
+      "name": "Dr. Zhenlong Liu",
+      "email": "Courriel : support@e-ai.ca",
+      "phone": "Téléphone : +1 (450) 688-8377"
+    },
+    "legal": {
+      "title": "Mentions légales"
+    },
+    "about": {
+      "title": "À propos",
+      "blog": "Notre blogue",
+      "businessHelp": "Aide aux entreprises"
+    },
+    "copyright": "Tous droits réservés."
   }
 }

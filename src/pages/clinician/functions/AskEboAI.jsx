@@ -1,16 +1,34 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { useLanguage } from "@/hooks";
+
 import Header from "@/components/Header";
 import { AiIcon } from "@/components/ui/icons";
 import chatApi from "@/api/chatApi";
 import { NavBar } from "@/components";
 
-const SUGGESTIONS = [
-  "What are the EBO criteria for sepsis?",
-  "How do I manage a patient with acute chest pain?",
-  "What are the triage priorities for trauma patients?",
-  "Summarize the Ottawa ankle rules",
-];
+const SUGGESTIONS = {
+  en: [
+    "What are the EBO criteria for sepsis?",
+    "How do I manage a patient with acute chest pain?",
+    "What are the triage priorities for trauma patients?",
+    "Summarize the Ottawa ankle rules",
+  ],
+
+  fr: [
+    "Quels sont les critères EBO pour le sepsis ?",
+    "Comment gérer un patient présentant une douleur thoracique aiguë ?",
+    "Quelles sont les priorités de triage pour les patients traumatisés ?",
+    "Résumez les règles d’Ottawa pour la cheville",
+  ],
+
+  zh: [
+    "脓毒症的 EBO 标准是什么？",
+    "如何处理急性胸痛患者？",
+    "创伤患者的分诊优先级是什么？",
+    "请总结渥太华踝关节规则",
+  ],
+};
 
 function AskEboAI() {
   const { t } = useTranslation(['functions', 'common']);
@@ -22,6 +40,8 @@ function AskEboAI() {
   const textareaRef = useRef(null);
 
   const chatContainerRef = useRef(null);
+
+  const language = useLanguage().currentLanguage.code || 'en';
 
   useEffect(() => {
     const el = chatContainerRef.current;
@@ -87,7 +107,7 @@ function AskEboAI() {
 
               {/* Suggestion chips */}
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-lg">
-                {SUGGESTIONS.map((s, i) => (
+                {SUGGESTIONS[language].map((s, i) => (
                   <button
                     key={i}
                     onClick={() => handleSendMessage(s)}
@@ -171,7 +191,7 @@ function AskEboAI() {
                 {t('functions:askEboAI.clearChat', 'Clear conversation')}
               </button>
             ) : (
-              <span className="text-xs text-slate-300">Shift+Enter for new line</span>
+              <span className="text-xs text-slate-300">{t('functions:askEboAI.newLineHint', 'Shift+Enter for new line')}</span>
             )}
             <button
               onClick={() => handleSendMessage()}

@@ -28,6 +28,9 @@ export default function FormModal({
 
   const updateForm = (key, val) => setForm((prev) => ({ ...prev, [key]: val }));
 
+  console.log(tab)
+  console.log(form)
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4 backdrop-blur-sm">
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-md w-full max-h-[90vh] overflow-hidden flex flex-col">
@@ -62,6 +65,210 @@ export default function FormModal({
                 <Field label={t('common:labels.display')} value={form.display} onChange={(v) => updateForm("display", v)} required />
                 <SelectField label={t('common:status')} value={form.status} options={["active", "inactive", "resolved"]} onChange={(v) => updateForm("status", v)} />
                 <Field label={t('common:date')} value={form.onsetDate || getTodayString()} onChange={(v) => updateForm("onsetDate", v)} type="date" required />
+                <Field label={t('common:labels.notes', 'Notes')} value={form.notes} onChange={(v) => updateForm("notes", v)} multiline />
+              </>
+            )}
+
+            {tab === "Encounter" && (
+            <>
+              <Field
+                label={t("common:labels.display")}
+                value={form.display}
+                onChange={(v) => updateForm("display", v)}
+                required
+              />
+
+              <SelectField
+                label={t("common:status")}
+                value={form.status}
+                options={[
+                  "planned",
+                  "in-progress",
+                  "on-hold",
+                  "discharged",
+                  "completed",
+                  "cancelled",
+                  "discontinued",
+                  "entered-in-error",
+                  "unknown",
+                  "finished",
+                ]}
+                onChange={(v) => updateForm("status", v)}
+              />
+
+              <SelectField
+                label={t("common:class")}
+                value={form.classCode}
+                options={["AMB", "EMER", "IMP", "OBSENC", "VR"]}
+                onChange={(v) => {
+                  updateForm("classCode", v);
+                  updateForm(
+                    "classDisplay",
+                    {
+                      AMB: "ambulatory",
+                      EMER: "emergency",
+                      IMP: "inpatient encounter",
+                      OBSENC: "observation encounter",
+                      VR: "virtual",
+                    }[v] || v
+                  );
+                  updateForm(
+                    "classSystem",
+                    "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+                  );
+                }}
+              />
+
+              <Field
+                label={t("common:classDisplay")}
+                value={form.classDisplay}
+                onChange={(v) => updateForm("classDisplay", v)}
+              />
+
+              <Field
+                label={t("common:system")}
+                value={form.classSystem}
+                onChange={(v) => updateForm("classSystem", v)}
+              />
+
+              <Field
+                label={t("common:type")}
+                value={form.typeDisplay}
+                onChange={(v) => updateForm("typeDisplay", v)}
+              />
+
+              <Field
+                label={t("common:code")}
+                value={form.typeCode}
+                onChange={(v) => updateForm("typeCode", v)}
+              />
+
+              <Field
+                label={t("common:typeSystem")}
+                value={form.typeSystem}
+                onChange={(v) => updateForm("typeSystem", v)}
+              />
+
+              <Field
+                label={t("common:serviceProvider")}
+                value={form.serviceProvider}
+                onChange={(v) => updateForm("serviceProvider", v)}
+              />
+
+              <Field
+                label={t("common:subject")}
+                value={form.subject}
+                onChange={(v) => updateForm("subject", v)}
+              />
+
+              <Field
+                label={t("common:subjectReference")}
+                value={form.subjectReference}
+                onChange={(v) => updateForm("subjectReference", v)}
+              />
+
+              <Field
+                label={t("common:participantType")}
+                value={form.participantType}
+                onChange={(v) => updateForm("participantType", v)}
+              />
+
+              <Field
+                label={t("common:participantTypeCode")}
+                value={form.participantTypeCode}
+                onChange={(v) => updateForm("participantTypeCode", v)}
+              />
+
+              <Field
+                label={t("common:participantTypeSystem")}
+                value={form.participantTypeSystem}
+                onChange={(v) => updateForm("participantTypeSystem", v)}
+              />
+
+              <Field
+                label={t("common:startDate")}
+                value={form.startDate || form.date || getTodayString()}
+                onChange={(v) => {
+                  updateForm("startDate", v);
+                  updateForm("date", v);
+                }}
+                type="date"
+              />
+
+              <Field
+                label={t("common:startTime")}
+                value={form.startTime}
+                onChange={(v) => updateForm("startTime", v)}
+                type="time"
+              />
+
+              <Field
+                label={t("common:endDate")}
+                value={form.endDate}
+                onChange={(v) => updateForm("endDate", v)}
+                type="date"
+              />
+
+              <Field
+                label={t("common:endTime")}
+                value={form.endTime}
+                onChange={(v) => updateForm("endTime", v)}
+                type="time"
+              />
+
+              <Field
+                label={t("common:participantStartDate")}
+                value={form.participantStartDate}
+                onChange={(v) => updateForm("participantStartDate", v)}
+                type="date"
+              />
+
+              <Field
+                label={t("common:participantStartTime")}
+                value={form.participantStartTime}
+                onChange={(v) => updateForm("participantStartTime", v)}
+                type="time"
+              />
+
+              <Field
+                label={t("common:participantEndDate")}
+                value={form.participantEndDate}
+                onChange={(v) => updateForm("participantEndDate", v)}
+                type="date"
+              />
+
+              <Field
+                label={t("common:participantEndTime")}
+                value={form.participantEndTime}
+                onChange={(v) => updateForm("participantEndTime", v)}
+                type="time"
+              />
+
+              <Field
+                label={t("common:reason")}
+                value={form.reason}
+                onChange={(v) => updateForm("reason", v)}
+              />
+
+              <Field
+                label={t("common:notes")}
+                value={form.notes}
+                onChange={(v) => updateForm("notes", v)}
+              />
+            </>
+          )}
+
+
+
+            {tab === "Observation" && ( //check later
+              <>
+                <Field label={t('common:labels.display')} value={form.display} onChange={(v) => updateForm("display", v)} required />
+                <SelectField label={t('patient:medicalProfile.tabs.vitalSigns')} value={form.vitalType} options={VITAL_TYPES.map((v) => v.label)} onChange={(v) => updateForm("vitalType", v)} />
+                <Field label={t('common:value')} value={form.value} onChange={(v) => updateForm("value", v)} required placeholder={`Unit: ${VITAL_TYPES.find(v => v.label === form.vitalType)?.unit}`} />
+                <Field label={t('common:labels.unit')} value={form.unit} onChange={(v) => updateForm("unit", v)} />
+                <Field label={t('common:system')} value={form.system} onChange={(v) => updateForm("system", v)} />
+                <Field label={t('common:date')} value={form.date || getTodayString()} onChange={(v) => updateForm("date", v)} type="date" />
+                <Field label={t('common:labels.notes', 'Notes')} value={form.notes} onChange={(v) => updateForm("notes", v)} multiline />
               </>
             )}
 
@@ -108,17 +315,6 @@ export default function FormModal({
               </>
             )}
 
-            {tab === "Observation" && ( //check later
-              <>
-                <Field label={t('common:labels.display')} value={form.display} onChange={(v) => updateForm("display", v)} required />
-                <SelectField label={t('patient:medicalProfile.tabs.vitalSigns')} value={form.vitalType} options={VITAL_TYPES.map((v) => v.label)} onChange={(v) => updateForm("vitalType", v)} />
-                <Field label={t('common:value')} value={form.value} onChange={(v) => updateForm("value", v)} required placeholder={`Unit: ${VITAL_TYPES.find(v => v.label === form.vitalType)?.unit}`} />
-                <Field label={t('common:labels.unit')} value={form.unit} onChange={(v) => updateForm("unit", v)} />
-                <Field label={t('common:system')} value={form.system} onChange={(v) => updateForm("system", v)} />
-                <Field label={t('common:date')} value={form.date || getTodayString()} onChange={(v) => updateForm("date", v)} type="date" />
-              </>
-            )}
-
             {tab === "Immunization" && (
               <>
                 <Field label={t('common:labels.vaccine')} value={form.vaccine} onChange={(v) => updateForm("vaccine", v)} required placeholder="e.g. IPV" />
@@ -131,20 +327,6 @@ export default function FormModal({
                 <Field label={t('common:labels.doseQuantity', 'Dose Quantity')} value={form.doseQuantity} onChange={(v) => updateForm("doseQuantity", v)} type="number" />
                 <Field label={t('common:labels.notes', 'Notes')} value={form.notes} onChange={(v) => updateForm("notes", v)} multiline />
 
-              </>
-            )}
-
-            {tab === "MedicationStatement" && (
-              <>
-                <Field label={t('common:labels.medication', 'Medication')} value={form.medication} onChange={(v) => updateForm("medication", v)} required placeholder="e.g. Atorvastatin 20 MG Oral Tablet" />
-                <SelectField label={t('common:status')} value={form.status} options={STATUS_OPTIONS.MedicationStatement} onChange={(v) => updateForm("status", v)} />
-                <Field label={t('common:labels.statusReason', 'Status Reason')} value={form.statusReason} onChange={(v) => updateForm("statusReason", v)} placeholder="Reason for status change" />
-                <SelectField label={t('common:labels.category', 'Category')} value={form.category} options={["inpatient", "outpatient", "community", "patientspecified"]} onChange={(v) => updateForm("category", v)} />
-                <Field label={t('common:labels.dosage', 'Dosage')} value={form.dosage} onChange={(v) => updateForm("dosage", v)} placeholder="e.g. 1 tablet daily" />
-                <Field label={t('common:labels.effectiveDate', 'Effective Date')} value={form.effectiveDate || getTodayString()} onChange={(v) => updateForm("effectiveDate", v)} type="date" />
-                <Field label={t('common:labels.dateAsserted', 'Date Asserted')} value={form.dateAsserted || getTodayString()} onChange={(v) => updateForm("dateAsserted", v)} type="date" />
-                <Field label={t('common:labels.reasonCode', 'Reason')} value={form.reasonCode} onChange={(v) => updateForm("reasonCode", v)} placeholder="Indication / reason" />
-                <Field label={t('common:labels.notes', 'Notes')} value={form.notes} onChange={(v) => updateForm("notes", v)} multiline />
               </>
             )}
 

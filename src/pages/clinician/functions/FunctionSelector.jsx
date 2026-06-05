@@ -50,15 +50,15 @@ function FunctionSelector() {
     },
     {
       id: "skin-cancer-detection",
-      title: "Skin Cancer Detection",
-      description: "AI-powered skin lesion analysis using CLIP ViT-B/16 to classify and detect potential skin cancer from dermoscopy images.",
+      title: t('functions:cards.skinCareDetection.title'),
+      description: t('functions:cards.skinCareDetection.description'),
       icon: <MicroscopeIcon className="w-8 h-8 text-blue-500" />,
       route: "/functions/skin-cancer-detection",
     },
     {
       id: "retinal-disease-detection",
-      title: "Retinal Disease Detection",
-      description: "AI-powered retinal image analysis using Swin Tiny transformer to detect and classify retinal diseases from fundus photographs.",
+      title: t('functions:cards.retinalDiseaseDetection.title'),
+      description: t('functions:cards.retinalDiseaseDetection.description'),
       icon: <ImageIcon className="w-8 h-8 text-blue-500" />,
       route: "/functions/retinal-disease-detection",
     },
@@ -69,14 +69,14 @@ function FunctionSelector() {
       icon: <AiIcon className="w-8 h-8 text-blue-500" />,
       route: "/functions/triage-engine",
     },
-    {
-      id: "merck-manual",
-      title: t('functions:cards.merckManual.title'),
-      description: t('functions:cards.merckManual.description'),
-      icon: <BooksIcon className="w-8 h-8 text-blue-500" />,
-      route: "/functions/merck-manual",
+    // {
+    //   id: "merck-manual",
+    //   title: t('functions:cards.merckManual.title'),
+    //   description: t('functions:cards.merckManual.description'),
+    //   icon: <BooksIcon className="w-8 h-8 text-blue-500" />,
+    //   route: "/functions/merck-manual",
 
-    },
+    // },
     {
       id: "pubmed",
       title: t('functions:cards.pubmed.title'),

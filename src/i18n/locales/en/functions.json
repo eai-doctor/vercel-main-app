@@ -18,6 +18,14 @@
       "title": "Follow Ups",
       "description": "Manage patient follow-up appointments"
     },
+    "skinCareDetection" : {
+      "title": "Skin Cancer Detection",
+      "description": "AI-powered skin lesion analysis using CLIP ViT-B/16 to classify and detect potential skin cancer from dermoscopy images."
+    },
+    "retinalDiseaseDetection" : {
+      "title": "Retinal Disease Detection",
+      "description": "AI-powered retinal image analysis using Swin Tiny transformer to detect and classify retinal diseases from fundus photographs."
+     },
     "patientQuery": {
       "title": "Patient Query",
       "description": "Search and query patient information"
@@ -84,7 +92,8 @@
     "welcomeSubtitle": "Ask me anything about medical topics!",
     "inputPlaceholder": "Type your message...",
     "clearChat": "Clear Chat",
-    "errorResponse": "Failed to get response from EboAI"
+    "errorResponse": "Failed to get response from EboAI",
+    "newLineHint": "Shift+Enter for new line"
   },
   "transcribe": {
     "title": "Transcribe & Dictate",

@@ -18,6 +18,14 @@
       "title": "Suivis",
       "description": "Gérer les rendez-vous de suivi des patients"
     },
+    "skinCareDetection" : {
+      "title": "Détection du cancer de la peau",
+      "description": "Analyse de lésion cutanée propulsée par l'IA utilisant CLIP ViT-B/16 pour classer et détecter un cancer de la peau potentiel à partir d'images de dermoscopie."
+    },
+    "retinalDiseaseDetection" : {
+      "title": "Détection des maladies rétiniennes",
+      "description": "Analyse d'images rétiniennes propulsée par l'IA utilisant le transformateur Swin Tiny pour détecter et classer les maladies rétiniennes à partir de photographies du fond d'œil."
+     },
     "patientQuery": {
       "title": "Recherche patient",
       "description": "Rechercher et interroger les informations patient"
@@ -88,7 +96,8 @@
     "welcomeSubtitle": "Posez-moi n'importe quelle question médicale !",
     "inputPlaceholder": "Tapez votre message...",
     "clearChat": "Effacer la conversation",
-    "errorResponse": "Impossible d'obtenir une réponse d'EboAI"
+    "errorResponse": "Impossible d'obtenir une réponse d'EboAI",
+    "newLineHint": "Shift+Entrée pour une nouvelle ligne"
   },
   "transcribe": {
     "title": "Transcrire et dicter",

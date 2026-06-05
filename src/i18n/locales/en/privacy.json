@@ -4,6 +4,43 @@
   "download": "Download PDF",
   "back": "Back",
 
+  "footer": {
+    "companyName": "E-AI Doctor",
+    "companyDesc": "AI-Powered Medical Intelligence Platform providing secure and compliant healthcare data solutions.",
+
+    "portalTitle": {
+      "patient": "For Patients",
+      "clinician": "For Clinicians"
+    },
+    "portalDesc": {
+      "patient": "Access health consultations, your medical profile, and self-triage tools.",
+      "clinician": "Access patient records, SOAP notes, and AI-powered consultation tools."
+    },
+    "portalCta": {
+      "patient": "Visit Patient Portal",
+      "clinician": "Visit Clinic Portal"
+    },
+
+    "privacyOfficer": {
+      "title": "Privacy Officer",
+      "name": "Dr. Zhenlong Liu",
+      "email": "Email: support@e-ai.ca",
+      "phone": "Phone: +1 (450) 688-8377"
+    },
+
+    "legal": {
+      "title": "Legal"
+    },
+
+    "about": {
+      "title": "About us",
+      "blog": "Our blog",
+      "businessHelp": "Business Help"
+    },
+
+    "copyright": "All rights reserved."
+  },
+
   "summary": {
     "title": "Summary",
     "body": "Ebovir Biotech (\"Ebovir\", \"we\", \"us\", or \"our\") is committed to protecting personal information in accordance with Quebec Law 25 and other applicable Canadian privacy laws."
@@ -117,5 +154,8 @@
   }
 }
 }
+
 }
+
+
 }

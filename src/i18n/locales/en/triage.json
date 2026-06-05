@@ -1,6 +1,15 @@
 {
   "title": "Self-Triage",
   "subtitle": "AI-Powered Symptom Assessment",
+  "questions": {
+    "title": "Quick triage checks",
+    "pain": "How bad is the pain?",
+    "observe": "What do you see right now?",
+    "subjective": "A short description in your own words",
+    "subjectivePlaceholder": "What happened, when it started, and what worries you most",
+    "objective": "Anything obvious the nurse can see?",
+    "objectivePlaceholder": "Example: bleeding, rash, wheezing, swelling, unable to walk"
+  },
   "labels" : {
     "inputHints" : "Press Enter to input manually, or keep typing to see suggested symptoms",
     "commonSymptoms": "Common Symptoms",
@@ -59,6 +68,15 @@
     "additionalNotesPlaceholder": "Any other information..."
   },
   "results": {
+    "ctasResult": "CTAS result",
+    "priority": "Priority",
+    "reassessment": "Reassessment",
+    "levelGuideTitle": "What the CTAS levels mean",
+    "current": "Current",
+    "whatDrove": "What drove this result",
+    "noHighAcuity": "No high-acuity warning sign was selected.",
+    "operationalNote": "Operational note",
+    "operationalNoteBody": "If the patient changes while waiting, document the change and update priority as needed, but keep the original triage record.",
     "triage_status": "Triage Status",
     "assessment_summary": "Assessment Summary",
     "safety_alerts" : "Safety Alerts",

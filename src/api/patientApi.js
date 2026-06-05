@@ -4,8 +4,8 @@ import createApi from "./axiosBase";
 
 const patientApi = createApi(config.backendUrl);
 
-export const getPatients = () => {
-  return patientApi.get(`/patient/list`);
+export const getPatients = (lang = "en") => {
+  return patientApi.get(`/patient/list/${lang}`);
 };
 
 export const getAssignedPatients = (searchTerm = "") => {
@@ -16,8 +16,8 @@ export const getAssignedPatients = (searchTerm = "") => {
   });
 };
 
-export const getPatientDetails = (patientId) => 
-  patientApi.get(`/patient/get/${patientId}`);
+export const getPatientDetails = (patientId, lang) => 
+  patientApi.get(`/patient/get/${lang}/${patientId}`);
 
 export default {
   getPatients,

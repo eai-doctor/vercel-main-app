@@ -5,17 +5,15 @@ function Demographics({ data, setData }) {
   const { t } = useTranslation(['triage', 'common']);
 
   return (
-    <div className="bg-white rounded-xl p-6 space-y-6 ">
+    <div className="space-y-6">
+      <div className="space-y-2 text-center">
+        <h3 className="font-semibold text-[#1e293b] text-2xl">Who is the patient?</h3>
+        <p className="text-sm text-[#64748b]">We only need the basics to help with CTAS sorting.</p>
+      </div>
 
-      {/* Title */}
-      <h3 className="font-semibold text-[#1e293b] text-lg">
-        {t('triage:fields.age')}
-      </h3>
-
-      {/* Age */}
       <div className="space-y-2">
         <label className="block text-sm font-medium text-[#475569]">
-          {t('triage:fields.age')}
+          Age
         </label>
 
         <input
@@ -29,22 +27,21 @@ function Demographics({ data, setData }) {
               demographics: { ...prev.demographics, age: e.target.value }
             }))
           }
-          placeholder={t('triage:fields.age')}
+          placeholder="Age"
           className="w-full border border-[rgba(15,23,42,0.1)] rounded-lg px-4 py-3 focus:outline-none focus:border-[#3b82f6]"
         />
       </div>
 
-      {/* Sex */}
       <div className="space-y-2">
         <label className="block text-sm font-medium text-[#475569]">
-          {t('triage:fields.sex')}
+          Sex
         </label>
 
         <div className="grid grid-cols-3 gap-3">
           {[
-            { value: "male", label: t('triage:fields.male') },
-            { value: "female", label: t('triage:fields.female') },
-            { value: "other", label: t('triage:character.other') },
+            { value: "male", label: "Male" },
+            { value: "female", label: "Female" },
+            { value: "other", label: "Other" },
           ].map((sex) => (
             <button
               key={sex.value}

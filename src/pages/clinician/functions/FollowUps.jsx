@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { useLanguage } from "@/hooks";
+
 import Header from "@/components/Header";
 import { NavBar, SystemStatus } from "@/components";
 import {
@@ -183,7 +185,8 @@ export default function FollowUps() {
   const [searchError, setSearchError] = useState('');
   const [showEditContact, setShowEditContact] = useState({});
 
-  /* current step 계산 */
+  const lang = useLanguage().currentLanguage.code;
+
   const currentStep = (() => {
     if (selectedPatients.length > 0 && customMessage.trim()) return 4;
     if (selectedPatients.length > 0) return 3;
@@ -200,7 +203,7 @@ export default function FollowUps() {
     try {
       setLoading(true);
       // const response = await getAssignedPatients();
-      const response = await getPatients();
+      const response = await getPatients(lang);
       setPatients(response.data.patients || []);
       setError('');
     } catch (err) {

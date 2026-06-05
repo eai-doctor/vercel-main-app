@@ -14,6 +14,8 @@ import enConsent from './locales/en/consent.json';
 import enAccount from './locales/en/account.json';
 import enPrivacy from './locales/en/privacy.json';
 import enChat from './locales/en/chat.json';
+import enRetinalDiseaseDetection from './locales/en/retinalDiseaseDetection.json';
+import enSkinCancerDetection from './locales/en/skinCancerDetection.json';
 
 import zhCommon from './locales/zh/common.json';
 import zhAuth from './locales/zh/auth.json';
@@ -27,6 +29,8 @@ import zhConsent from './locales/zh/consent.json';
 import zhAccount from './locales/zh/account.json';
 import zhPrivacy from './locales/zh/privacy.json';
 import zhChat from './locales/zh/chat.json';
+import zhRetinalDiseaseDetection from './locales/zh/retinalDiseaseDetection.json';
+import zhSkinCancerDetection from './locales/zh/skinCancerDetection.json';
 
 import frCommon from './locales/fr/common.json';
 import frAuth from './locales/fr/auth.json';
@@ -40,6 +44,8 @@ import frConsent from './locales/fr/consent.json';
 import frAccount from './locales/fr/account.json';
 import frPrivacy from './locales/fr/privacy.json';
 import frChat from './locales/fr/chat.json';
+import frRetinalDiseaseDetection from './locales/fr/retinalDiseaseDetection.json';
+import frSkinCancerDetection from './locales/fr/skinCancerDetection.json';
 
 i18n
   .use(LanguageDetector)
@@ -58,7 +64,9 @@ i18n
         consent: enConsent,
         account: enAccount,
         privacy: enPrivacy,
-        chat : enChat
+        chat : enChat,
+        retinalDiseaseDetection : enRetinalDiseaseDetection,
+        skinCancerDetection : enSkinCancerDetection
       },
       zh: {
         common: zhCommon,
@@ -72,7 +80,9 @@ i18n
         consent: zhConsent,
         account: zhAccount,
         privacy: zhPrivacy,
-        chat : zhChat
+        chat : zhChat,
+        retinalDiseaseDetection : zhRetinalDiseaseDetection,
+        skinCancerDetection : zhSkinCancerDetection
       },
       fr: {
         common: frCommon,
@@ -86,12 +96,14 @@ i18n
         consent: frConsent,
         account: frAccount,
         privacy: frPrivacy,
-        chat : frChat
+        chat : frChat,
+        retinalDiseaseDetection : frRetinalDiseaseDetection,
+        skinCancerDetection : frSkinCancerDetection
       },
     },
     fallbackLng: 'en',
     defaultNS: 'common',
-    ns: ['common', 'auth', 'landing', 'clinic', 'patient', 'functions', 'triage', 'admin', 'consent', 'account', 'privacy', 'chat'],
+    ns: ['common', 'auth', 'landing', 'clinic', 'patient', 'functions', 'triage', 'admin', 'consent', 'account', 'privacy', 'chat', 'retinalDiseaseDetection'],
     interpolation: {
       escapeValue: false,
     },

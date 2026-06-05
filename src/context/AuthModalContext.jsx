@@ -13,12 +13,13 @@ export function AuthModalProvider({ children }) {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const redirect = params.get("redirect");
+    const isSignupPath = window.location.pathname === "/signup";
 
     if (redirect) {
       setExternalRedirect(redirect);
+      setRequiredStep(isSignupPath ? "register" : "login");
       setLoginOpen(true);
 
-      // URL에서 redirect 파라미터 제거
       params.delete("redirect");
       const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
       window.history.replaceState({}, document.title, newUrl);

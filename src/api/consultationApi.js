@@ -78,8 +78,8 @@ export const uploadReport = (formData) =>
     headers: { 'Content-Type': undefined }  
   });
 
-export const getSoap = (payload, forceRegenerate = false) =>
-  api.post(`/api/soap`, { patient_data: payload, force_regenerate: forceRegenerate });
+export const getSoap = (payload, lang, forceRegenerate = false) =>
+  api.post(`/soap/get-note`, { patient_data: payload, language: lang, force_regenerate: forceRegenerate });
 
 export const saveConsultationToRecord = (mrn, findings) =>
   api.post(`/api/patients/${mrn}/update-from-consultation`, findings);

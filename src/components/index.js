@@ -9,6 +9,8 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import SystemStatus from "./SystemStatus";
 import ExternalApiNotice from './ExternalApiNotice';
+import DataTable from "./DataTable";
+import PublicLayout from "./PublicLayout";
 
 export {
     // Header,
@@ -21,5 +23,7 @@ export {
     Header,
     NavBar,
     SystemStatus,
-    ExternalApiNotice
+    ExternalApiNotice,
+    DataTable,
+    PublicLayout
 };

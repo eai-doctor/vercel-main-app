@@ -28,6 +28,8 @@ export default function AdminLoginFields() {
         return;
       }
 
+      console.log("adminLogin successful:", res);
+
       window.location.replace("/admin/dashboard");
     } catch (err) {
       setError("Network error. Please try again.");
@@ -102,7 +104,7 @@ export default function AdminLoginFields() {
 
         <p className="text-center text-xs text-gray-400 mt-2">
           Not an admin?{" "}
-          <a href="/clinic-login" className="text-[#277cc4] hover:text-[#2C3B8D] transition-colors">
+          <a href="/clinics" className="text-[#277cc4] hover:text-[#2C3B8D] transition-colors">
             Go to Clinic Portal
           </a>
         </p>

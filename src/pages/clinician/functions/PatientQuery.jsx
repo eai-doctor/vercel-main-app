@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { useLanguage } from "@/hooks";
+
 import Header from "@/components/Header";
 import { SearchIcon } from "@/components/ui/icons";
 import { NavBar, SystemStatus } from "@/components";
@@ -159,13 +161,16 @@ function PatientQuery() {
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
+  const lang = useLanguage().currentLanguage.code;
+
   useEffect(() => { fetchPatients(); }, []);
 
   const fetchPatients = async () => {
+
     try {
       setLoading(true);
       // const response = await getAssignedPatients();
-      const response = await getPatients();
+      const response = await getPatients(lang);
       setPatients(response.data.patients || []);
       setError("");
     } catch (err) {
@@ -196,7 +201,7 @@ function PatientQuery() {
       setDetailLoading(true);
       setSelectedPatient(patient);
       setPatientDetails(null);
-      const response = await getPatientDetails(patient.id);
+      const response = await getPatientDetails(patient.id,lang);
       setPatientDetails(response.data.patient_data);
       setError("");
     } catch (err) {

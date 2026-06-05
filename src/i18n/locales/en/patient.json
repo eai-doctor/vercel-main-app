@@ -42,10 +42,18 @@
     "subtitle": "Manage Your Health Information",
     "tabs": {
       "conditions": "Conditions",
-      "medications": "Medications",
-      "allergies": "Allergies",
+      "encounters": "Encounters",
       "vitalSigns": "Vital Signs",
-      "immunizations": "Immunizations"
+      "allergies": "Allergies",
+      "medicationStatements": "Medication Statements",
+      "medications": "Medications",
+      "immunizations": "Immunizations",
+      "procedures": "Procedures",
+      "diagnosticReports": "Diagnostic Reports",
+      "carePlans": "Care Plans",
+      "flags": "Flags",
+      "familyHistory": "Family History",
+      "observations" : "Observations"
     },
     "vitals": {
       "bloodPressure": "Blood Pressure",
@@ -113,7 +121,8 @@
     "emailSentFailed": "Failed to send email. Please try again.",
     "sendEmail": "Send Email",
     "enterEmail": "Please enter an email address",
-    "enterSummary": "Please generate or enter a summary first"
+    "enterSummary": "Please generate or enter a summary first",
+    "previousSymptoms": "Previous Symptoms"
   },
   "auth": {
     "signInForSummaries": "Sign in to save consultation summaries",

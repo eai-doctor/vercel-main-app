@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Header } from "@/components";
 import { Printer, ArrowLeft, FileText, Download, Shield, FileSearch } from "lucide-react";
+import PublicLayout from "@/components/PublicLayout";
 
 const DOCUMENTS = [
   {
@@ -78,8 +79,7 @@ export default function PrivacyPolicy() {
   const handlePrint = () => window.print();
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
-      <Header />
+    <PublicLayout mode="scrolling">
 
       {/* Top Section */}
       <div className="max-w-4xl mx-auto px-6 pt-10 pb-6 flex items-center justify-between">
@@ -182,6 +182,6 @@ export default function PrivacyPolicy() {
         </section>
 
       </div>
-    </div>
+    </PublicLayout>
   );
 }

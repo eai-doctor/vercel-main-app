@@ -1,8 +1,9 @@
 import React from 'react';
 import { MicrophoneIcon, ClipboardIcon } from '@/components/ui/icons';
 
-import ChatHistoryPanel from './ChatHistoryPanel';
-import PreviousSymptomsPanel from './PreviousSymptomsPanel';
+// import ChatHistoryPanel from './ChatHistoryPanel';
+// import PreviousSymptomsPanel from './PreviousSymptomsPanel';
+import PreviousSymptomsPanel from './symptoms/PreviousSymptomsPanel';
 
 function RecordingPanel({
   activeTab,
@@ -25,9 +26,10 @@ function RecordingPanel({
   isSymptomsLoading,
 }) {
   return (
-    <div className={`w-full lg:w-1/3 space-y-4 ${activeTab === 'chat' ? 'hidden lg:block' : 'block'}`}>
+    <div className={`w-full lg:w-1/3 space-y-4 ${activeTab === 'chat' ? 'hidden lg:block' : 'block'} `} >
 
-      <div className={activeTab === 'history' ? 'hidden lg:block' : 'block'}>
+      {/* <div className={activeTab === 'history' ? 'hidden lg:block' : 'block'}> */}
+      <div className="hidden">
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 bg-[#f5f7ff]">
             <div className="w-[34px] h-[34px] rounded-[9px] bg-[#e6ecff] flex items-center justify-center shrink-0">
@@ -100,15 +102,16 @@ function RecordingPanel({
             previousSymptoms={previousSymptoms}
             isSymptomsLoading={isSymptomsLoading}
             SYMPTOM_SEVERITY_CLASSES={SYMPTOM_SEVERITY_CLASSES}
+            t={t}
           />
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <ChatHistoryPanel
               isAuthenticated={isAuthenticated}
               isPatient = {isPatient}
               userId={user?.id}
             />
-          </div>
+          </div> */}
         </div>
       )}
 

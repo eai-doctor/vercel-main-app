@@ -14,21 +14,6 @@ import {
 
 const ICON_CLS = "w-[18px] h-[18px] text-[#2C3B8D]";
 
-// TAB
-export const TAB_KEYS = [
-    "Condition",
-    "AllergyIntolerance",
-    "MedicationStatement",
-    "MedicationRequest",
-    "Immunization",
-    "Procedure",
-    "DiagnosticReport",
-    "Observation",
-    "CarePlan",
-    "Flag",
-    "FamilyMemberHistory",
-];
-
 export const TAB_ICONS = {
   Condition: <Stethoscope className={ICON_CLS} />,
   MedicationRequest: <Pill className={ICON_CLS} />,

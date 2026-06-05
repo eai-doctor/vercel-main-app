@@ -35,7 +35,7 @@ function PersonalHome() {
 
       if (!loading) {
         // setPendingRoute(module.route);
-        window.location.replace("/clinic-login"); 
+        window.location.replace("/clinic-join?mode=login"); 
       }
     },
     [isPatient, loading, navigate, accessToken]

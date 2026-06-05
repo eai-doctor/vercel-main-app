@@ -34,7 +34,7 @@ function ChatPanel({
 }) {
     return (
         <div
-            className={`w-full lg:w-2/3 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col
+            className={`w-full  bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col
             ${activeTab !== 'chat' ? 'hidden lg:flex' : 'flex'}`}
             style={{ height: 'calc(100dvh - 160px)' }}
         >
@@ -50,10 +50,12 @@ function ChatPanel({
                     </div>
                 </div>
                 <div className="flex items-center gap-1.5">
-                    {messages.some(m => m.role === 'user') && (
-                    <button onClick={generateChatSummary} disabled={isGeneratingChatSummary}
+                    {/* {messages.some(m => m.role === 'user') && ( */}
+                    { (
+                    <button class="cursor-pointer" onClick={generateChatSummary} disabled={isGeneratingChatSummary}
                         className="text-[11px] font-semibold text-[#2C3B8D] px-2.5 py-1.5 rounded-lg hover:bg-[#eef2ff] transition-colors disabled:opacity-50">
-                        {isGeneratingChatSummary ? t('common:states.generating') : t('chat.summarize', 'Summarize')}
+                        {/* {isGeneratingChatSummary ? t('common:states.generating') : t('chat:summarize', 'Summarize')} */}
+                        {isGeneratingChatSummary ? t('common:states.generating') : t('chat:saveThisConversation', 'Save this conversation')}
                     </button>
                     )}
                     {messages.length > 0 && (
@@ -163,7 +165,7 @@ function ChatPanel({
                         className={`w-full flex items-center gap-2.5 px-3 py-2 text-[12px] text-left transition-colors
                           ${isAuthenticated && isPatient ? 'text-slate-700 hover:bg-[#f5f7ff]' : 'text-slate-400 cursor-not-allowed'}`}
                       >
-                        <span>📋</span><span>Upload lab report</span>
+                        <span>📋</span><span>{t('clinic:consultation.uploadLabReportPdf')}</span>
                         {!isAuthenticated && !isPatient && <span className="ml-auto text-[10px]">🔒</span>}
                       </button>
                     </div>

@@ -357,7 +357,7 @@ function TranscribeDictate() {
         </div>
 
         {/* ── Generate Summary ── */}
-        {wsTranscript && (
+        {/* {wsTranscript && (
           <div className="flex justify-center">
             <button
               onClick={handleGenerateSummary}
@@ -376,7 +376,7 @@ function TranscribeDictate() {
               )}
             </button>
           </div>
-        )}
+        )} */}
 
         {/* ── Summary Result ── */}
         {summary && (

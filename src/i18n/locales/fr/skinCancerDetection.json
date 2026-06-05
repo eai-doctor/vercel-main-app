@@ -1,0 +1,39 @@
+{
+  "page": {
+    "title": "Analyse des lésions cutanées",
+    "subtitle": "Importez une image d'une lésion cutanée pour un dépistage préliminaire basé sur l'IA.",
+    "note": "* Cet outil est fourni à titre informatif uniquement et ne remplace pas un diagnostic médical professionnel."
+  },
+  "upload": {
+    "ariaLabel": "Sélectionner une image pour l'analyse",
+    "prompt": "Glissez-déposez ou cliquez pour importer",
+    "formats": "Formats pris en charge : JPEG, PNG, WebP",
+    "previewAlt": "Aperçu",
+    "remove": "Supprimer l'image"
+  },
+  "actions": {
+    "runScreening": "Lancer le dépistage",
+    "analyzing": "Analyse en cours..."
+  },
+  "loading": {
+    "message": "Le modèle d'IA traite l'image en toute sécurité..."
+  },
+  "result": {
+    "positive": "Positif — Cancer détecté",
+    "negative": "Négatif — Aucun cancer détecté",
+    "threshold": "Seuil : {{value}} %",
+    "probability": "Probabilité de cancer",
+    "thresholdMarker": "seuil",
+    "warning": "Ce résultat suggère une forte probabilité de malignité. Veuillez consulter un dermatologue ou un professionnel de santé dès que possible."
+  },
+  "errors": {
+    "invalidFile": "Veuillez sélectionner un fichier image (JPEG, PNG, WebP)",
+    "requestFailed": "Échec de la requête : {{status}}",
+    "network": "Erreur réseau : {{message}}",
+    "apiUnavailable": "Impossible de se connecter à l'API"
+  },
+  "footer": {
+    "disclaimer": "Cet outil ne fournit pas de diagnostic médical. Les résultats sont prédictifs et destinés uniquement au dépistage.",
+    "consult": "Veillez à consulter un professionnel avant de prendre toute décision médicale."
+  }
+}

@@ -1,10 +1,13 @@
 import { Stethoscope, User, ArrowRight } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 import { useAuth } from "@/context/AuthContext";
 import { useLocation } from "react-router-dom";
+import logoImage from "/images/logo.png";
 
 export default function AppFooter() {
   const { user } = useAuth();
   const location = useLocation();
+  const { t } = useTranslation(['privacy']);
 
   const isClinicRoute = location.pathname.includes("clinic");
 
@@ -12,76 +15,80 @@ export default function AppFooter() {
     ? "/"
     : user?.role === "clinician"
     ? "/clinics"
-    : "/clinic-login";
+    : "/clinic-join?mode=login";
 
-  const portalTitle = isClinicRoute ? "For Patients" : "For Clinicians";
+  const portalTitle = isClinicRoute
+    ? t('footer.portalTitle.patient')
+    : t('footer.portalTitle.clinician');
+
   const portalDescription = isClinicRoute
-    ? "Access health consultations, your medical profile, and self-triage tools."
-    : "Access patient records, SOAP notes, and AI-powered consultation tools.";
-  const portalCta = isClinicRoute ? "Visit Patient Portal" : "Visit Clinic Portal";
+    ? t('footer.portalDesc.patient')
+    : t('footer.portalDesc.clinician');
+
+  const portalCta = isClinicRoute
+    ? t('footer.portalCta.patient')
+    : t('footer.portalCta.clinician');
+
   const PortalIcon = isClinicRoute ? User : Stethoscope;
 
   return (
-    <footer className="border-t border-blue-200 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8 text-sm text-gray-600">
-
-        {/* Company Info + Portal Switch Card */}
-        <div>
-          <h3 className="text-gray-800 font-semibold mb-3">E-AI Doctor</h3>
-          <p>
-            AI-Powered Medical Intelligence Platform providing secure and
-            compliant healthcare data solutions.
-          </p>
-
-          {/* Portal Switch CTA Card */}
-          <a
-            href={portalSwitchHref}
-            className="mt-6 group block bg-white border border-blue-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-[#2C3B8D] transition-all"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-[#2C3B8D] transition-colors">
-                <PortalIcon className="w-5 h-5 text-[#2C3B8D] group-hover:text-white transition-colors" />
+    <>
+    <footer className="bg-[#0a1228] text-white/55 text-sm">
+            <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-5 gap-8">
+              <div className="col-span-2">
+                <img src={logoImage} alt="EAI Doctor" className="h-7 w-auto mb-3 brightness-0 invert opacity-80" />
+                <p className="text-xs leading-relaxed max-w-xs mb-4">
+                  Medical AI platform giving every clinician access to frontier AI — diagnostic support, evidence synthesis, and intelligent documentation.
+                </p>
+                <div className="flex gap-3">
+                  {[["Ⓑ","https://tech.e-ai.ca/"]].map(s => (
+                    <a key={s} href={s[1]} className="w-7 h-7 rounded-full border border-white/10 flex items-center justify-center text-xs hover:border-white/40 hover:text-white transition-colors">{s[0]}</a>
+                  ))}
+                </div>
               </div>
-              <h4 className="text-gray-800 font-semibold text-base">
-                {portalTitle}
-              </h4>
+              {[
+                // { title:"Products",  links:["Order Sets","eReferrals","Virtual Care","eForms","Digital Front Door"] },
+                { title:"Privacy Officer",  
+                  links:[
+                    { value: "Dr. Zhenlong Liu", url: "#" }, 
+                    { value: "Email: support@e-ai.ca", url: "mailto:support@e-ai.ca" }, 
+                    { value: "Phone: +1 (450) 688-8377", url: "tel:+14506888377" }] },
+                { title:"Company",   
+                  links:[
+                    {value:"About Us", url: "/about-us" }, 
+                    { value: "News", url: "https://tech.e-ai.ca" }, 
+              ]},
+                // { title:"Company",   links:["About Us","Leadership","Careers","News","Events"] },
+                // { title:"Support",   links:["Help Centre","Privacy Policy","Accessibility","Terms of Use","Cookie Policy"] },
+                { title:"Support",   
+                  links:[ 
+                    { value : "Help Centre", url: "/help-center" },
+                    { value: "Privacy Policy", url: "/legal" },
+                    // { value: "Accessibility", url: "#" },
+                    { value: "Terms of Use", url: "/legal" },
+                    { value: "Cookie Policy", url: "/legal" }
+                  ]
+                }
+              ].map(col => (
+                <div key={col.title}>
+                  <p className="text-white font-semibold text-xs uppercase tracking-widest mb-3">{col.title}</p>
+                  <ul className="space-y-2">
+                    {col.links.map((l, index) => (
+                      <li key={index}><a href={l.url} className="hover:text-white transition-colors text-xs">{l.value}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-
-            <p className="text-sm text-gray-600 mb-4 leading-relaxed">
-              {portalDescription}
-            </p>
-
-            <span className="inline-flex items-center gap-2 text-sm font-medium text-[#2C3B8D] group-hover:gap-3 transition-all">
-              {portalCta}
-              <ArrowRight className="w-4 h-4" />
-            </span>
-          </a>
-        </div>
-
-        {/* Privacy Officer */}
-        <div>
-          <h3 className="text-gray-800 font-semibold mb-3">Privacy Officer</h3>
-          <p>Dr. Zhenlong Liu</p>
-          <p>Email: support@e-ai.ca</p>
-          <p>Phone: +1 (450) 688-8377</p>
-        </div>
-
-        {/* Legal */}
-        <div>
-          <h3 className="text-gray-800 font-semibold mb-3">Legal</h3>
-          <ul className="space-y-2">
-            <li>
-              <a href="/privacy-policy" className="hover:text-blue-600 transition">
-                Privacy Policy
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="border-t border-gray-200 py-4 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} E-AI Doctor. All rights reserved.
-      </div>
-    </footer>
+            <div className="border-t border-white/[0.08] max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+              <p>© {new Date().getFullYear()} EAI Doctor Corporation. All Rights Reserved.</p>
+              <div className="flex items-center gap-4">
+                <a href="#" className="hover:text-white transition-colors">Canada</a>
+                <span className="text-white/20">|</span>
+                <a href="/admin/login" className="hover:text-white transition-colors">Dashboard</a>
+              </div>
+            </div>
+          </footer>
+    </>
   );
 }

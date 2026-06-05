@@ -52,6 +52,153 @@ export function formFromRecord(tab, rec) {
         notes: res.note?.[0]?.text || "",
       };
 
+    case "Encounter": {
+      console.log("Encoutner : " ,rec);
+      const type = Array.isArray(res.type) ? res.type[0] : null;
+      const typeCoding = type?.coding?.[0];
+
+      const participant = Array.isArray(res.participant)
+        ? res.participant[0]
+        : null;
+
+      const participantType = Array.isArray(participant?.type)
+        ? participant.type[0]
+        : null;
+
+      const participantTypeCoding = participantType?.coding?.[0];
+
+      const display =
+        type?.text ||
+        typeCoding?.display ||
+        res.serviceProvider?.display ||
+        res.class?.display ||
+        res.class?.code ||
+        res.status ||
+        "";
+
+      return {
+        display,
+
+        status: res.status || "",
+
+        classCode: res.class?.code || "",
+        classDisplay: res.class?.display || res.class?.code || "",
+        classSystem:
+          res.class?.system ||
+          "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+
+        typeCode: typeCoding?.code || "",
+        typeDisplay: type?.text || typeCoding?.display || "",
+        typeSystem: typeCoding?.system || "",
+
+        serviceProvider: res.serviceProvider?.display || "",
+
+        subject: res.subject?.display || "",
+        subjectReference: res.subject?.reference || "",
+
+        participantType:
+          participantType?.text ||
+          participantTypeCoding?.display ||
+          "",
+        participantTypeCode: participantTypeCoding?.code || "",
+        participantTypeSystem: participantTypeCoding?.system || "",
+
+        date: res.period?.start?.slice(0, 10) || "",
+
+        startDate: res.period?.start?.slice(0, 10) || "",
+        startTime: res.period?.start?.slice(11, 16) || "",
+
+        endDate: res.period?.end?.slice(0, 10) || "",
+        endTime: res.period?.end?.slice(11, 16) || "",
+
+        participantStartDate:
+          participant?.period?.start?.slice(0, 10) || "",
+        participantStartTime:
+          participant?.period?.start?.slice(11, 16) || "",
+        participantEndDate:
+          participant?.period?.end?.slice(0, 10) || "",
+        participantEndTime:
+          participant?.period?.end?.slice(11, 16) || "",
+
+        reason:
+          res.reasonCode?.[0]?.text ||
+          res.reasonCode?.[0]?.coding?.[0]?.display ||
+          res.reason?.[0]?.concept?.text ||
+          res.reason?.[0]?.concept?.coding?.[0]?.display ||
+          "",
+
+        notes: res.note?.[0]?.text || "",
+      };
+    }
+
+    case "Observation": {
+      const display =
+        res.code?.text ||
+        res.code?.coding?.[0]?.display ||
+        "";
+
+      const systolic = Array.isArray(res.component)
+        ? res.component.find((c) => {
+            const code = c.code?.coding?.[0]?.code;
+            const label =
+              c.code?.text ||
+              c.code?.coding?.[0]?.display ||
+              "";
+            return code === "8480-6" || label.includes("Systolic");
+          })
+        : null;
+
+      const diastolic = Array.isArray(res.component)
+        ? res.component.find((c) => {
+            const code = c.code?.coding?.[0]?.code;
+            const label =
+              c.code?.text ||
+              c.code?.coding?.[0]?.display ||
+              "";
+            return code === "8462-4" || label.includes("Diastolic");
+          })
+        : null;
+
+      const match = VITAL_TYPES.find((v) => {
+        const code = res.code?.coding?.[0]?.code;
+        return v.label === display || v.code === code;
+      });
+
+      const vitalType = systolic || diastolic
+        ? "Blood Pressure"
+        : match
+          ? match.label
+          : VITAL_TYPES[0].label;
+
+      return {
+        display,
+        vitalType,
+        value:
+          res.valueQuantity?.value != null
+            ? String(res.valueQuantity.value)
+            : "",
+        systolic:
+          systolic?.valueQuantity?.value != null
+            ? String(systolic.valueQuantity.value)
+            : "",
+        diastolic:
+          diastolic?.valueQuantity?.value != null
+            ? String(diastolic.valueQuantity.value)
+            : "",
+        unit:
+          res.valueQuantity?.unit ||
+          systolic?.valueQuantity?.unit ||
+          diastolic?.valueQuantity?.unit ||
+          match?.unit ||
+          "",
+        date:
+          res.effectiveDateTime?.slice(0, 10) ||
+          res.effectivePeriod?.start?.slice(0, 10) ||
+          "",
+        notes: res.note?.[0]?.text || "",
+      };
+    }
+
     case "AllergyIntolerance":
       return {
         display:
@@ -93,20 +240,40 @@ export function formFromRecord(tab, rec) {
         notes: res.note?.[0]?.text || "",
       };
     
+    case "MedicationStatement":
+      return {
+        medication:
+          res.medicationCodeableConcept?.text ||
+          res.medicationCodeableConcept?.coding?.[0]?.display ||
+          res.medication || "",
+        status: res.status || "active",
+        statusReason:
+          res.statusReason?.[0]?.text ||
+          res.statusReason?.[0]?.coding?.[0]?.display || "",
+        category: res.category?.coding?.[0]?.code || "outpatient",
+        effectiveDate: res.effectiveDateTime || "",
+        dateAsserted: res.dateAsserted || "",
+        reasonCode:
+          res.reasonCode?.[0]?.text ||
+          res.reasonCode?.[0]?.coding?.[0]?.display || "",
+        dosage: res.dosage?.[0]?.text || "",
+        notes: res.note?.[0]?.text || "",
+      };
+
     case "MedicationRequest":
-    return {
-      medication:
-        res.medicationCodeableConcept?.text ||
-        res.medicationCodeableConcept?.coding?.[0]?.display ||
-        "",
-      status: res.status || "active",
-      intent: res.intent || "order",
-      authoredOn: res.authoredOn || "",
-      requester: res.requester?.display || "",
-      dosage: res.dosageInstruction?.[0]?.text || "",
-      notes: res.note?.[0]?.text || "",
-    };
-    
+      return {
+        medication:
+          res.medicationCodeableConcept?.text ||
+          res.medicationCodeableConcept?.coding?.[0]?.display ||
+          "",
+        status: res.status || "active",
+        intent: res.intent || "order",
+        authoredOn: res.authoredOn || "",
+        requester: res.requester?.display || "",
+        dosage: res.dosageInstruction?.[0]?.text || "",
+        notes: res.note?.[0]?.text || "",
+      };
+
     case "Immunization":
       return {
         vaccine:
@@ -138,26 +305,6 @@ export function formFromRecord(tab, rec) {
           res.doseQuantity?.value !== undefined
             ? String(res.doseQuantity.value)
             : "",
-        notes: res.note?.[0]?.text || "",
-      };
-
-    case "MedicationStatement":
-      return {
-        medication:
-          res.medicationCodeableConcept?.text ||
-          res.medicationCodeableConcept?.coding?.[0]?.display ||
-          res.medication || "",
-        status: res.status || "active",
-        statusReason:
-          res.statusReason?.[0]?.text ||
-          res.statusReason?.[0]?.coding?.[0]?.display || "",
-        category: res.category?.coding?.[0]?.code || "outpatient",
-        effectiveDate: res.effectiveDateTime || "",
-        dateAsserted: res.dateAsserted || "",
-        reasonCode:
-          res.reasonCode?.[0]?.text ||
-          res.reasonCode?.[0]?.coding?.[0]?.display || "",
-        dosage: res.dosage?.[0]?.text || "",
         notes: res.note?.[0]?.text || "",
       };
 
@@ -248,74 +395,6 @@ export function formFromRecord(tab, rec) {
           "",
       };
 
-    case "Observation": {
-      const display =
-        res.code?.text ||
-        res.code?.coding?.[0]?.display ||
-        "";
-
-      const systolic = Array.isArray(res.component)
-        ? res.component.find((c) => {
-            const code = c.code?.coding?.[0]?.code;
-            const label =
-              c.code?.text ||
-              c.code?.coding?.[0]?.display ||
-              "";
-            return code === "8480-6" || label.includes("Systolic");
-          })
-        : null;
-
-      const diastolic = Array.isArray(res.component)
-        ? res.component.find((c) => {
-            const code = c.code?.coding?.[0]?.code;
-            const label =
-              c.code?.text ||
-              c.code?.coding?.[0]?.display ||
-              "";
-            return code === "8462-4" || label.includes("Diastolic");
-          })
-        : null;
-
-      const match = VITAL_TYPES.find((v) => {
-        const code = res.code?.coding?.[0]?.code;
-        return v.label === display || v.code === code;
-      });
-
-      const vitalType = systolic || diastolic
-        ? "Blood Pressure"
-        : match
-          ? match.label
-          : VITAL_TYPES[0].label;
-
-      return {
-        display,
-        vitalType,
-        value:
-          res.valueQuantity?.value != null
-            ? String(res.valueQuantity.value)
-            : "",
-        systolic:
-          systolic?.valueQuantity?.value != null
-            ? String(systolic.valueQuantity.value)
-            : "",
-        diastolic:
-          diastolic?.valueQuantity?.value != null
-            ? String(diastolic.valueQuantity.value)
-            : "",
-        unit:
-          res.valueQuantity?.unit ||
-          systolic?.valueQuantity?.unit ||
-          diastolic?.valueQuantity?.unit ||
-          match?.unit ||
-          "",
-        date:
-          res.effectiveDateTime?.slice(0, 10) ||
-          res.effectivePeriod?.start?.slice(0, 10) ||
-          "",
-        notes: res.note?.[0]?.text || "",
-      };
-    }
-
     case "Flag":
       return {
         display: res.code?.text || res.code?.coding?.[0]?.display || "",
@@ -395,6 +474,7 @@ export function parseDisplayData(tab, rec) {
   const res = rec?.resource || rec || {};
   const _id = rec?._id || rec?.id || res?.id;
 
+
   switch (tab) {
     // ========================= Condition =========================
     case "Condition": {
@@ -403,6 +483,7 @@ export function parseDisplayData(tab, rec) {
         ccText(res.clinicalStatus) ||
         res.status ||
         "unknown";
+
       return {
         _id,
         primary: ccText(res.code) || res.display || "Unknown Condition",
@@ -411,6 +492,43 @@ export function parseDisplayData(tab, rec) {
         notes: res.note?.[0]?.text,
       };
     }
+
+    // ========================= Encounter =========================
+  case "Encounter": {
+    const type = Array.isArray(res.type) ? res.type[0] : null;
+
+    const display =
+      ccText(type) ||
+      res.serviceProvider?.display ||
+      res.class?.display ||
+      res.class?.code ||
+      res.status ||
+      "Unknown Encounter";
+
+    const status = res.status || "unknown";
+    const classDisplay = res.class?.display || res.class?.code || "";
+    const provider = res.serviceProvider?.display || "";
+    const subject = res.subject?.display || "";
+    const start = firstDate(res.period?.start, res.actualPeriod?.start);
+    const end = firstDate(res.period?.end, res.actualPeriod?.end);
+
+    return {
+      _id,
+      primary: display,
+      secondary: [
+        `Status: ${status}`,
+        classDisplay ? `Class: ${classDisplay}` : "",
+        provider ? `Provider: ${provider}` : "",
+        subject ? `Subject: ${subject}` : "",
+      ]
+        .filter(Boolean)
+        .join(" | "),
+      date: start,
+      endDate: end,
+      notes: res.note?.[0]?.text,
+    };
+  }
+
 
     // ========================= Immunization =========================
     case "Immunization": {

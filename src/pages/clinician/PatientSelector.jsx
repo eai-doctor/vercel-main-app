@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from "react-router-dom";
 import { Search, ChevronRight, AlertCircle, Loader2 } from "lucide-react";
+import { useLanguage } from "@/hooks";
 
 import { NavBar, SystemStatus } from "@/components";
 import { UserIcon } from "@/components/ui/icons";
@@ -33,7 +34,7 @@ function writeCache(key, data) {
   try {
     sessionStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
   } catch {
-    // sessionStorage 용량 초과 시 캐싱 스킵
+    // sessionStorage skip cash over capacity
   }
 }
 
@@ -53,6 +54,8 @@ export default function PatientSelector() {
   const isSearching = searchTerm.trim().length > 0;
   const showLoadingUI = loading && isSearching;
   const showSkeleton = loading && !isSearching && patients.length === 0;
+
+  const currentLang = useLanguage().currentLanguage.code;
 
   // if if search term is present
     useEffect(() => {
@@ -74,7 +77,7 @@ export default function PatientSelector() {
 
     setLoading(true);
     try {
-      const response = await getPatients();
+      const response = await getPatients(currentLang);
       const patientsData = response.data.patients || [];
       setPatients(patientsData);
       writeCache(cacheKey, patientsData);
@@ -97,7 +100,7 @@ export default function PatientSelector() {
   const handleSelectPatient = async (patient) => {
     try {
       setSelectingId(patient.id);
-      const response = await getPatientDetails(patient.id);
+      const response = await getPatientDetails(patient.id, currentLang);
       const patientDetails = response.data.patient_data;
       navigate("/consultation", { state: { patientData: patientDetails, searchTerm, selectingId :  patient.id }  });
     } catch (err) {

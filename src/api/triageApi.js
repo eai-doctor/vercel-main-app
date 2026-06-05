@@ -11,15 +11,13 @@ export const triageAssess = (data, languageCode) =>
     include_evidence: true,
   });
 
-// --- Symptoms autocomplete ---
-export const triageGetSymptoms = (query, lang ) =>
-  triageApi.get("/triage/symptoms", {
-    params: { q: query, lang : lang  }, 
-  });
+// --- CTAS schema ---
+export const triageGetSchema = () =>
+  triageApi.get("/triage/schema");
 
 const triageEngineApi = {
   triageAssess,
-  triageGetSymptoms,
+  triageGetSchema,
 };
 
 export default triageEngineApi;

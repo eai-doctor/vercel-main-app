@@ -29,6 +29,9 @@ const getFHIRPatients = () =>
 const getFHIRRecords = (patientId, type=null) => 
   medicalApi.get(`/fhir/patients/${patientId}/records`);
 
+const getFHIRRecordsByMrn = (mrn) => 
+  medicalApi.get(`/fhir/patients/mrn/${mrn}`);
+
 const createFHIRRRecord = (patient_id, resource_type, form) =>
   medicalApi.post(`/fhir/create/${patient_id}/records/${resource_type}`, {form});
 
@@ -46,6 +49,7 @@ const medicalRecordApi = {
   deleteRecord,
   getFHIRPatients,
   getFHIRRecords,
+  getFHIRRecordsByMrn,
   createFHIRRRecord,
   updateFHIRRRecord,
   deleteFHIRRRecord

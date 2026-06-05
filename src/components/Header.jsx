@@ -1,7 +1,9 @@
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Stethoscope, User } from "lucide-react";
 
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 import ProfileDropdown from "@/components/ProfileDropdown";
 import { useAuth } from "@/context/AuthContext";
 import logoImage from "/images/logo.png";
@@ -12,6 +14,7 @@ function Header() {
   const { user, loading } = useAuth();
   const { openLogin } = useAuthModal();
   const location = useLocation();
+  const { t } = useTranslation(["common"]);
 
   const handleOnSignInBtnClick = () => openLogin();
   const onClickHeaderLogo = () =>
@@ -25,8 +28,8 @@ function Header() {
     ? "/"
     : user?.role === "clinician"
     ? "/clinics"
-    : "/clinic-login";
-  const portalSwitchLabel = isClinicRoute ? "Patient Portal" : "Clinic Portal";
+    : "/clinic-join";  
+  const portalSwitchLabel = isClinicRoute ? t("common:buttons.patientPortal","Patient Portal") : t("common:buttons.clinicPortal","Clinic Portal");
   const PortalIcon = isClinicRoute ? User : Stethoscope;
 
   return (
@@ -46,7 +49,6 @@ function Header() {
         {/* -------- Right -------- */}
         <div className="flex items-center gap-2 sm:gap-3">
 
-          {/* Portal Switch (데스크톱: 텍스트 포함) */}
           <a
             href={portalSwitchHref}
             className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-[#2C3B8D]/40 text-[#2C3B8D] text-sm font-medium hover:bg-[#2C3B8D]/5 hover:border-[#2C3B8D] transition-colors"
@@ -67,7 +69,7 @@ function Header() {
           {/* Language Switcher */}
           <LanguageSwitcher />
 
-          {/* Auth 영역 */}
+          {/* Auth */}
           {user ? (
             <ProfileDropdown />
           ) : (
@@ -75,7 +77,7 @@ function Header() {
               onClick={handleOnSignInBtnClick}
               className="bg-[#2C3B8D] hover:bg-[#1f2a63] text-white"
             >
-              Sign In
+              {t("common:buttons.signIn","Sign In")}
             </Button>
           )}
         </div>

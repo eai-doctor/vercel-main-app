@@ -1,11 +1,14 @@
 {
   "title": "Auto-triage",
   "subtitle": "Évaluation des symptômes par l'IA",
-  "labels" : {
-    "inputHint": "Appuyez sur Entrée pour saisir manuellement, ou continuez à taper pour voir les symptômes suggérés",
-    "commonSymptoms": "Symptômes fréquents",
-    "suggestedSymptoms": "Symptômes suggérés",
-    "manualInputHint": "Entrez \"{{input}}\" manuellement"
+  "questions": {
+    "title": "Vérifications rapides de triage",
+    "pain": "Quelle est l'intensité de la douleur ?",
+    "observe": "Que voyez-vous maintenant ?",
+    "subjective": "Une courte description avec vos propres mots",
+    "subjectivePlaceholder": "Que s'est-il passé, quand cela a commencé, et qu'est-ce qui vous inquiète le plus ?",
+    "objective": "Y a-t-il quelque chose d'évident que l'infirmier peut voir ?",
+    "objectivePlaceholder": "Exemple : saignement, éruption, respiration sifflante, gonflement, difficulté à marcher"
   },
   "steps": {
     "info": "Infos",
@@ -13,63 +16,28 @@
     "details": "Détails",
     "results": "Résultats"
   },
-  "onset": {
-    "justNow": "À l'instant (minutes)",
-    "hoursAgo": "Il y a quelques heures",
-    "daysAgo": "Il y a quelques jours",
-    "weeksAgo": "Il y a quelques semaines",
-    "monthsAgo": "Un mois ou plus"
-  },
-  "progression": {
-    "gettingBetter": "En amélioration",
-    "stayingSame": "Stable",
-    "gettingWorse": "En aggravation"
-  },
-  "character": {
-    "sharp": "Aiguë",
-    "dull": "Sourde",
-    "burning": "Brûlure",
-    "throbbing": "Pulsatile",
-    "pressure": "Pression",
-    "cramping": "Crampe",
-    "other": "Autre"
-  },
-  "severity": {
-    "label": "Intensité de la douleur",
-    "mild": "Légère",
-    "moderate": "Modérée",
-    "severe": "Sévère"
-  },
-  "fields": {
-    "age": "Âge",
-    "sex": "Sexe biologique",
-    "male": "Homme",
-    "female": "Femme",
-    "chiefComplaint": "Motif principal",
-    "chiefComplaintPlaceholder": "Décrivez votre symptôme ou préoccupation principale...",
-    "onset": "Début",
-    "duration": "Durée",
-    "progression": "Évolution",
-    "painCharacter": "Caractère de la douleur",
-    "associatedSymptoms": "Symptômes associés",
-    "associatedSymptomsPlaceholder": "Listez les autres symptômes...",
-    "medicalHistory": "Antécédents médicaux",
-    "medicalHistoryPlaceholder": "Listez les pathologies connues, médicaments...",
-    "additionalNotes": "Notes supplémentaires",
-    "additionalNotesPlaceholder": "Toute autre information..."
-  },
   "results": {
-    "triage_status": "Statut de triage",
-    "assessment_summary": "Résumé de l’évaluation",
-    "safety_alerts": "Alertes de sécurité",
-    "potential_considerations": "Considérations potentielles",
-    "next_steps": "Prochaines étapes",
-    "triageLevel": "Niveau de triage",
-    "assessment": "Évaluation",
-    "recommendations": "Recommandations",
-    "redFlags": "Signaux d'alarme",
-    "differentialDiagnosis": "Diagnostic différentiel",
-    "disclaimer": "Cette évaluation est à titre informatif uniquement et ne constitue pas un avis médical.",
-    "start_over": "Recommencer"
+    "level1Title": "Niveau 1 - Réanimation",
+    "level1Summary": "Réanimation immédiate et soins infirmiers continus.",
+    "level2Title": "Niveau 2 - Urgent",
+    "level2Summary": "Besoin de soins dans les 15 minutes.",
+    "level3Title": "Niveau 3 - Urgence",
+    "level3Summary": "Besoin de soins dans les 30 minutes.",
+    "level4Title": "Niveau 4 - Moins urgent",
+    "level4Summary": "Besoin de soins dans les 60 minutes.",
+    "level5Title": "Niveau 5 - Non urgent",
+    "level5Summary": "Besoin de soins dans les 120 minutes.",
+    "ctasResult": "Résultat CTAS",
+    "priority": "Priorité",
+    "reassessment": "Réévaluation",
+    "levelGuideTitle": "Ce que signifient les niveaux CTAS",
+    "current": "Actuel",
+    "whatDrove": "Ce qui a motivé ce résultat",
+    "noHighAcuity": "Aucun signe d'alerte de haute acuity n'a été sélectionné.",
+    "operationalNote": "Note opérationnelle",
+    "operationalNoteBody": "Si l'état du patient change en attendant, documentez le changement et mettez à jour la priorité si nécessaire, mais conservez l'enregistrement de triage initial.",
+    "lifeThreatening": "Si cela semble mettre la vie en danger,",
+    "start_over": "Recommencer",
+    "submit": "Évaluer le CTAS"
   }
 }

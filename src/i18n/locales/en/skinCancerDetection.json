@@ -1,0 +1,39 @@
+{
+  "page": {
+    "title": "Skin Lesion Analysis",
+    "subtitle": "Upload an image of a skin lesion for preliminary AI-based screening.",
+    "note": "* This tool is for informational purposes only and does not replace professional medical diagnosis."
+  },
+  "upload": {
+    "ariaLabel": "Select image for analysis",
+    "prompt": "Drag and drop or click to upload",
+    "formats": "Supported formats: JPEG, PNG, WebP",
+    "previewAlt": "Preview",
+    "remove": "Remove Image"
+  },
+  "actions": {
+    "runScreening": "Run Screening",
+    "analyzing": "Analyzing..."
+  },
+  "loading": {
+    "message": "AI model is processing the image safely..."
+  },
+  "result": {
+    "positive": "Positive — Cancer Detected",
+    "negative": "Negative — No Cancer Detected",
+    "threshold": "Threshold: {{value}}%",
+    "probability": "Cancer Probability",
+    "thresholdMarker": "threshold",
+    "warning": "This result suggests a high probability of malignancy. Please consult a dermatologist or medical professional as soon as possible."
+  },
+  "errors": {
+    "invalidFile": "Please select an image file (JPEG, PNG, WebP)",
+    "requestFailed": "Request Failed: {{status}}",
+    "network": "Network Error: {{message}}",
+    "apiUnavailable": "Unable to connect API"
+  },
+  "footer": {
+    "disclaimer": "This tool does not provide a medical diagnosis. Results are predictive and intended for screening purposes only.",
+    "consult": "Be sure to consult with a professional before making any medical decisions."
+  }
+}

@@ -23,6 +23,8 @@ export default function SectionCard({
     : records;
   const hiddenCount = records.length - COLLAPSE_LIMIT;
 
+
+
   return (
     <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       {/* Header */}

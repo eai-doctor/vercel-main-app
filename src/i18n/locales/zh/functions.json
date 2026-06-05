@@ -18,6 +18,14 @@
       "title": "随访管理",
       "description": "管理患者随访预约"
     },
+    "skinCareDetection" : {
+      "title": "皮肤癌检测",
+      "description": "使用CLIP ViT-B/16进行AI驱动的皮肤病变分析，以从皮肤镜图像中分类和检测潜在的皮肤癌。"
+    },
+    "retinalDiseaseDetection" : {
+      "title": "视网膜疾病检测",
+      "description": "使用Swin Tiny变换器进行AI驱动的视网膜图像分析，以从眼底照片中检测和分类视网膜疾病。"
+    },
     "patientQuery": {
       "title": "患者查询",
       "description": "搜索和查询患者信息"
@@ -87,7 +95,8 @@
     "welcomeSubtitle": "向我询问任何医疗相关话题！",
     "inputPlaceholder": "输入您的消息...",
     "clearChat": "清除对话",
-    "errorResponse": "无法获取EboAI的回复"
+    "errorResponse": "无法获取EboAI的回复",
+    "newLineHint": "按 Shift+Enter 换行"
   },
   "transcribe": {
     "title": "转录与听写",

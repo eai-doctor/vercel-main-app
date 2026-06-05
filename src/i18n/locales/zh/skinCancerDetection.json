@@ -1,0 +1,39 @@
+{
+  "page": {
+    "title": "皮肤病变分析",
+    "subtitle": "上传皮肤病变图像，以进行初步的 AI 辅助筛查。",
+    "note": "* 本工具仅供参考，不能替代专业医学诊断。"
+  },
+  "upload": {
+    "ariaLabel": "选择用于分析的图像",
+    "prompt": "拖放图像或点击上传",
+    "formats": "支持格式：JPEG、PNG、WebP",
+    "previewAlt": "预览",
+    "remove": "移除图像"
+  },
+  "actions": {
+    "runScreening": "开始筛查",
+    "analyzing": "分析中..."
+  },
+  "loading": {
+    "message": "AI 模型正在安全处理图像..."
+  },
+  "result": {
+    "positive": "阳性 — 检测到癌症",
+    "negative": "阴性 — 未检测到癌症",
+    "threshold": "阈值：{{value}}%",
+    "probability": "癌症概率",
+    "thresholdMarker": "阈值",
+    "warning": "该结果提示恶性病变概率较高。请尽快咨询皮肤科医生或医疗专业人士。"
+  },
+  "errors": {
+    "invalidFile": "请选择图像文件（JPEG、PNG、WebP）",
+    "requestFailed": "请求失败：{{status}}",
+    "network": "网络错误：{{message}}",
+    "apiUnavailable": "无法连接到 API"
+  },
+  "footer": {
+    "disclaimer": "本工具不提供医学诊断。结果为预测性结果，仅用于筛查目的。",
+    "consult": "在做出任何医疗决定前，请务必咨询专业人士。"
+  }
+}

@@ -1,3 +1,22 @@
+import DataTable, { AvatarCell, StatusBadge } from "@/components/DataTable";
+
+const columns = [
+  {
+    label: "Doctor",
+    key: "name",
+    render: (row) => (
+      <AvatarCell name={row.name} email={row.email} initials={row.initials} color={row.color} />
+    ),
+  },
+  { label: "Specialty", key: "specialty", secondary: true },
+  {
+    label: "Status",
+    key: "status",
+    render: (row) => <StatusBadge status={row.status} />,
+  },
+  { label: "Joined", key: "joined", mono: true },
+];
+
 const doctors = [
   { initials: "KL", name: "Dr. Kim Lee", email: "k.lee@hospital.com", specialty: "Cardiology", status: "active", joined: "Apr 20", color: "#2C3B8D" },
   { initials: "SP", name: "Dr. Sara Park", email: "s.park@clinic.com", specialty: "Neurology", status: "pending", joined: "Apr 19", color: "#059669" },
@@ -71,54 +90,14 @@ function DashboardContent(){
           <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, marginBottom: 16 }}>
 
             {/* Doctor Table */}
-            <div style={{ background: "#fff", border: "1px solid #e2e8f2", borderRadius: 14, overflow: "hidden" }}>
-              <div style={{ padding: "18px 22px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #e2e8f2" }}>
-                <span style={{ fontSize: 14, fontWeight: 600 }}>Recent Doctors</span>
-                <button onClick={() => setActive("doctors")} style={{ fontSize: 12, fontWeight: 500, color: "#277cc4", background: "none", border: "none", cursor: "pointer" }}>View all →</button>
-              </div>
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <thead>
-                  <tr>
-                    {["Doctor", "Specialty", "Status", "Joined", ""].map(h => (
-                      <th key={h} style={{ fontSize: 11, fontWeight: 600, color: "#6b7a99", textTransform: "uppercase", letterSpacing: 0.6, textAlign: "left", padding: "10px 22px", background: "#f7f9fc", borderBottom: "1px solid #e2e8f2" }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {doctors.map((doc) => (
-                    <tr key={doc.email} style={{ cursor: "default" }}
-                      onMouseEnter={e => [...e.currentTarget.cells].forEach(c => c.style.background = "#f7f9fc")}
-                      onMouseLeave={e => [...e.currentTarget.cells].forEach(c => c.style.background = "")}
-                    >
-                      <td style={{ padding: "12px 22px", borderBottom: "1px solid #e2e8f2" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                          <div style={{ width: 30, height: 30, borderRadius: "50%", background: doc.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#fff", flexShrink: 0 }}>{doc.initials}</div>
-                          <div>
-                            <div style={{ fontWeight: 500, fontSize: 13 }}>{doc.name}</div>
-                            <div style={{ fontSize: 11.5, color: "#6b7a99" }}>{doc.email}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td style={{ padding: "12px 22px", fontSize: 12.5, color: "#6b7a99", borderBottom: "1px solid #e2e8f2" }}>{doc.specialty}</td>
-                      <td style={{ padding: "12px 22px", borderBottom: "1px solid #e2e8f2" }}>
-                        <span style={{ display: "inline-flex", alignItems: "center", padding: "3px 9px", borderRadius: 20, fontSize: 11.5, fontWeight: 600, fontFamily: "monospace", background: statusStyle[doc.status].bg, color: statusStyle[doc.status].color }}>
-                          {doc.status.charAt(0).toUpperCase() + doc.status.slice(1)}
-                        </span>
-                      </td>
-                      <td style={{ padding: "12px 22px", fontSize: 12, color: "#6b7a99", fontFamily: "monospace", borderBottom: "1px solid #e2e8f2" }}>{doc.joined}</td>
-                      <td style={{ padding: "12px 22px", borderBottom: "1px solid #e2e8f2" }}>
-                        <button style={{ padding: "5px 12px", borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: "pointer", border: "1px solid #e2e8f2", background: "#fff", color: "#1a2340", transition: "all 0.12s" }}
-                          onMouseEnter={e => { e.currentTarget.style.borderColor = "#277cc4"; e.currentTarget.style.color = "#277cc4"; }}
-                          onMouseLeave={e => { e.currentTarget.style.borderColor = "#e2e8f2"; e.currentTarget.style.color = "#1a2340"; }}
-                        >
-                          Manage
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <DataTable
+              title="Recent Doctors"
+              columns={columns}
+              rows={doctors}
+              actionLabel="Manage"
+              onViewAll={() => setActive("doctors")}
+              onAction={(doc) => console.log("Manage", doc)}
+            />
 
             {/* AI Log */}
             <div style={{ background: "#fff", border: "1px solid #e2e8f2", borderRadius: 14, overflow: "hidden" }}>

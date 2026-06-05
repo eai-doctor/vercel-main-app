@@ -1,8 +1,12 @@
 import { useState } from "react";
+
+import { useAuth } from "@/context/AuthContext";
+
 import AdminDoctorRegister from "./doctor-register";
 import DashboardContent from "./dashboard-content";
 import PatientResetPassword from "./patient-reset-password";
-import { useAuth } from "@/context/AuthContext";
+import DemoRequests from "./demo-requests";
+
 
 // ── Icons (inline SVG components) ──────────────────────────────────────────
 const Icon = ({ d, size = 16 }) => (
@@ -17,9 +21,15 @@ const navItems = [
     items: [{ id: "dashboard", label: "Dashboard", icon: "M1 1h6v6H1zM9 1h6v6H9zM1 9h6v6H1zM9 9h6v6H9z" }],
   },
   {
+    section: "Join",
+    items: [
+      { id: "requests", label: "Demo Requests", icon: "M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM8 3a5 5 0 110 10A5 5 0 018 3zm.75 2.25h-1.5v3.35l2.85 1.7.75-1.25-2.1-1.25V5.25z" },
+    ],
+  },,
+  {
     section: "Users",
     items: [
-      { id: "doctors", label: "Doctor Management", icon: "M8 8a3 3 0 100-6 3 3 0 000 6zM2 14c0-3.314 2.686-5 6-5s6 1.686 6 5", badge: 24 },
+      { id: "doctors", label: "Doctor Management", icon: "M8 8a3 3 0 100-6 3 3 0 000 6zM2 14c0-3.314 2.686-5 6-5s6 1.686 6 5"},
       { id: "patients", label: "Patient Management", icon: "M6 8a3 3 0 100-6 3 3 0 000 6zM10.5 6a2.5 2.5 0 110-5 2.5 2.5 0 010 5M0 13c0-2.761 2.239-4 5-4 .93 0 1.8.216 2.545.585M10 10c2.21 0 4 1.239 4 4H7.5" },
       { id: "register", label: "Doctor Registration", icon: "M8 1v14M1 8h14" },
     ],
@@ -40,6 +50,7 @@ const navItems = [
 
 export default function AdminDashboard() {
   const [active, setActive] = useState("dashboard");
+  const [activeLabel, setActiveLabel] = useState("Dashboard");
   const { logout } = useAuth();
 
   const now = new Date().toLocaleDateString("en-US", {
@@ -48,7 +59,7 @@ export default function AdminDashboard() {
 
   const handleLogoutClicked = () => {
     logout();
-    window.location.reload="/";
+    window.location.replace("/");
   }
 
   return (
@@ -77,7 +88,10 @@ export default function AdminDashboard() {
               {items.map(({ id, label, icon, badge }) => (
                 <button
                   key={id}
-                  onClick={() => setActive(id)}
+                  onClick={() => {
+                    setActive(id);
+                    setActiveLabel(label);
+                  }}
                   style={{
                     display: "flex", alignItems: "center", gap: 10,
                     padding: "10px 12px", borderRadius: 8, cursor: "pointer",
@@ -123,7 +137,7 @@ export default function AdminDashboard() {
           display: "flex", alignItems: "center", justifyContent: "space-between",
           position: "sticky", top: 0, zIndex: 50,
         }}>
-          <div style={{ fontSize: 16, fontWeight: 600 }}>Dashboard Overview</div>
+          <div style={{ fontSize: 16, fontWeight: 600 }}>{activeLabel}</div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{
               width: 8, height: 8, borderRadius: "50%", background: "#10b981",
@@ -137,11 +151,12 @@ export default function AdminDashboard() {
         <div style={{ padding: 32, flex: 1 }}>
 
           {active === "dashboard" && <DashboardContent />}
-            {active === "register"  && <AdminDoctorRegister onSuccess={(doc) => console.log("Registered:", doc)} />}
-              {active === "patients"  && <PatientResetPassword onSuccess={(doc) => console.log("Registered:", doc)} />}
-            {/* {active === "doctors"   && <div style={{padding:32}}>Doctor Management — coming soon</div>}
-            {active === "patients"  && <div style={{padding:32}}>Patient Management — coming soon</div>}
-            {active === "ai"        && <div style={{padding:32}}>AI Records — coming soon</div>} */}
+          {active === "register"  && <AdminDoctorRegister onSuccess={(doc) => console.log("Registered:", doc)} />}
+          {active === "requests"  && <DemoRequests />}
+          {active === "patients"  && <PatientResetPassword onSuccess={(doc) => console.log("Registered:", doc)} />}
+          {/* {active === "doctors"   && <div style={{padding:32}}>Doctor Management — coming soon</div>}
+          {active === "patients"  && <div style={{padding:32}}>Patient Management — coming soon</div>}
+          {active === "ai"        && <div style={{padding:32}}>AI Records — coming soon</div>} */}
 
         </div>
       </div>

@@ -1,4 +1,6 @@
 {
+  "saveThisConversation": "Save this conversation",
+  "summarize": "Summarize",
   "warning": {
     "chatSummaryTooShort": "Chat summary is best generated after a longer conversation. Keep chatting and try again later!"
   }

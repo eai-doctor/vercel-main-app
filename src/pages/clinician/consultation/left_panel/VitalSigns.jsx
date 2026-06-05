@@ -18,6 +18,8 @@ export default function VitalSigns({ vital_signs }) {
 
     const displayUnit = (v) => v.unit && !v.unit.startsWith('{') ? ` ${v.unit}` : '';
 
+    console.log("VistalSigns.jsx - sortedVitals:", sortedVitals);
+
 
     return (
         <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
