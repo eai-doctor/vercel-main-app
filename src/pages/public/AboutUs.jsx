@@ -164,8 +164,6 @@ export default function AboutPage() {
         }
       `}</style>
 
-      <Navbar onSignIn={() => setSignInOpen(true)} />
-
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section className="relative hero-gradient overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]"
