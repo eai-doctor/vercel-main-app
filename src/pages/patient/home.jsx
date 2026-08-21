@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@/context/AuthContext";
 import { FeatureCard, Header, SystemStatus } from "@/components";
-import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, UserIcon, DocumentIcon } from "@/components/ui/icons";
+import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, NutritionConsultationIcon, DocumentIcon } from "@/components/ui/icons";
 import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
 import config from "@/config";
 
@@ -88,6 +88,15 @@ function PersonalHome() {
       requiresAuth: false,
       disabled: false,
     },
+    {
+      id: "nutrition-consultation-aide",
+      title: "Nutrition Consultation Aide",
+      description: "Get personalized nutrition advice and meal planning assistance",
+      icon: <NutritionConsultationIcon className="w-8 h-8 text-blue-500" />,
+      externalUrl: config.nutritionConsultationUrl,
+      requiresAuth: false,
+      disabled: false,
+    }
   ];
 
   return (

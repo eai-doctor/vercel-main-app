@@ -46,7 +46,8 @@
     "privacyConsent": "Privacy & Consent",
     "next" : "Next",
     "patientPortal" : "Patient Portal",
-    "clinicPortal" : "Clinic Portal"
+    "clinicPortal" : "Clinic Portal",
+    "goToWebsite" : "Website"
   },
   "states": {  
     "loading": "Loading...",

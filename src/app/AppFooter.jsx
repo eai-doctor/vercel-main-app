@@ -55,7 +55,7 @@ export default function AppFooter() {
                     { value: "Phone: +1 (450) 688-8377", url: "tel:+14506888377" }] },
                 { title:"Company",   
                   links:[
-                    {value:"About Us", url: "/about-us" }, 
+                    {value:"About Us", url: "https://web.e-ai.ca/"}, 
                     { value: "News", url: "https://tech.e-ai.ca" }, 
               ]},
                 // { title:"Company",   links:["About Us","Leadership","Careers","News","Events"] },

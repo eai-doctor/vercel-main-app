@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import logoImage from "/images/logo.png";
 import { Button } from "./ui";
 import { useAuthModal } from "@/context/AuthModalContext";
+import { URLS }  from "@/constants/urls";
 
 function Header() {
   const { user, loading } = useAuth();
@@ -22,7 +23,6 @@ function Header() {
       ? (window.location.href = "/clinics")
       : (window.location.href = "/");
 
-  // 포털 전환 정보
   const isClinicRoute = location.pathname.includes("clinic");
   const portalSwitchHref = isClinicRoute
     ? "/"
@@ -31,6 +31,8 @@ function Header() {
     : "/clinic-join";  
   const portalSwitchLabel = isClinicRoute ? t("common:buttons.patientPortal","Patient Portal") : t("common:buttons.clinicPortal","Clinic Portal");
   const PortalIcon = isClinicRoute ? User : Stethoscope;
+
+  const goToWebsiteLabel = t("common:buttons.goToWebsite","Website") ;
 
   return (
     <header className="bg-white border-b border-gray-200">
@@ -50,6 +52,13 @@ function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
 
           <a
+            href={URLS.website}
+            className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-[#2C3B8D]/40 text-[#2C3B8D] text-sm font-medium hover:bg-[#2C3B8D]/5 hover:border-[#2C3B8D] transition-colors"
+          >
+            {goToWebsiteLabel}
+          </a>
+
+          <a
             href={portalSwitchHref}
             className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-[#2C3B8D]/40 text-[#2C3B8D] text-sm font-medium hover:bg-[#2C3B8D]/5 hover:border-[#2C3B8D] transition-colors"
           >
@@ -57,7 +66,7 @@ function Header() {
             {portalSwitchLabel}
           </a>
 
-          {/* Portal Switch (모바일: 아이콘만) */}
+          {/* Portal Switch  */}
           <a
             href={portalSwitchHref}
             aria-label={portalSwitchLabel}

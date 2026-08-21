@@ -46,7 +46,8 @@
     "privacyConsent": "Confidentialité et consentement",
     "next": "Suivant",
     "patientPortal": "Portail patient",
-    "clinicPortal": "Portail clinique"
+    "clinicPortal": "Portail clinique",
+    "goToWebsite": "Site web"
   },
   "states": {
     "loading": "Chargement...",

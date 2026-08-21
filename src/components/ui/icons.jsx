@@ -338,3 +338,36 @@ export function ScanIcon({ className = "w-5 h-5" }) {
     </svg>
   );
 }
+
+export function NutritionConsultationIcon({
+  className = "w-12 h-12",
+}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 48 48"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {/* Apple */}
+      <path d="M23 16c-2.5-3.5-7.5-3.5-10 .2-3.8 5.5.7 16.8 6.1 20.8 1.5 1.1 3.2.3 4.9-.8" />
+      <path d="M23 16c2.5-3.5 7.5-3.5 10 .2.8 1.2 1.2 2.6 1.2 4" />
+
+      {/* Stem and leaf */}
+      <path d="M23 16c0-4 1.8-7 5-9" />
+      <path d="M24.5 11c-3.2.2-5.5-1.2-6.5-4 3.5-.5 5.8.8 6.5 4Z" />
+
+      {/* Consultation bubble */}
+      <path d="M28 23h12a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-5l-5 4v-4h-2a4 4 0 0 1-4-4v-7a4 4 0 0 1 4-4Z" />
+
+      {/* Conversation dots */}
+      <circle cx="30" cy="30.5" r="0.8" fill="currentColor" stroke="none" />
+      <circle cx="34" cy="30.5" r="0.8" fill="currentColor" stroke="none" />
+      <circle cx="38" cy="30.5" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}

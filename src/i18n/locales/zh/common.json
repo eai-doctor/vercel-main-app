@@ -46,7 +46,8 @@
     "privacyConsent": "隐私与同意",
     "next": "下一步",
     "clinicPortal": "临床门户",
-    "patientPortal": "患者门户"
+    "patientPortal": "患者门户",
+    "goToWebsite": "网站"
   },
   "states": {
     "loading": "加载中...",
