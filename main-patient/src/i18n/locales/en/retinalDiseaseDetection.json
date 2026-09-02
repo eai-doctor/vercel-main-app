@@ -1,0 +1,41 @@
+{
+  "spinner": {
+    "running": "Running model..."
+  },
+  "upload": {
+    "ariaLabel": "Choose fundus image",
+    "prompt": "Drop an image here or click to choose",
+    "formats": "JPEG · PNG · WebP"
+  },
+  "preview": {
+    "alt": "Fundus preview",
+    "clear": "Clear"
+  },
+  "result": {
+    "sectionTitle": "Result",
+    "diseaseRisk": "Disease risk",
+    "abnormal": "Abnormal",
+    "normal": "Normal",
+    "thresholdUsed": "Threshold used: {{value}}%",
+    "hideAllScores": "Hide all class scores",
+    "showAllScores": "Show all class scores"
+  },
+  "errors": {
+    "invalidFile": "Please select an image file (JPEG, PNG, or WebP).",
+    "requestFailed": "Request failed: {{status}}",
+    "network": "Network error: {{message}}",
+    "apiUnavailable": "Could not reach the API."
+  },
+  "page": {
+    "title": "SwinTiny Retinal Screening",
+    "subtitle": "Upload a fundus image to get a disease risk prediction",
+    "runPrediction": "Run Prediction",
+    "running": "Running..."
+  },
+  "footer": {
+    "poweredBy": "Powered by SwinTiny (RFMiD-trained)",
+    "apiDocs": "API docs",
+    "disclaimer": "This tool does not provide a medical diagnosis. Results are predictive and intended for screening purposes only.",
+    "consult": "Be sure to consult with a professional before making any medical decisions."
+  }
+}

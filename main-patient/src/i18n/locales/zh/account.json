@@ -1,0 +1,58 @@
+{
+  "title": "账户设置",
+  "subtitle": "管理您的个人资料、邮箱和账户",
+
+  "profile": {
+    "heading": "个人资料",
+    "nameLabel": "显示名称",
+    "namePlaceholder": "输入您的姓名",
+    "saveButton": "保存更改",
+    "saving": "保存中...",
+    "saved": "个人资料更新成功。",
+    "error": "更新个人资料失败，请重试。"
+  },
+
+  "email": {
+    "heading": "邮箱地址",
+    "currentLabel": "当前邮箱",
+    "newLabel": "新邮箱",
+    "newPlaceholder": "输入新邮箱地址",
+    "changeButton": "更改邮箱",
+    "changing": "发送中...",
+    "verificationSent": "验证码已发送到您的新邮箱地址。",
+    "verificationPrompt": "请输入发送到新邮箱的6位验证码：",
+    "codePlaceholder": "123456",
+    "verifyButton": "验证",
+    "verifying": "验证中...",
+    "changed": "邮箱地址更新成功。",
+    "error": "更改邮箱失败，请重试。"
+  },
+
+  "export": {
+    "heading": "数据导出",
+    "description": "根据魁北克第25号法律，您有权以结构化、机器可读的格式获取您所有个人数据的副本。",
+    "button": "下载我的数据",
+    "downloading": "正在准备您的数据...",
+    "success": "下载完成。",
+    "error": "数据导出失败，请重试。"
+  },
+
+  "delete": {
+    "title": "危险区域",
+    "description": "永久删除您的账户及所有相关数据。此操作不可撤销。",
+    "warning": "这将永久删除您在我们系统中的账户和所有数据。此操作不可逆。",
+    "confirmPhrase": "删除我的账户",
+    "confirmLabel": "输入以下短语以确认：",
+    "confirmPlaceholder": "删除我的账户",
+    "button": "删除账户",
+    "deleting": "删除中...",
+    "dataList": [
+      "问诊摘要和聊天记录",
+      "医疗记录和健康档案",
+      "同意历史和偏好设置",
+      "账户凭证和个人资料",
+      "与您账户关联的所有审计日志"
+    ],
+    "cannotUndo": "此操作不可撤销。您的所有数据将被永久删除。"
+  }
+}

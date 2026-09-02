@@ -1,0 +1,126 @@
+{
+  "title": "Privacy & Consent",
+  "subtitle": "Manage your data privacy preferences",
+  "types": {
+    "privacy_policy": {
+      "label": "Privacy Policy",
+      "description": "Accept the privacy policy to use the application. This is required for access."
+    },
+    "ai_analysis": {
+      "label": "AI Analysis",
+      "description": "Allow AI to analyze your health data for diagnostic assistance and recommendations."
+    },
+    "audio": {
+      "label": "Audio Recording",
+      "description": "Allow audio recording during consultations for transcription and documentation."
+    },
+    "marketing": {
+      "label": "Marketing Communications",
+      "description": "Receive marketing communications, newsletters, and promotional updates."
+    }
+  },
+  "required": "Required",
+  "optional": "Optional",
+  "accepted": "Accepted",
+  "declined": "Declined",
+  "lastUpdated": "Last updated",
+  "never": "Never",
+  "readMore": "Read full details",
+  "detailModalSubtitle": "Please review the details below",
+  "saveButton": "Save Preferences",
+  "saving": "Saving...",
+  "saved": "Your consent preferences have been saved successfully.",
+  "error": "Failed to save consent preferences. Please log out and try again",
+  "privacyWarning": "Revoking the privacy policy will block access to the application.",
+  "policyContent": {
+    "privacy": {
+      "intro": "Ebovir Biotech (\"Ebovir\", \"we\", \"us\", or \"our\") is committed to protecting personal information in accordance with Quebec Law 25 and other applicable Canadian privacy laws.",
+      "scopeTitle": "Information We Collect",
+      "scopeItems": [
+        "Name, date of birth, and contact information",
+        "Medical and genetic data (with explicit consent)",
+        "Consultation details and uploaded documents",
+        "Audio recordings (where consented)",
+        "AI-generated outputs",
+        "Usage logs and audit records"
+      ],
+      "purposeTitle": "Purpose and Legal Basis",
+      "purposeItems": [
+        "Deliver AI-assisted medical and genetic services",
+        "Generate structured analytical reports",
+        "Maintain account security and prevent unauthorized access",
+        "Comply with legal and regulatory obligations",
+        "Conduct consented research and quality improvement"
+      ],
+      "retentionTitle": "Data Retention & Safeguards",
+      "retentionItems": [
+        "Encryption in transit (TLS) and at rest",
+        "Role-based access controls",
+        "Comprehensive audit logging",
+        "Cross-border transfers assessed per Quebec Law 25"
+      ],
+      "crossBorderTitle": "Cross-border Transfer",
+      "crossBorderText": "Your information may be processed by authorized cloud and AI service providers located outside Quebec (including Canada and the United States), subject to contractual and technical safeguards.",
+      "rightsTitle": "Your Rights",
+      "rightsItems": [
+        "Access your personal information",
+        "Request correction of inaccurate data",
+        "Request deletion of your data",
+        "Withdraw consent at any time",
+        "Request data portability"
+      ],
+      "contactTitle": "Privacy Officer",
+      "contactText": "For privacy inquiries, contact our Privacy Officer Zhenlong Liu at ebovirit@gmail.com, or by mail at 117-500 boulevard Cartier Ouest, Laval, Québec, Canada, H7V 5B7."
+    },
+    "ai": {
+      "intro": "Our platform uses artificial intelligence to analyze medical and genetic information. By enabling this consent, you allow us to process your health data through AI systems.",
+      "whatTitle": "What AI Analysis Includes",
+      "whatItems": [
+        "Automated analysis of medical history and symptoms",
+        "Genetic data interpretation and risk assessment",
+        "Generation of structured diagnostic reports",
+        "Pattern recognition across your health records"
+      ],
+      "limitsTitle": "Important Limitations",
+      "limitsItems": [
+        "AI outputs are not medical diagnoses",
+        "Results do not replace licensed healthcare professionals",
+        "All AI outputs should be reviewed by a qualified clinician",
+        "You may request access to AI-generated information at any time"
+      ],
+      "dataTitle": "Data Handling",
+      "dataText": "Your health data is processed securely using encrypted channels. Data is not shared with third parties for AI training purposes. You can withdraw this consent at any time without affecting your core access to the platform.",
+      "noStorageTitle": "Message Privacy",
+      "noStorageText": "Conversation messages you exchange with our AI assistant (EboAI) are never stored on our servers. Each session is stateless — once the conversation ends, your messages are gone. Only AI-generated summaries, which are explicitly saved at the request of you or your clinician, are retained in your record and can be deleted at any time from Account Settings."
+    },
+    "audio": {
+      "intro": "With your consent, audio may be recorded during consultations to support transcription and clinical documentation.",
+      "whatTitle": "What Is Recorded",
+      "whatItems": [
+        "Voice audio during consultation sessions",
+        "Dictation input for clinical note generation",
+        "Transcription output linked to your patient record"
+      ],
+      "storageTitle": "Storage & Security",
+      "storageText": "Audio recordings are encrypted at rest and in transit. Access is restricted to authorized clinicians and system processes. Recordings are retained according to our data retention policy and applicable regulations.",
+      "controlTitle": "Your Control",
+      "controlItems": [
+        "You can disable audio recording at any time via this setting",
+        "You may request deletion of existing recordings",
+        "Disabling this does not affect other platform features"
+      ]
+    },
+    "marketing": {
+      "intro": "We may send you communications about our services, new features, health tips, and related offerings.",
+      "whatTitle": "What You May Receive",
+      "whatItems": [
+        "Product updates and new feature announcements",
+        "Health and wellness newsletters",
+        "Promotional offers and event invitations",
+        "Satisfaction surveys"
+      ],
+      "optOutTitle": "Opting Out",
+      "optOutText": "You can withdraw marketing consent at any time by toggling this setting off or by clicking the unsubscribe link in any marketing email. Opting out of marketing does not affect service-related communications (such as security alerts or account notifications)."
+    }
+  }
+}

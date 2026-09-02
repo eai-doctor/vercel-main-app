@@ -1,0 +1,7 @@
+{
+  "saveThisConversation": "Enregistrer cette conversation",
+  "summarize": "Résumer",
+  "warning": {
+    "chatSummaryTooShort": "Le résumé de la conversation est préférable après un échange plus long. Continuez à discuter et réessayez plus tard !"
+  }
+}

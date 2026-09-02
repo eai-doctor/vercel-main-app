@@ -1,0 +1,18 @@
+{
+  "welcome": {
+    "title": "Bienvenue sur la plateforme médicale IA",
+    "subtitle": "Veuillez sélectionner votre portail pour continuer"
+  },
+  "portals": {
+    "clinic": {
+      "title": "Portail Clinique",
+      "description": "Accéder aux dossiers patients et aux outils médicaux IA"
+    },
+    "personal": {
+      "title": "Portail Personnel",
+      "description": "Consulter les dossiers de santé et les outils de consultation IA"
+    }
+  },
+  "userCountBefore": "Jusqu'à présent, nous avons ",
+  "userCountAfter": " utilisateurs actifs"
+}

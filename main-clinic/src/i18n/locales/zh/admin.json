@@ -1,0 +1,24 @@
+{
+  "title": "管理设置",
+  "subtitle": "管理用户账户和角色",
+  "searchPlaceholder": "按姓名、邮箱或角色搜索...",
+  "loadingUsers": "加载用户中...",
+  "accessDenied": "访问被拒绝。需要管理员权限。",
+  "failedToLoad": "加载用户失败",
+  "failedToUpdate": "更新角色失败",
+  "userCount": "{{count}} 位用户",
+  "confirmRoleChange": "确认角色变更",
+  "changeRoleFrom": "将 <1>{{name}}</1> 的角色从",
+  "to": "变更为",
+  "updating": "更新中...",
+  "noUsersMatch": "没有匹配搜索的用户",
+  "noUsers": "未找到用户",
+  "tableHeaders": {
+    "name": "姓名",
+    "email": "邮箱",
+    "role": "角色",
+    "status": "状态",
+    "created": "创建时间",
+    "lastLogin": "最后登录"
+  }
+}

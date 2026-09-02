@@ -1,0 +1,41 @@
+{
+  "spinner": {
+    "running": "Exécution du modèle..."
+  },
+  "upload": {
+    "ariaLabel": "Choisir une image du fond d'œil",
+    "prompt": "Déposez une image ici ou cliquez pour choisir",
+    "formats": "JPEG · PNG · WebP"
+  },
+  "preview": {
+    "alt": "Aperçu du fond d'œil",
+    "clear": "Effacer"
+  },
+  "result": {
+    "sectionTitle": "Résultat",
+    "diseaseRisk": "Risque de maladie",
+    "abnormal": "Anormal",
+    "normal": "Normal",
+    "thresholdUsed": "Seuil utilisé : {{value}} %",
+    "hideAllScores": "Masquer tous les scores de classe",
+    "showAllScores": "Afficher tous les scores de classe"
+  },
+  "errors": {
+    "invalidFile": "Veuillez sélectionner un fichier image (JPEG, PNG ou WebP).",
+    "requestFailed": "Échec de la requête : {{status}}",
+    "network": "Erreur réseau : {{message}}",
+    "apiUnavailable": "Impossible de joindre l'API."
+  },
+  "page": {
+    "title": "Dépistage rétinien SwinTiny",
+    "subtitle": "Importez une image du fond d'œil pour obtenir une prédiction du risque de maladie",
+    "runPrediction": "Lancer la prédiction",
+    "running": "Exécution..."
+  },
+  "footer": {
+    "poweredBy": "Propulsé par SwinTiny (entraîné sur RFMiD)",
+    "apiDocs": "Documentation API",
+    "disclaimer": "Cet outil ne fournit pas de diagnostic médical. Les résultats sont prédictifs et destinés uniquement au dépistage.",
+    "consult": "Veillez à consulter un professionnel avant de prendre toute décision médicale."
+  }
+}

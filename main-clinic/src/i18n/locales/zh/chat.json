@@ -1,0 +1,7 @@
+{
+  "saveThisConversation": "保存此对话",
+  "summarize": "生成摘要",
+  "warning": {
+    "chatSummaryTooShort": "聊天内容较短时不适合生成摘要。请继续对话后再试！"
+  }
+}

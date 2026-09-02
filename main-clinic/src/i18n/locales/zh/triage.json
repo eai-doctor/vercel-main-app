@@ -1,0 +1,43 @@
+{
+  "title": "自我分诊",
+  "subtitle": "基于 AI 的症状评估",
+  "questions": {
+    "title": "快速分诊检查",
+    "pain": "疼痛有多严重？",
+    "observe": "你现在看到什么？",
+    "subjective": "请用自己的话简单描述",
+    "subjectivePlaceholder": "发生了什么，什么时候开始的，最让你担心的是什么？",
+    "objective": "护士能看到什么明显情况吗？",
+    "objectivePlaceholder": "例如：出血、皮疹、喘鸣、肿胀、无法行走"
+  },
+  "steps": {
+    "info": "信息",
+    "symptoms": "症状",
+    "details": "详细信息",
+    "results": "结果"
+  },
+  "results": {
+    "level1Title": "1级 - 复苏",
+    "level1Summary": "需要立即复苏并持续护理。",
+    "level2Title": "2级 - 紧急",
+    "level2Summary": "需要在15分钟内处理。",
+    "level3Title": "3级 - 需尽快处理",
+    "level3Summary": "需要在30分钟内处理。",
+    "level4Title": "4级 - 较不紧急",
+    "level4Summary": "需要在60分钟内处理。",
+    "level5Title": "5级 - 非紧急",
+    "level5Summary": "需要在120分钟内处理。",
+    "ctasResult": "CTAS 结果",
+    "priority": "优先级",
+    "reassessment": "重新评估",
+    "levelGuideTitle": "CTAS 各级含义",
+    "current": "当前",
+    "whatDrove": "导致该结果的原因",
+    "noHighAcuity": "未选择高危警示信号。",
+    "operationalNote": "操作提示",
+    "operationalNoteBody": "如果患者在等待期间情况发生变化，请记录变化并在需要时更新优先级，但保留原始分诊记录。",
+    "lifeThreatening": "如果这看起来危及生命，",
+    "start_over": "重新开始",
+    "submit": "评估 CTAS"
+  }
+}

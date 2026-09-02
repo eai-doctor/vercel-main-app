@@ -1,0 +1,41 @@
+{
+  "spinner": {
+    "running": "模型运行中..."
+  },
+  "upload": {
+    "ariaLabel": "选择眼底图像",
+    "prompt": "将图像拖到此处，或点击选择",
+    "formats": "JPEG · PNG · WebP"
+  },
+  "preview": {
+    "alt": "眼底图像预览",
+    "clear": "清除"
+  },
+  "result": {
+    "sectionTitle": "结果",
+    "diseaseRisk": "疾病风险",
+    "abnormal": "异常",
+    "normal": "正常",
+    "thresholdUsed": "使用阈值：{{value}}%",
+    "hideAllScores": "隐藏所有类别分数",
+    "showAllScores": "显示所有类别分数"
+  },
+  "errors": {
+    "invalidFile": "请选择图像文件（JPEG、PNG 或 WebP）。",
+    "requestFailed": "请求失败：{{status}}",
+    "network": "网络错误：{{message}}",
+    "apiUnavailable": "无法连接到 API。"
+  },
+  "page": {
+    "title": "SwinTiny 视网膜筛查",
+    "subtitle": "上传眼底图像以获得疾病风险预测",
+    "runPrediction": "运行预测",
+    "running": "运行中..."
+  },
+  "footer": {
+    "poweredBy": "由 SwinTiny（基于 RFMiD 训练）提供支持",
+    "apiDocs": "API 文档",
+    "disclaimer": "本工具不提供医学诊断。结果为预测性结果，仅用于筛查目的。",
+    "consult": "在做出任何医疗决定前，请务必咨询专业人士。"
+  }
+}

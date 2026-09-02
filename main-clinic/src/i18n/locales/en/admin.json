@@ -1,0 +1,25 @@
+{
+  "title": "Admin Settings",
+  "subtitle": "Manage user accounts and roles",
+  "searchPlaceholder": "Search by name, email, or role...",
+  "loadingUsers": "Loading users...",
+  "accessDenied": "Access denied. Admin privileges required.",
+  "failedToLoad": "Failed to load users",
+  "failedToUpdate": "Failed to update role",
+  "userCount": "{{count}} user",
+  "userCount_plural": "{{count}} users",
+  "confirmRoleChange": "Confirm Role Change",
+  "changeRoleFrom": "Change <1>{{name}}</1>'s role from",
+  "to": "to",
+  "updating": "Updating...",
+  "noUsersMatch": "No users match your search",
+  "noUsers": "No users found",
+  "tableHeaders": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "created": "Created",
+    "lastLogin": "Last Login"
+  }
+}

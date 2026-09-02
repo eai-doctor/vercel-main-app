@@ -1,0 +1,147 @@
+import { OTHER_PORTAL_URL } from "@/app/portal";
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+import { useAuth } from "@/context/AuthContext";
+import FeatureCard from "@/components/FeatureCard.jsx";
+import Header from "@/components/Header.jsx";
+import SystemStatus from "@/components/SystemStatus.jsx";
+import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, NutritionConsultationIcon, DocumentIcon } from "@/components/ui/icons";
+import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
+import config from "@/config";
+
+function PersonalHome() {
+  const navigate = useNavigate();
+  const { t } = useTranslation(["patient", "common", "auth"]);
+  const { isPatient, isAuthenticated , loading, accessToken } = useAuth();
+  const { openLogin } = useAuthModal();
+
+  const handleFeatureClick = useCallback(
+    (module) => {
+      if (module.externalUrl) {
+        if (isAuthenticated) {
+          const url = accessToken
+            ? `${module.externalUrl}?token=${encodeURIComponent(accessToken)}`
+            : module.externalUrl;
+          window.location.assign(url);
+        } else {
+          window.location.assign(module.externalUrl);
+        }
+        return;
+      }
+
+      if (!module.requiresAuth || isPatient) {
+        navigate(module.route);
+        return;
+      }
+
+      if (!loading) {
+        // setPendingRoute(module.route);
+        if (OTHER_PORTAL_URL) window.location.assign(OTHER_PORTAL_URL); 
+      }
+    },
+    [isPatient, loading, navigate, accessToken]
+  );
+
+  const modules = [
+    {
+      id: "personal-medical",
+      title: t("patient:home.modules.healthConsultation.title"),
+      description: t("patient:home.modules.healthConsultation.description"),
+      icon: <ChatIcon className="w-8 h-8 text-blue-500" />,
+      route: "/health-consultation",
+      requiresAuth: false,
+      dsiabled:false
+    },
+    {
+      id: "genetic-consultation",
+      title: t("patient:home.modules.geneticConsultation.title"),
+      description: t("patient:home.modules.geneticConsultation.description"),
+      icon: <DnaIcon className="w-8 h-8 text-blue-500" />,
+      externalUrl: config.geneticConsultationUrl,
+      requiresAuth: false,
+    },
+    {
+      id: "medical-profile",
+      title: t("patient:home.modules.medicalProfile.title"),
+      description: t("patient:home.modules.medicalProfile.description"),
+      icon: <ClipboardListIcon className="w-8 h-8 text-blue-500" />,
+      route: "/medical-profile",
+      requiresAuth: !isPatient && true,
+      disabled:false,
+      onRequireAuth:() => openLogin({ route : "/medical-profile" })
+    },
+    {
+      id: "self-triage",
+      title: t("patient:home.modules.selfTriage.title"),
+      description: t("patient:home.modules.selfTriage.description"),
+      icon: <AlertIcon className="w-8 h-8 text-blue-500" />,
+      route: "/triage-engine",
+      requiresAuth: !isPatient && true,
+      disabled:false,
+      onRequireAuth:() => openLogin({ route : "/triage-engine" })
+    },
+    {
+      id: "medical-report-analysis",
+      title: "Medical Report Analysis",
+      description: "Upload and analyze your medical reports with AI assistance",
+      icon: <DocumentIcon className="w-8 h-8 text-blue-500" />,
+      route: "/medical-report-analysis",
+      requiresAuth: false,
+      disabled: false,
+    },
+    {
+      id: "nutrition-consultation-aide",
+      title: "Nutrition Consultation Aide",
+      description: "Get personalized nutrition advice and meal planning assistance",
+      icon: <NutritionConsultationIcon className="w-8 h-8 text-blue-500" />,
+      externalUrl: config.nutritionConsultationUrl,
+      requiresAuth: false,
+      disabled: false,
+    }
+  ];
+
+  return (
+    <div className="min-h-96 bg-gradient-to-br from-gray-50 to-blue-50">
+      
+      {/* Header */}
+      <Header  />
+
+      {/* Hero */}
+      <section className="max-w-5xl mx-auto px-4 py-14 text-center">
+        <h2 className="text-4xl font-semibold text-gray-800 mb-3">
+          {t("patient:home.welcome.title")}
+        </h2>
+        <p className="text-lg text-gray-500">
+          {t("patient:home.welcome.subtitle")}
+        </p>
+      </section>
+
+      {/* Feature Cards */}
+      <section className="max-w-4xl mx-auto px-4 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {modules.map((module) => (
+            <FeatureCard
+              key={module.id}
+              icon={module.icon}
+              title={module.title}
+              description={module.description}
+              onClick={() => handleFeatureClick(module)}
+              disabled={module.disabled}
+              requiresAuth={module.requiresAuth}
+              isPatient={isPatient}
+              onRequireAuth={module.onRequireAuth}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Status */}
+      <SystemStatus />
+
+    </div>
+  );
+}
+
+export default PersonalHome;
