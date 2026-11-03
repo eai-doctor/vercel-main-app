@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { MessageSquare, Dna, ClipboardList, LogIn } from "lucide-react";
 import { FeatureCard, Header, SystemStatus } from "@/components";
-import { UserIcon, StethoscopeIcon, BooksIcon, SettingsIcon } from "@/components/ui/icons";
+import { UserIcon, StethoscopeIcon, BooksIcon, MedplumFooMedicalIcon, MedicalNutritionIcon } from "@/components/ui/icons";
 import config from "@/config";
 
 /* -------------------- Main Page -------------------- */
@@ -39,7 +39,25 @@ export default function Home() {
       route: "/functions",
       color: "from-blue-400 to-blue-600",
       disabled: false
-    },
+    },,
+        {
+          id: "medplum-foo-medical",
+          title: "Medplum Foo Medical",
+          description: "Get personalized doctor office experience",
+          icon: <MedplumFooMedicalIcon className="w-8 h-8 text-blue-500" />,
+          externalUrl: config.medplumFooMedicalUrl,
+          requiresAuth: false,
+          disabled: false,
+        },
+        {
+          id: "medplum-provider",
+          title: "Medplum Provider",
+          description: "Get personalized medical information experience",
+          icon: <MedicalNutritionIcon className="w-8 h-8 text-blue-500" />,
+          externalUrl: config.medplumProviderlUrl,
+          requiresAuth: false,
+          disabled: false,
+        }
   ];
 
 
