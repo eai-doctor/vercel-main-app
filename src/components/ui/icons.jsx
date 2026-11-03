@@ -371,3 +371,78 @@ export function NutritionConsultationIcon({
     </svg>
   );
 }
+
+
+export function MedplumFooMedicalIcon({
+  className = "w-12 h-12",
+}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <g fill="#008F8B">
+        {/* Top */}
+        <path d="M24 5C19.6 5 16 8.6 16 13c0 3.6 2.3 6.6 5.5 7.6V14h5v6.6c3.2-1 5.5-4 5.5-7.6C32 8.6 28.4 5 24 5Z" />
+
+        {/* Bottom */}
+        <path d="M24 43c4.4 0 8-3.6 8-8 0-3.6-2.3-6.6-5.5-7.6V34h-5v-6.6c-3.2 1-5.5 4-5.5 7.6 0 4.4 3.6 8 8 8Z" />
+
+        {/* Left */}
+        <path d="M5 24c0 4.4 3.6 8 8 8 3.6 0 6.6-2.3 7.6-5.5H14v-5h6.6c-1-3.2-4-5.5-7.6-5.5-4.4 0-8 3.6-8 8Z" />
+
+        {/* Right */}
+        <path d="M43 24c0-4.4-3.6-8-8-8-3.6 0-6.6 2.3-7.6 5.5H34v5h-6.6c1 3.2 4 5.5 7.6 5.5 4.4 0 8-3.6 8-8Z" />
+      </g>
+    </svg>
+  );
+}
+
+
+export function MedicalNutritionIcon({
+  className = "w-12 h-12",
+}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      {/* Apple body */}
+      <path
+        d="M23 14C19 10.5 12.5 11 8.8 15.8C3.7 22.4 6.2 34 12.6 40c3.1 3 6.8 3.6 11.4 1.7 4.6 1.9 8.3 1.3 11.4-1.7 6.4-6 8.9-17.6 3.8-24.2C35.5 11 29 10.5 25 14Z"
+        fill="#A12DBB"
+      />
+
+      {/* Stem */}
+      <path
+        d="M24.5 15c-.5-5-2.5-7.8-5-9"
+        stroke="#A12DBB"
+        strokeWidth="2.7"
+        strokeLinecap="round"
+      />
+
+      {/* Leaf */}
+      <path
+        d="M25 12c-.1-7.8 5.1-10.1 13.5-9.4.4 7.9-4.3 12-13.5 9.4Z"
+        fill="#A12DBB"
+      />
+
+      {/* Medical cross */}
+      <path
+        d="M24 21v13M17.5 27.5h13"
+        stroke="white"
+        strokeWidth="4.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+
+

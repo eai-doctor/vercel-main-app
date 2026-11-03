@@ -27,7 +27,10 @@ const config = {
   enableSms: import.meta.env.VITE_ENABLE_SMS !== "false",
 
   geneticConsultationUrl : getBase("http://localhost:4200", import.meta.env.VITE_GENE_CONSULT, "http://localhost:4200"),
-  nutritionConsultationUrl : getBase("http://localhost:4200", import.meta.env.VITE_NUTRITION_CONSULT, "http://localhost:4200")
+  nutritionConsultationUrl : getBase("http://localhost:4200", import.meta.env.VITE_NUTRITION_CONSULT, "http://localhost:4200"),
+
+  medplumFooMedicalUrl :  import.meta.env.VITE_MEDPLUM_FOO_MEDICAL,
+  medplumProviderlUrl :  import.meta.env.VITE_MEDPLUM_PROVIDER,
 };
 
 export default config;

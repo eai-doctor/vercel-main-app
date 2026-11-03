@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@/context/AuthContext";
 import { FeatureCard, Header, SystemStatus } from "@/components";
-import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, NutritionConsultationIcon, DocumentIcon } from "@/components/ui/icons";
+import { ChatIcon, DnaIcon, AlertIcon, ClipboardListIcon, NutritionConsultationIcon, DocumentIcon, MedplumFooMedicalIcon, MedicalNutritionIcon } from "@/components/ui/icons";
 import { AuthModalProvider, useAuthModal } from "@/context/AuthModalContext";
 import config from "@/config";
 
@@ -94,6 +94,24 @@ function PersonalHome() {
       description: "Get personalized nutrition advice and meal planning assistance",
       icon: <NutritionConsultationIcon className="w-8 h-8 text-blue-500" />,
       externalUrl: config.nutritionConsultationUrl,
+      requiresAuth: false,
+      disabled: false,
+    },
+    {
+      id: "medplum-foo-medical",
+      title: "Medplum Foo Medical",
+      description: "Get personalized doctor office experience",
+      icon: <MedplumFooMedicalIcon className="w-8 h-8 text-blue-500" />,
+      externalUrl: config.medplumFooMedicalUrl,
+      requiresAuth: false,
+      disabled: false,
+    },
+    {
+      id: "medplum-provider",
+      title: "Medplum Provider",
+      description: "Get personalized medical information experience",
+      icon: <MedicalNutritionIcon className="w-8 h-8 text-blue-500" />,
+      externalUrl: config.medplumProviderlUrl,
       requiresAuth: false,
       disabled: false,
     }
